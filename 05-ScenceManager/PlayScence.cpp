@@ -17,10 +17,10 @@ using namespace std;
 
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 448
-/*
-	Load scene resources from scene file (textures, sprites, animations and objects)
-	See scene1.txt, scene2.txt for detail format specification
-*/
+
+	//Load scene resources from scene file (textures, sprites, animations and objects)
+	//See scene1.txt, scene2.txt for detail format specification
+
 
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_TEXTURES 2

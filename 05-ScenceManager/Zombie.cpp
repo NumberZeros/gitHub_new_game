@@ -46,6 +46,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x = 500; vx = -vx;
 			this->nx = -1;
 		}
+
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
@@ -58,8 +59,10 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (CheckColli(left, top, right, bottom))
 				{
-					this->isHidden = true;
-					ResetBB();
+					//this->die();
+					//this->isHidden = true;
+					die();
+					//ResetBB();
 				}
 
 			}
@@ -72,7 +75,9 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (CheckColli(left, top, right, bottom))
 				{
+					vx = 0;
 					this->isHidden = true;
+					die();
 					ResetBB();
 				}
 
@@ -95,17 +100,29 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CZombie::Render()
 {
+	/*if (isHidden)
+		animation_set->at(1)->Render(nx, x, y);
+		if (GetTickCount() - action_time > 50000) {
+			return;
+		}*/
+	//int ani = ZOMBIE_ANI_WALKING;
+	///*if (state == BLACK_LEOPARD_IDLE)
+	//	ani = BLACK_LEOPARD_ANI_IDLE;
+	//else*/
+	//if (state == ZOMBIE_ANI_WALKING)
+	//	ani = ZOMBIE_ANI_WALKING;
+	//else 
+	//	ani = ZOMBIE_ANI_WALKING;
 	if (isHidden)
-		return;
-	int ani = ZOMBIE_ANI_WALKING;
-	/*if (state == BLACK_LEOPARD_IDLE)
-		ani = BLACK_LEOPARD_ANI_IDLE;
-	else*/
-	if (state == ZOMBIE_ANI_WALKING)
-		ani = ZOMBIE_ANI_WALKING;
-	else 
-		ani = ZOMBIE_ANI_WALKING;
-	animation_set->at(ani)->Render(nx, x, y);
+	{
+		if (GetTickCount() - action_time >= 1500)
+			return;
+	}
+	/*if (state == ZOMBIE_WALKING)
+		this->state = ZOMBIE_WALKING;
+	else
+		this->state = ZOMBIE_DEAD;*/
+	animation_set->at(this->state)->Render(nx, x, y);
 	RenderBoundingBox();
 	height = ZOMBIE_BBOX_HEIGHT;
 	width = ZOMBIE_BBOX_WIDTH;
@@ -131,7 +148,16 @@ void CZombie::SetState(int state)
 			vx = -ZOMBIE_WALKING_SPEED_X;
 		DebugOut(L"vx %f \n", vx);
 		break;
+	case ZOMBIE_DEAD:
+		vx = 0;
 	}
+}
+void CZombie::die()
+{
+	isHidden = true;
+	action_time = GetTickCount();
+	this->state = ZOMBIE_DEAD;
+	vx = 0;
 }
 bool CZombie::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
 	float l, t, r, b;
