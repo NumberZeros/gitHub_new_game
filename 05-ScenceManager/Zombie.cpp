@@ -59,8 +59,9 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
 					{
-						this->isHidden = true;
-						ResetBB();
+						if (GetTickCount() - action_time >= 1500)
+							die();
+							//ResetBB();
 					}
 				}
 			}
@@ -75,7 +76,8 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					vx = 0;
 					this->isHidden = true;
 					die();
-					ResetBB();
+					
+						ResetBB();
 				}
 
 			}
@@ -101,6 +103,7 @@ void CZombie::Render()
 	if (isHidden)
 	{
 		if (GetTickCount() - action_time >= 1500)
+			//ResetBB();
 			return;
 	}
 	/*if (state == ZOMBIE_WALKING)
@@ -143,6 +146,7 @@ void CZombie::die()
 	action_time = GetTickCount();
 	this->state = ZOMBIE_DEAD;
 	vx = 0;
+
 }
 bool CZombie::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
 	float l, t, r, b;

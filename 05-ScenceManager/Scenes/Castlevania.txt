@@ -313,7 +313,7 @@
 #
 [ANIMATION_SETS]
 #ZOMBIE
-410	260	
+410	260	90
 #BLACK_LEOPARD
 400	250	251	252
 # Simon
@@ -350,7 +350,7 @@
 
 # other
 4	5	0	4000
-8	0	0	8
+8	1000	0	8
 #whip
 5	-100	-100	4
 #Axe
