@@ -1,19 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#include "Utils.h"
-
-#define ZOMBIE_WALKING					0
-#define ZOMBIE_DEAD						1	
-
-
-#define ZOMBIE_ANI_WALKING				0
-
-#define ZOMBIE_WALKING_SPEED_X			0.13f
-#define ZOMBIE_WALKING_SPEED_Y			0.2f
-#define ZOMBIE_GRAVITY					0.001f
-
-#define ZOMBIE_BBOX_WIDTH				32
-#define ZOMBIE_BBOX_HEIGHT				64
 class CZombie : public CGameObject
 {
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

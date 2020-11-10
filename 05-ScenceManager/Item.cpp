@@ -1,9 +1,10 @@
 #include "Item.h"
+#include "PlayScence.h"
+#include "Portal.h"
+
 
 CItem::CItem()
 {
-	id = 0;
-	disappearStart = 0;
 	nx = 1;
 	isHidden = false;
 }
@@ -12,34 +13,7 @@ CItem::~CItem()
 {
 }
 
-void CItem::StartDisappear()
-{
-	disappearStart = GetTickCount();
-}
 
-int CItem::GetAnimation()
-{
-	int ani;
-	switch (this->id)
-	{
-	case 0: {
-		ani = ITEM_ANI_ROI;
-		break;
-	}
-	case 1: {
-		ani = ITEM_ANI_TIM;
-		break;
-	}
-	case 2: {
-		ani = ITEM_ANI_HOLY_WATER;
-		break;
-	}
-	default:
-		ani = ITEM_ANI_MEAT;
-		break;
-	}
-	return ani;
-}
 void CItem::Render()
 {
 	if (isHidden) return;
@@ -63,57 +37,46 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	vy += ITEM_GRAVITY * dt;
-	CheckSize();
-
 	coEvents.clear();
+	CheckSize();
+	
 
-	CalcPotentialCollisions(coObjects, coEvents);
-
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
+	if (isCandle || isTorch) {
+		vy = 0;
 	}
-	else
+	if (isFire) {
+		vy = 0;
+		if (GetTickCount() - action_time > ITEM_TIME_FIRE) {
+			isFire = false;
+			action_time = 0;
+			isHidden = true;
+		}
+	}
+
+	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-
-
-		// TODO: This is a very ugly designed function!!!!
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		// how to push back simon if collides with a moving objects, what if simon is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
-
-		// block every object first!
-		//if (this->state == 10)
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
-
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			LPGAMEOBJECT obj = coObjects->at(i);
-			if (dynamic_cast<CItem*>(obj))
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (isTorch || isCandle) {
+			if (dynamic_cast<CWeapon*>(obj))
 			{
-				CItem* e = dynamic_cast<CItem*>(obj);
+				CWeapon* e = dynamic_cast<CWeapon*>(obj);
 
 				float left, top, right, bottom;
 				e->GetBoundingBox(left, top, right, bottom);
 
-				if (CheckColli(left, top, right, bottom))
-				{
-					//e->SetPosition();
+				if (e->frame == 2) {
+					if (CheckColli(left, top, right, bottom))
+					{
+						SetID(ITEM_ANI_FIRE);
+						isFire = true;
+						action_time = GetTickCount();
+					}
 				}
 			}
 		}
 	}
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 bool CItem::CheckColli(float left_a, float top_a, float right_a, float bottom_a) 
@@ -130,36 +93,85 @@ void CItem::CheckSize()
 {
 	switch (this->id)
 	{
-	case 0: {
-		this->height = HEIGHT_ID_ANI_0;
-		this->width = WIDTH_ID_ANI_0;
+	case ITEM_ANI_ROI: {
+		this->height = ITEM_HEIGHT_ID_ANI_0;
+		this->width = ITEM_WIDTH_ID_ANI_0;
 		break;
 	}
-	case 1: {
-		this->height = HEIGHT_ID_ANI_1;
-		this->width = WIDTH_ID_ANI_1;
+	case ITEM_ANI_TIM: {
+		this->height = ITEM_HEIGHT_ID_ANI_1;
+		this->width = ITEM_WIDTH_ID_ANI_1;
 		break;
 	}
-	case 2: {
-		height = HEIGHT_ID_ANI_2;
-		width = WIDTH_ID_ANI_2;
+	case ITEM_ANI_MONEY_BAG: {
+		height = ITEM_HEIGHT_ID_ANI_2;
+		width = ITEM_WIDTH_ID_ANI_2;
 		break;
 	}
 	case 3: {
-		height = HEIGHT_ID_ANI_3;
-		width = WIDTH_ID_ANI_3;
+		height = ITEM_HEIGHT_ID_ANI_3;
+		width = ITEM_WIDTH_ID_ANI_3;
 		break;
 	}
+	case ITEM_ANI_TORCH:
+		height = ITEM_HEIGHT_ID_ANI_TORCH;
+		width = ITEM_WIDTH_ID_ANI_TORCH;
+		isTorch = true;
+		isCandle = false;
+		isFire = false;
+		break;
+	case ITEM_ANI_CANDLE:
+		height = ITEM_HEIGHT_ID_ANI_CANDLE;
+		width = ITEM_WIDTH_ID_ANI_CANDLE;
+		isTorch = false;
+		isCandle = true;
+		isFire = false;
+		break;
+	case ITEM_ANI_FIRE:
+		height = 15;
+		width = 15;
+		isTorch = false;
+		isCandle = false;
+		isFire = true;
+		break;
 	default:
-		height = HEIGHT_ID_ANI_4;
-		width = WIDTH_ID_ANI_4;
+		isTorch = false;
+		isCandle = false;
+		isFire = false;
 		break;
 	}
 }
-void CItem::UpdatePosionWithTorch(float _x, float _y, int _nx) 
+
+int CItem::GetAnimation()
 {
-	nx = _nx;
-	x = _x;
-	y = _y;
+	int ani =0;
+	switch (this->id)
+	{
+	case ITEM_ANI_ROI: {
+		ani = ITEM_ANI_ROI;
+		break;
+	}
+	case ITEM_ANI_TIM: {
+		ani = ITEM_ANI_TIM;
+		break;
+	}
+	case 2: {
+		ani = ITEM_ANI_HOLY_WATER;
+		break;
+	}
+	case ITEM_ANI_TORCH:
+		ani = ITEM_ANI_TORCH;
+		
+		break;
+	case ITEM_ANI_CANDLE:
+		ani = ITEM_ANI_CANDLE;
+		break;
+	case ITEM_ANI_FIRE:
+		ani = ITEM_ANI_FIRE;
+		break;
+	default:
+		break;
+	}
+	return ani;
 }
 
