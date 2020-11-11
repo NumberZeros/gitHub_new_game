@@ -375,6 +375,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		else if (id == ID_ITEM_TYPE_CANDLE) {
 			item->SetID(ITEM_ANI_CANDLE);
 		}
+		else if (id == ID_ITEM_TYPE_ROI) {
+			item->SetID(ITEM_ANI_ROI);
+		}
+		else if (id == ID_ITEM_TYPE_SMALLHEART) {
+			item->SetID(ITEM_ANI_SMALLHEART);
+		}
+		else if (id == ID_ITEM_TYPE_HOLYWATER) {
+			item->SetID(ITEM_ANI_HOLY_WATER);
+		}
 		else if (id == ID_ITEM_TYPE_BLUEMONEY) {
 			item->SetID(ITEM_ANI_BLUEMONEY);
 		}

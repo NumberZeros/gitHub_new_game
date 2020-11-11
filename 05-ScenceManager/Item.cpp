@@ -36,7 +36,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	y += ITEM_GRAVITY * dt;
+	vy += ITEM_GRAVITY * dt;
 	coEvents.clear();
 	CheckSize();
 
@@ -53,7 +53,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	else if (isBluemoneybag) {
-		y -= ITEM_GRAVITY;
+		vy += ITEM_GRAVITY * dt;
 		if (GetTickCount() - action_time > ITEM_TIME_BLUEMONEY) {
 			isBluemoneybag = false;
 			action_time = 0;
@@ -106,17 +106,57 @@ void CItem::CheckSize()
 	case ITEM_ANI_ROI: {
 		this->height = ITEM_HEIGHT_ID_ANI_0;
 		this->width = ITEM_WIDTH_ID_ANI_0;
+		isTorch = false;
+		isCandle = false;
+		isFire = false;
+		isRoi = true;
 		break;
 	}
 	case ITEM_ANI_TIM: {
 		this->height = ITEM_HEIGHT_ID_ANI_1;
 		this->width = ITEM_WIDTH_ID_ANI_1;
+		isTorch = false;
+		isCandle = false;
+		isFire = false;
+		isBigHeart = true;
 		break;
 	}
 
-	case 3: {
+	case ITEM_ANI_HOLY_WATER: {
 		height = ITEM_HEIGHT_ID_ANI_3;
 		width = ITEM_WIDTH_ID_ANI_3;
+		isTorch = false;
+		isCandle = false;
+		isFire = false;
+		isHolyWater = true;
+		break;
+	}
+	
+	case ITEM_ANI_BLUEMONEY: {
+		height = ITEM_HEIGHT_ID_ANI_BLUEMONEY;
+		width = ITEM_WIDTH_ID_ANI_BLUEMONEY;
+		isTorch = false;
+		isCandle = false;
+		isFire = false;
+		isBluemoneybag = true;
+		break;
+	}
+	case ITEM_ANI_MEAT: {
+		height = ITEM_HEIGHT_ID_ANI_4;
+		width = ITEM_WIDTH_ID_ANI_4;
+		isTorch = false;
+		isCandle = false;
+		isFire = false;
+		isMeat = true;
+		break;
+	}
+	case ITEM_ANI_SMALLHEART: {
+		height = ITEM_HEIGHT_ID_ANI_5;
+		width = ITEM_WIDTH_ID_ANI_5;
+		isTorch = false;
+		isCandle = false;
+		isFire = false;
+		isSmallHeart = true;
 		break;
 	}
 	case ITEM_ANI_TORCH:
@@ -142,17 +182,6 @@ void CItem::CheckSize()
 		isTorch = false;
 		isCandle = false;
 		isFire = true;
-	case ITEM_ANI_BLUEMONEY: {
-		height = ITEM_HEIGHT_ID_ANI_BLUEMONEY;
-		width = ITEM_WIDTH_ID_ANI_BLUEMONEY;
-		isTorch = false;
-		isCandle = false;
-		isFire = false;
-		isBluemoneybag = true;
-
-		break;
-	}
-							 break;
 	default:
 		isTorch = false;
 		isCandle = false;
@@ -175,7 +204,7 @@ int CItem::GetAnimation()
 		ani = ITEM_ANI_TIM;
 		break;
 	}
-	case 2: {
+	case ITEM_ANI_HOLY_WATER: {
 		ani = ITEM_ANI_HOLY_WATER;
 		break;
 	}

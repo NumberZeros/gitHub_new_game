@@ -11,6 +11,11 @@ public:
 	bool isTorch = false;
 	bool isFire = false;
 	bool isBluemoneybag = false;
+	bool isMeat = false;
+	bool isSmallHeart = false;
+	bool isRoi = false;
+	bool isBigHeart = false;
+	bool isHolyWater = false;
 public:
 
 	CItem();

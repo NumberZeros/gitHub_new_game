@@ -98,6 +98,10 @@
 #define ID_ITEM_TYPE_TORCH											1
 #define ID_ITEM_TYPE_CANDLE									2
 #define ID_ITEM_TYPE_BLUEMONEY										3
+#define ID_ITEM_TYPE_SMALLHEART								4
+#define ID_ITEM_TYPE_ROI											5
+#define ID_ITEM_TYPE_HOLYWATER								6
+
 
 #define MAX_SCENE_LINE												1024
 
@@ -147,7 +151,7 @@
 /// ITEM
 /// 
 
-#define ITEM_GRAVITY										0.00005f
+#define ITEM_GRAVITY										0.0001f
 #define ITEM_TIME_FIRE												500
 #define ITEM_TIME_BLUEMONEY									3000
 
@@ -157,6 +161,7 @@
 #define ITEM_ANI_BIG_TIM											2
 #define ITEM_ANI_HOLY_WATER									3
 #define ITEM_ANI_MEAT												4
+#define ITEM_ANI_SMALLHEART									5
 // item phu
 #define ITEM_ANI_TORCH										18
 #define ITEM_ANI_CANDLE												19
@@ -180,6 +185,8 @@
 #define ITEM_WIDTH_ID_ANI_3									32
 #define ITEM_HEIGHT_ID_ANI_4										26
 #define ITEM_WIDTH_ID_ANI_4									32
+#define ITEM_HEIGHT_ID_ANI_5										16
+#define ITEM_WIDTH_ID_ANI_5									16
 
 /// map
 #define SCENE_1														1
