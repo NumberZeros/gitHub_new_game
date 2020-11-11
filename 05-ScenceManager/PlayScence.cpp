@@ -48,7 +48,7 @@ void CPlayScene::LoadMap() {
 		if (line == "[TILEMAP]") {
 			section = SCENE_SECTION_LOADMAP; continue;
 		}
-		
+
 
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
@@ -158,7 +158,7 @@ void CPlayScene::_ParseSection_LOADMAP(string line)
 		LPANIMATION ani = new CAnimation(100);	// idle big right
 		//add ani;
 		ani->Add(id);
-		CAnimations::GetInstance()->Add( id, ani);
+		CAnimations::GetInstance()->Add(id, ani);
 		///set ani to obj
 		LPANIMATION_SET s = new CAnimationSet();
 		CAnimations * animations = CAnimations::GetInstance();
@@ -249,7 +249,7 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 	if (tex == NULL)
 	{
 		DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
-		return; 
+		return;
 	}
 
 	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
@@ -269,7 +269,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
-		int frame_time = atoi(tokens[i+1].c_str());
+		int frame_time = atoi(tokens[i + 1].c_str());
 		ani->Add(sprite_id, frame_time);
 	}
 
@@ -291,7 +291,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 	for (int i = 1; i < tokens.size(); i++)
 	{
 		int ani_id = atoi(tokens[i].c_str());
-		
+
 		LPANIMATION ani = animations->Get(ani_id);
 		s->push_back(ani);
 	}
@@ -300,7 +300,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 }
 
 /*
-	Parse a line in section [OBJECTS] 
+	Parse a line in section [OBJECTS]
 */
 void CPlayScene::_ParseSection_OBJECTS(string line)
 {
@@ -325,16 +325,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_SIMON:
-		if (player!=NULL) 
+		if (player != NULL)
 		{
 			DebugOut(L"[ERROR] simon object was created before!\n");
 			return;
 		}
-		obj = new CSimon(x,y); 
+		obj = new CSimon(x, y);
 		player = (CSimon*)obj;
-		if (isintro == 1) 
-		{ 
-			player->SetNX(0); 
+		if (isintro == 1)
+		{
+			player->SetNX(0);
 			player->SetState(SIMON_STATE_WALKING);
 		}
 		DebugOut(L"[INFO] Player object created!\n");
@@ -353,26 +353,30 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		this->axe = (CAxe*)obj;
 		break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
-	case OBJECT_TYPE_BOARD: 
+	case OBJECT_TYPE_BOARD:
 		obj = new CBoard();
 		board = (CBoard*)obj;
 		break;
 	case OBJECT_TYPE_PORTAL:
-		{	
-			float r = atof(tokens[4].c_str());
-			float b = atof(tokens[5].c_str());
-			int scene_id = atoi(tokens[6].c_str());
-			obj = new CPortal(x, y, r, b, scene_id);
-		}
-		break;
+	{
+		float r = atof(tokens[4].c_str());
+		float b = atof(tokens[5].c_str());
+		int scene_id = atoi(tokens[6].c_str());
+		obj = new CPortal(x, y, r, b, scene_id);
+	}
+	break;
 	case OBJECT_TYPE_ITEM:
 		id = atof(tokens[4].c_str());
 		obj = new CItem();
 		item = (CItem*)obj;
 		if (id == ID_ITEM_TYPE_TORCH) {
 			item->SetID(ITEM_ANI_TORCH);
-		}else if (id == ID_ITEM_TYPE_CANDLE) {
+		}
+		else if (id == ID_ITEM_TYPE_CANDLE) {
 			item->SetID(ITEM_ANI_CANDLE);
+		}
+		else if (id == ID_ITEM_TYPE_BLUEMONEY) {
+			item->SetID(ITEM_ANI_BLUEMONEY);
 		}
 		else {
 			item->SetID(0);
@@ -395,23 +399,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 void CPlayScene::_ParseSection_INFOMAP(string line)
 {
-		vector<string> tokens = split(line);
-		if (tokens.size() < 10) return;
-		int IDmap = atoi(tokens[0].c_str());
-		wstring pathpic = ToWSTR(tokens[1]);
-		wstring pathtxt = ToWSTR(tokens[2]);
-		int num_row = atoi(tokens[3].c_str());
-		int num_col = atoi(tokens[4].c_str());
-		int num_row_read = atoi(tokens[5].c_str());
-		int num_col_read = atoi(tokens[6].c_str());
-		int tile_width = atoi(tokens[7].c_str());
-		int tile_height = atoi(tokens[8].c_str());
-		idstage = atoi(tokens[9].c_str());
-		int r = atoi(tokens[14].c_str());
-		int g = atoi(tokens[15].c_str());
-		int b = atoi(tokens[16].c_str());
+	vector<string> tokens = split(line);
+	if (tokens.size() < 10) return;
+	int IDmap = atoi(tokens[0].c_str());
+	wstring pathpic = ToWSTR(tokens[1]);
+	wstring pathtxt = ToWSTR(tokens[2]);
+	int num_row = atoi(tokens[3].c_str());
+	int num_col = atoi(tokens[4].c_str());
+	int num_row_read = atoi(tokens[5].c_str());
+	int num_col_read = atoi(tokens[6].c_str());
+	int tile_width = atoi(tokens[7].c_str());
+	int tile_height = atoi(tokens[8].c_str());
+	idstage = atoi(tokens[9].c_str());
+	int r = atoi(tokens[14].c_str());
+	int g = atoi(tokens[15].c_str());
+	int b = atoi(tokens[16].c_str());
 
-		tilemap->LoadMap(IDmap, pathpic.c_str(), pathtxt.c_str(), num_row, num_col, num_row_read, num_col_read, tile_width, tile_height, r, g, b);
+	tilemap->LoadMap(IDmap, pathpic.c_str(), pathtxt.c_str(), num_row, num_col, num_row_read, num_col_read, tile_width, tile_height, r, g, b);
 }
 
 void CPlayScene::Update(DWORD dt)
@@ -429,7 +433,7 @@ void CPlayScene::Update(DWORD dt)
 		objects[i]->Update(dt, &coObjects);
 	}
 
-	
+
 	if (player == NULL) return;
 
 	//update position for simon
@@ -438,11 +442,11 @@ void CPlayScene::Update(DWORD dt)
 	CGame* game = CGame::GetInstance();
 	float cx, cy;
 	player->GetPosition(cx, cy);
-	
-	
+
+
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
-	
+
 	// fix bug camera 
 	if (cx < 0) {
 		cx = 0.0f;
@@ -499,7 +503,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	CPlayScene* playscene = ((CPlayScene*)scence);
 	switch (KeyCode)
 	{
-	case DIK_SPACE: 
+	case DIK_SPACE:
 		Jump();
 		break;
 	case DIK_DOWN:
@@ -549,5 +553,6 @@ void CPlayScenceKeyHandler::ThrowSubWeapon() {
 	CAxe* axe = ((CPlayScene*)scence)->axe;
 	simon->SetState(SIMON_STATE_HIT);
 	axe->UpdatePosionWithSimon(simon->GetPositionX(), simon->GetPositionY(), simon->nx);
+	axe->speedy = AXE_SPEED_Y;
 	axe->SetState(AXE_STATE_ATTACK);
 }
