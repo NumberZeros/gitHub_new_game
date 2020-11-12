@@ -7,7 +7,7 @@
 #define SIMON_GRAVITY										0.002f
 #define SIMON_DIE_DEFLECT_SPEED										0.002f
 
-#define SIMON_ATTACK_TIME									500
+#define SIMON_ATTACK_TIME									400
 #define SIMON_UNTOUCHABLE_TIME										5000
 #define SIMON_RESET_JUMP_TIME								500
 
@@ -97,6 +97,7 @@
 #define ID_ITEM_TYPE_GOODS									0
 #define ID_ITEM_TYPE_TORCH											1
 #define ID_ITEM_TYPE_CANDLE									2
+#define ID_ITEM_TYPE_BLUEMONEY										3
 
 #define MAX_SCENE_LINE												1024
 
@@ -148,23 +149,26 @@
 
 #define ITEM_GRAVITY										0.00005f
 #define ITEM_TIME_FIRE												500
+#define ITEM_TIME_BLUEMONEY									3000
 
 #define ITEM_DISAPPEAR_TIME									5000
 #define ITEM_ANI_ROI												0
 #define ITEM_ANI_TIM										1
-#define ITEM_ANI_MONEY_BAG											2
+#define ITEM_ANI_BIG_TIM											2
 #define ITEM_ANI_HOLY_WATER									3
 #define ITEM_ANI_MEAT												4
 // item phu
 #define ITEM_ANI_TORCH										18
 #define ITEM_ANI_CANDLE												19
 #define ITEM_ANI_FIRE										20
-
+#define ITEM_ANI_BLUEMONEY											13
 
 #define ITEM_HEIGHT_ID_ANI_TORCH									64
 #define ITEM_WIDTH_ID_ANI_TORCH								32
 #define ITEM_HEIGHT_ID_ANI_CANDLE									15
 #define ITEM_WIDTH_ID_ANI_CANDLE							15
+#define ITEM_HEIGHT_ID_ANI_BLUEMONEY								28
+#define ITEM_WIDTH_ID_ANI_BLUEMONEY							32
 
 #define ITEM_HEIGHT_ID_ANI_0										32
 #define ITEM_WIDTH_ID_ANI_0									32
@@ -176,3 +180,27 @@
 #define ITEM_WIDTH_ID_ANI_3									32
 #define ITEM_HEIGHT_ID_ANI_4										26
 #define ITEM_WIDTH_ID_ANI_4									32
+
+/// map
+#define SCENE_1														1
+#define SCENE_2												2
+#define SCENE_1_ROW													10
+#define SCENE_1_COL											48
+#define SCENE_1_ROW_READ											4
+#define SCENE_1_COL_READ									17
+#define SCENE_2_ROW													12
+#define SCENE_2_COL											17
+#define SCENE_2_ROW_READ											4
+#define SCENE_2_COL_READ									7
+
+#define TILE_WIDTH													32
+#define TILE_HEIGHT											32
+
+#define MAX_SCENE_LINE												1024
+#define map2												4000
+#define map3														6000
+#define map6												12000
+#define map4														8000
+
+#define max_row												100
+#define max_col														100
