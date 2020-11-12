@@ -126,11 +126,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 			
-			if (dynamic_cast<CPortal*>(e->obj))
-			{
-				CPortal* p = dynamic_cast<CPortal*>(e->obj);
-				CGame::GetInstance()->SwitchScene(p->GetSceneId());
-			}
+			//if (dynamic_cast<CPortal*>(e->obj))
+			//{
+			//	/*CPortal* p = dynamic_cast<CPortal*>(e->obj);
+			//	CGame::GetInstance()->SwitchScene(p->GetSceneId());*/
+			//	DebugOut(L"va cham");
+			//}
 		}
 	}
 	// clean up collision events

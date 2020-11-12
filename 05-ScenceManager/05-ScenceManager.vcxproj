@@ -131,7 +131,7 @@
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Koopas.cpp" />
-    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Gate.cpp" />
     <ClCompile Include="Merman.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -157,7 +157,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Koopas.h" />
-    <ClInclude Include="Map.h" />
+    <ClInclude Include="Gate.h" />
     <ClInclude Include="Merman.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="resource.h" />

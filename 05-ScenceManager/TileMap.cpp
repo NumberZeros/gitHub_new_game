@@ -18,7 +18,7 @@ int TileMap::getwidthmap()
 	else if (id == map6)
 		return ((num_col * tile_width) + 16);
 	else
-		return num_col * tile_width;
+		return num_col * tile_width - 22;
 }
 
 void TileMap::Load()
@@ -90,15 +90,12 @@ void TileMap::Draw()
 	int firstcol = (int)CGame::GetInstance()->GetCamPosX() / tile_width;
 	int lastcol = firstcol + (SCREEN_WIDTH / tile_width);
 
-	DebugOut(L"hahaha ");
 	for (UINT i = 0; i < num_row; i++)
 	{
 		for (UINT j = firstcol; j <= lastcol; j++)
 		{
 			float x = tile_width * (j - firstcol) + CGame::GetInstance()->GetCamPosX() - (int)(CGame::GetInstance()->GetCamPosX()) % tile_width;
 			float y = tile_height * i + 80;
-
-
 			sprites->Get(tilemap[i][j] + id)->Draw(-1, x, y);
 
 		}

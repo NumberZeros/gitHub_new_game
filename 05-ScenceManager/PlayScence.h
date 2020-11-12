@@ -5,7 +5,7 @@
 #include "Scence.h"
 #include "GameObject.h"
 #include "Koopas.h"
-#include "Map.h"
+#include "Gate.h"
 
 #include "Brick.h"
 #include "Simon.h"
@@ -24,7 +24,7 @@ class CPlayScene: public CScene
 public: 
 	CItem* item;
 	CSimon *player;					// A play scene has to have player, right? 
-	CMap* map;
+	Gate* gate;
 	CWeapon* weapon;
 	CAxe* axe;
 	CBoard* board;

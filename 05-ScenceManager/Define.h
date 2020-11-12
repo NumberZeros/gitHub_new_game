@@ -83,7 +83,7 @@
 #define OBJECT_TYPE_BRICK											1
 #define OBJECT_TYPE_GOOMBA									2
 #define OBJECT_TYPE_KOOPAS											3
-#define OBJECT_TYPE_MAP										4
+#define OBJECT_TYPE_GATE									4
 #define OBJECT_TYPE_WEAPON											5
 #define OBJECT_TYPE_BOARD									8
 #define OBJECT_TYPE_AXE												9
@@ -204,3 +204,7 @@
 
 #define max_row												100
 #define max_col														100
+
+// gate
+#define gate_box_width 50
+#define gate_box_height 100

@@ -6,7 +6,7 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Portal.h"
-#include "Map.h"
+#include "Gate.h"
 #include "Board.h"
 #include"BlackLeopard.h"
 #include"Zombie.h"
@@ -135,88 +135,6 @@ void CPlayScene::LoadObject() {
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
-void CPlayScene::_ParseSection_LOADMAP(string line)
-{
-	vector<string> tokens = split(line);
-
-	//test set id
-	int r, l, id = 400;
-
-	if (tokens.size() < 4) return; // skip invalid lines
-	if (atoi(tokens[0].c_str()) == 0)
-	{
-		//load intro map sate = 0
-		isintro = 1;
-		int texID = atoi(tokens[3].c_str());
-		LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
-		if (tex == NULL)
-		{
-			DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
-			return;
-		}
-		CSprites::GetInstance()->Add(400, 0, 0, 448, 512, tex);
-		LPANIMATION ani = new CAnimation(100);	// idle big right
-		//add ani;
-		ani->Add(id);
-		CAnimations::GetInstance()->Add(id, ani);
-		///set ani to obj
-		LPANIMATION_SET s = new CAnimationSet();
-		CAnimations * animations = CAnimations::GetInstance();
-		s->push_back(animations->Get(0));
-		CAnimationSets::GetInstance()->Add(400, s);
-		map->SetState(0);
-	}
-	else
-	{
-		int IDMap = atoi(tokens[0].c_str());
-		wstring path = ToWSTR(tokens[1]);
-		int frame = atoi(tokens[2].c_str());
-		int texID = atoi(tokens[3].c_str());
-		//int B = atoi(tokens[4].c_str());
-		LPDIRECT3DTEXTURE9 tex = CTextures::GetInstance()->Get(texID);
-		if (tex == NULL)
-		{
-			DebugOut(L"[ERROR] Texture ID %d not found!\n", texID);
-			return;
-		}
-		//int frame = 49;//114;
-		for (int i = 0; i < frame; i++)
-		{
-			if (i == 0)
-			{
-				r = 32;
-				l = 0;
-			}
-			else
-			{
-
-				l = i * 32;
-				r = l + 32;
-			}
-			//auto add id sprite
-			CSprites::GetInstance()->Add(i + id, l, 0, r, 32, tex);
-			LPANIMATION ani = new CAnimation(100);	// idle big right
-			//add ani;
-			ani->Add(i + id);
-			CAnimations::GetInstance()->Add(i + id, ani);
-		}
-		map = new CMap();
-		map->ReadMap(IDMap, path.c_str());
-		map->SetState(IDMap);
-		isintro = 0;
-		LPANIMATION_SET s = new CAnimationSet();
-
-		CAnimations* animations = CAnimations::GetInstance();
-
-		for (int i = 0; i < map->col + 1; i++)
-		{
-			LPANIMATION ani = animations->Get(400 + i);
-			s->push_back(ani);
-			CAnimationSets::GetInstance()->Add(i + 4000, s);
-		}
-	}
-}
-
 void CPlayScene::_ParseSection_TEXTURES(string line)
 {
 	vector<string> tokens = split(line);
@@ -315,9 +233,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float y = atof(tokens[2].c_str());
 
 	int ani_set_id = atoi(tokens[3].c_str());
-
-	int id = 0;
-
+	int id = 0, heightCatch = 0, widthCatch = 0;
 	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject *obj = NULL;
@@ -353,18 +269,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		this->axe = (CAxe*)obj;
 		break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_GATE:
+		heightCatch = atof(tokens[4].c_str());
+		widthCatch = atof(tokens[5].c_str());
+		obj = new Gate();
+		obj->height = heightCatch;
+		obj->width = widthCatch;
+		gate = (Gate*)obj;
+		break;
 	case OBJECT_TYPE_BOARD:
 		obj = new CBoard();
 		board = (CBoard*)obj;
 		break;
-	case OBJECT_TYPE_PORTAL:
-	{
-		float r = atof(tokens[4].c_str());
-		float b = atof(tokens[5].c_str());
-		int scene_id = atoi(tokens[6].c_str());
-		obj = new CPortal(x, y, r, b, scene_id);
-	}
-	break;
 	case OBJECT_TYPE_ITEM:
 		id = atof(tokens[4].c_str());
 		obj = new CItem();
@@ -447,16 +363,17 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
 
+	float lenghtMap = (float)(tilemap->getwidthmap() - (game->GetScreenWidth() / 2));
 	// fix bug camera 
-	if (cx < 0) {
-		cx = 0.0f;
-	}
-	board->SetPosition(cx - (game->GetScreenWidth() / 2), 0);
+	if (cx < 0) cx = 0.0f;
+	if (player->x > lenghtMap) return;
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	board->SetPosition(cx, 0);
 }
 
 void CPlayScene::Render()
 {
+	CGame* game = CGame::GetInstance();
 	tilemap->Draw();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
