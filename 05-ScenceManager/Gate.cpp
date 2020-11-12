@@ -13,7 +13,7 @@ void Gate::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 void Gate::Render()
 {
-	animation_set->at(0)->Render(1, x, y);
+	//animation_set->at(0)->Render(1, x, y);
 	RenderBoundingBox();
 }
 

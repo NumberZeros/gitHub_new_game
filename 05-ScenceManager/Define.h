@@ -206,5 +206,5 @@
 #define max_col														100
 
 // gate
-#define gate_box_width 50
-#define gate_box_height 100
+#define gate_box_width 100
+#define gate_box_height 300

@@ -233,7 +233,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float y = atof(tokens[2].c_str());
 
 	int ani_set_id = atoi(tokens[3].c_str());
-	int id = 0, heightCatch = 0, widthCatch = 0;
+	int id = 0;
 	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject *obj = NULL;
@@ -270,11 +270,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
 	case OBJECT_TYPE_GATE:
-		heightCatch = atof(tokens[4].c_str());
-		widthCatch = atof(tokens[5].c_str());
 		obj = new Gate();
-		obj->height = heightCatch;
-		obj->width = widthCatch;
 		gate = (Gate*)obj;
 		break;
 	case OBJECT_TYPE_BOARD:
