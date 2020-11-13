@@ -174,6 +174,9 @@
 #define ITEM_WIDTH_ID_ANI_CANDLE							15
 #define ITEM_HEIGHT_ID_ANI_BLUEMONEY								28
 #define ITEM_WIDTH_ID_ANI_BLUEMONEY							32
+#define ITEM_WHIP_LOCATION_X										320	
+#define ITEM_WHIP_LOCATION_Y								303
+
 
 #define ITEM_HEIGHT_ID_ANI_0										32
 #define ITEM_WIDTH_ID_ANI_0									32
