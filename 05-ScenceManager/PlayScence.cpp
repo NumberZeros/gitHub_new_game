@@ -384,7 +384,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		else if (id == ID_ITEM_TYPE_HOLYWATER) {
 			item->SetID(ITEM_ANI_HOLY_WATER);
 		}
-		else if (id == ID_ITEM_TYPE_BLUEMONEY) {
+		else if (id == ITEM_ANI_BLUEMONEY) {
 			item->SetID(ITEM_ANI_BLUEMONEY);
 		}
 		else {

@@ -80,9 +80,9 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (CheckColli(left, top, right, bottom))
 					{
 						SetID(ITEM_ANI_FIRE);
-						isFire = true;
 						SetID(ITEM_ANI_BLUEMONEY);
 						isBluemoneybag = true;
+						isFire = true;
 						action_time = GetTickCount();
 					}
 				}
@@ -185,8 +185,7 @@ void CItem::CheckSize()
 		width = 15;
 		isTorch = false;
 		isCandle = false;
-		isFire = true;	
-		isBluemoneybag = false;
+		isFire = true;
 	default:
 		isTorch = false;
 		isCandle = false;
