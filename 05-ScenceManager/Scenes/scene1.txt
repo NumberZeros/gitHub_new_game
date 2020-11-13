@@ -6,7 +6,7 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba
 
-# other
+# board
 8	0	0	8
 #whip
 5	-100	-100	4
@@ -86,7 +86,7 @@
 1	1504	368	2
 
 #gate
-4	1376	300	2
+4	64	300	2
 
 # Simon
 0	20	100	1

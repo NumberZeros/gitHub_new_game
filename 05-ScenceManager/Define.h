@@ -91,6 +91,8 @@
 #define OBJECT_TYPE_BLACK_LEOPARD									11
 #define OBJECT_TYPE_ITEM									12
 #define OBJECT_TYPE_MERMAN											13
+#define OBJECT_TYPE_BOSS									15
+#define OBJECT_TYPE_STAIR											14
 
 #define OBJECT_TYPE_PORTAL											50
 

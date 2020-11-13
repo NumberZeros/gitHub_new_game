@@ -25,6 +25,17 @@ void CPlayScene::Load()
 	LoadMap();
 }
 
+void CPlayScene::Unload()
+{
+	for (int i = 0; i < objects.size(); i++)
+		delete objects[i];
+
+	objects.clear();
+	player = NULL;
+
+	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
+}
+
 void CPlayScene::LoadMap() {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
@@ -246,13 +257,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] simon object was created before!\n");
 			return;
 		}
+		DebugOut(L" Player %f %f !\n", x,y);
 		obj = new CSimon(x, y);
 		player = (CSimon*)obj;
-		if (isintro == 1)
-		{
-			player->SetNX(0);
-			player->SetState(SIMON_STATE_WALKING);
-		}
+		player->SetState(SIMON_STATE_WALKING);
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
@@ -371,23 +379,14 @@ void CPlayScene::Render()
 {
 	CGame* game = CGame::GetInstance();
 	tilemap->Draw();
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < objects.size(); i++) 
 		objects[i]->Render();
 }
 
 /*
 	Unload current scene
 */
-void CPlayScene::Unload()
-{
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
 
-	objects.clear();
-	player = NULL;
-
-	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
-}
 
 bool CPlayScene::CheckInCam(LPGAMEOBJECT a)
 {

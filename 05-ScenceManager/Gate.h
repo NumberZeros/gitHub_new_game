@@ -3,7 +3,7 @@
 #include "Define.h"
 class Gate :public CGameObject
 {
-	//int nextmap;
+public:
 public:
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
