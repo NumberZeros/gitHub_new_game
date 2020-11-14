@@ -87,6 +87,12 @@
     <ClCompile Include="Gate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Holywater.cpp">
+      <Filter>Header Files\Subweapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Knife.cpp">
+      <Filter>Header Files\Subweapon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -163,6 +169,12 @@
     </ClInclude>
     <ClInclude Include="Gate.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Holywater.h">
+      <Filter>Header Files\Subweapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Knife.h">
+      <Filter>Header Files\Subweapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
