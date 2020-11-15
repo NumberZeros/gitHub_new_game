@@ -57,6 +57,14 @@ void CGame::Init(HWND hWnd)
 	// Initialize sprite helper from Direct3DX helper library
 	D3DXCreateSprite(d3ddv, &spriteHandler);
 
+	//font = NULL;
+	//AddFontResourceEx(FILEPATH_FONT, FR_PRIVATE, NULL);
+
+	//HRESULT hr = D3DXCreateFont(
+	//	GetDirect3DDevice(), 16, 0, FW_NORMAL, 1, false,
+	//	DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
+	//	ANTIALIASED_QUALITY, FF_DONTCARE, L"Press Start", &font);
+
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
 

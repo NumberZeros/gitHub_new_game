@@ -29,6 +29,7 @@ public:
 	CAxe* axe;
 	CBoard* board;
 	TileMap* tilemap;
+	//Player* Cplayer;
 
 	int idstage;
 	int current_scene;

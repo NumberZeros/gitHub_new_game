@@ -8,7 +8,7 @@
 5	textures\SubWeapons.png	255	0	255
 6	textures\Effect.png	255	0	255
 7	textures\Spark.png	255	0	255
-8	textures\blackboard.png	255	255	255
+8	textures\BlackBoard.png	255	0	255
 9	textures\HP.png	0	0	0
 10	textures\Texts.png	255	0	255
 20	textures\Piece.png	255	0	255

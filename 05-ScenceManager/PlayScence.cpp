@@ -8,9 +8,10 @@
 #include "Portal.h"
 #include "Map.h"
 #include "Board.h"
-#include"BlackLeopard.h"
-#include"Zombie.h"
+#include "BlackLeopard.h"
+#include "Zombie.h"
 #include "Item.h"
+#include "Player.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
@@ -445,7 +446,7 @@ void CPlayScene::Update(DWORD dt)
 	if (cx < 0) {
 		cx = 0.0f;
 	}
-	board->SetPosition(cx - (game->GetScreenWidth() / 2), 0);
+	board->SetPosition(cx , 0);
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 }
 

@@ -6,7 +6,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
-
+#define FILEPATH_FONT					L"Font\\prstart.ttf"
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
@@ -46,6 +46,7 @@ class CGame
 
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
+	ID3DXFont* font;
 
 public:
 	void InitKeyboard();
@@ -83,7 +84,7 @@ public:
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
-
+	ID3DXFont* GetFont() { return this->font; }
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 
 	static CGame * GetInstance();
