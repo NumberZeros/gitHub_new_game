@@ -1,9 +1,5 @@
 #include "Item.h"
-#include "Define.h"
 #include <time.h>
-#include "Utils.h"
-#include "Textures.h"
-#include "Game.h"
 #include "PlayScence.h"
 CItem::CItem()
 {
@@ -13,6 +9,10 @@ CItem::CItem()
 	y = -100;
 	isHidden = true;
 	id = 1;
+}
+
+CItem::~CItem()
+{
 }
 
 
@@ -117,40 +117,51 @@ void CItem::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
-	vy += speedy * dt;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
+	vy += ITEM_SPEED_Y * dt;
 	coEvents.clear();
 	CheckSize();
 
-
-	if (isFire == true) {
+	if (isFire == true)
+	{
+		DebugOut(L" id %d \n", action_time);
 		if (GetTickCount() - action_time > ITEM_TIME_FIRE) {
-			if (GetTickCount() - action_time > ITEM_DISAPPEAR_TIME)
-			{
-				isFire = false;
-				this->action_time = 0;
-				this->isHidden = true;
-				ResetBB();
+			dx = 0;
+			isFire = false;
+			isTorch = false;
+			this->action_time = 0;
+			DebugOut(L" id %d \n", secondGood);
+			SetID(secondGood);
+		}
+	}
+	else
+	{
 
-			}
-			else if (this->id = ITEM_ANI_BIGHEART) {
-				this->SetID(ITEM_ANI_BIGHEART);
-				y -= speedy * dt;
-				speedy -= 0.019;
-			}
-			else if (this->id = ITEM_ANI_CHAIN) {
-				this->SetID(ITEM_ANI_CHAIN);
-				y -= speedy * dt;
-				speedy -= 0.019;
-			}
+		if (id == ITEM_ANI_BIGHEART) {
+			y += speedy * dt;
+		}
+		else if (id == ITEM_ANI_CHAIN) {
+			y += speedy * dt;
 		}
 	}
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
+
 		LPGAMEOBJECT obj = coObjects->at(i);
+		if (dynamic_cast<CBrick*>(obj))
+		{
+			CBrick* e = dynamic_cast<CBrick*>(obj);
+
+			float left, top, right, bottom;
+			e->GetBoundingBox(left, top, right, bottom);
+			if (CheckColli(left, top, right, bottom))
+			{
+				speedy = 0;
+			}
+		}
 		if (this->isTorch == true) {
+			
 			if (dynamic_cast<CWeapon*>(obj))
 			{
 				CWeapon* e = dynamic_cast<CWeapon*>(obj);
@@ -161,11 +172,8 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
 					{
-						DebugOut(L"\nCo va cham");
 						SetID(ITEM_ANI_EFFECTFIRE);
 						this->isFire = true;
-						this->isTorch = false;
-
 						action_time = GetTickCount();
 					}
 				}

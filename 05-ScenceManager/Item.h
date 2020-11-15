@@ -1,8 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "Utils.h"
-#include"Weapon.h"
-#include"Axe.h"
+
 
 #define ITEM_STATE_HIDDEN 0
 #define ITEM_STATE_SHOW	  1
@@ -45,6 +43,7 @@ public:
 	bool isChain = false;
 	bool isBigHeart = false;
 	bool isKnife = false;
+	int secondGood;
 public:
 
 	CItem();

@@ -317,6 +317,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int ani_set_id = atoi(tokens[3].c_str());
 
 	int id = 0;
+	int secondGood = 12;
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
@@ -367,27 +368,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	break;
 	case OBJECT_TYPE_ITEM: //12
 		id = atof(tokens[4].c_str());
+		secondGood = atof(tokens[5].c_str());
 		obj = new CItem();
 		item = (CItem*)obj;
 		if (id == ID_ITEM_TYPE_TORCH) { // 1
 			item->SetID(ITEM_ANI_TORCH);
 			item->SetState(ITEM_STATE_SHOW);
-		}
-		else if (id == ID_ITEM_TYPE_CHAIN) { //3 CHAIN LÀ ITEM ROI 
-			item->SetID(ITEM_ANI_CHAIN);
-			item->SetState(ITEM_STATE_HIDDEN);
-		}
-		else if (id == ID_ITEM_TYPE_BIGHEART) { //4
-			item->SetID(ITEM_ANI_BIGHEART);
-			item->SetState(ITEM_STATE_HIDDEN);
-		}
-		else if (id == ID_ITEM_TYPE_KNIFE) { //5
-			item->SetID(ITEM_ANI_KNIFE);
-			item->SetState(ITEM_STATE_HIDDEN);
-		}
-		else if (id == ID_ITEM_TYPE_EFFECTFIRE) { //6
-			item->SetID(ITEM_ANI_EFFECTFIRE);
-			item->SetState(ITEM_STATE_HIDDEN);
+			item->secondGood = secondGood;
 		}
 		break;
 	default:
