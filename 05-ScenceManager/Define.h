@@ -173,7 +173,7 @@
 #define TILE_HEIGHT											32
 
 #define MAX_SCENE_LINE												1024
-#define map2												4000
+#define map2												2484
 #define map3														6000
 #define map6												12000
 #define map4														8000

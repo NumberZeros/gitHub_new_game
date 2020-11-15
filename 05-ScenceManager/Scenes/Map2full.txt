@@ -1,6 +1,4 @@
 [SCENEOBJECT]
 Scenes\scene2.txt
 [TILEMAP]
-4000	TileMap\Scene2.png	TileMap\Scene2_map.txt	12	17	4	7	32	32	2	0	0	530	500	0	0	0
-
-	
+4000	TileMap\Scene4.png	TileMap\Scene2_map.txt	11	89	6	17	32	32	4	0	0	1528	500	5	5	5
