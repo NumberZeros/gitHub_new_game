@@ -215,7 +215,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	LPANIMATION_SET s = new CAnimationSet();
 
-	CAnimations *animations = CAnimations::GetInstance();
+	CAnimations* animations = CAnimations::GetInstance();
 
 	for (int i = 1; i < tokens.size(); i++)
 	{
@@ -245,9 +245,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	int ani_set_id = atoi(tokens[3].c_str());
 	int id = 0;
-	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
+	int secondGood = 12;
 
-	CGameObject *obj = NULL;
+	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+
+	CGameObject* obj = NULL;
 
 	switch (object_type)
 	{
@@ -268,8 +270,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN: obj = new CMerman(); break;
-	case OBJECT_TYPE_WEAPON: 
-		obj = new CWeapon(); 
+	case OBJECT_TYPE_WEAPON:
+		obj = new CWeapon();
 		weapon = (CWeapon*)obj;
 		break;
 	case OBJECT_TYPE_AXE:
@@ -287,21 +289,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_ITEM:
 		id = atof(tokens[4].c_str());
+		secondGood = atof(tokens[5].c_str());
 		obj = new CItem();
 		item = (CItem*)obj;
-		if (id == ID_ITEM_TYPE_TORCH) {
+		if (id == ID_ITEM_TYPE_TORCH) { // 1
 			item->SetID(ITEM_ANI_TORCH);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
 		}
-		else if (id == ID_ITEM_TYPE_CANDLE) {
-			item->SetID(ITEM_ANI_CANDLE);
-		}
-		else if (id == ID_ITEM_TYPE_BLUEMONEY) {
-			item->SetID(ITEM_ANI_BLUEMONEY);
-		}
-		else {
-			item->SetID(0);
-		}
-
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -395,10 +390,10 @@ bool CPlayScene::CheckInCam(LPGAMEOBJECT a)
 
 }
 
-void CPlayScenceKeyHandler::KeyState(BYTE *states)
+void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
-	CGame *game = CGame::GetInstance();
-	CSimon *simon = ((CPlayScene*)scence)->player;
+	CGame* game = CGame::GetInstance();
+	CSimon* simon = ((CPlayScene*)scence)->player;
 
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 	// disable control key when simon die

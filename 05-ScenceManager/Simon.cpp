@@ -110,7 +110,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CItem*>(e->obj)) {
 				CItem* item = dynamic_cast<CItem*>(e->obj);
-				if (item->isCandle || item->isTorch || item->isFire) {
+				if (item->isTorch || item->isFire) {
 					vy = SIMON_JUMP_SPEED_Y;
 					if (e->nx != 0) {
 						x += dx;
