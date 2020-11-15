@@ -125,7 +125,6 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (isFire == true)
 	{
-		DebugOut(L" id %d \n", action_time);
 		if (GetTickCount() - action_time > ITEM_TIME_FIRE) {
 			dx = 0;
 			isFire = false;
