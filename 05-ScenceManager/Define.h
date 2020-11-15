@@ -94,14 +94,13 @@
 
 #define OBJECT_TYPE_PORTAL											50
 
+//ITEM MAP ENTRANCE
 #define ID_ITEM_TYPE_GOODS									0
 #define ID_ITEM_TYPE_TORCH											1
-#define ID_ITEM_TYPE_CANDLE									2
-#define ID_ITEM_TYPE_BLUEMONEY										3
-#define ID_ITEM_TYPE_SMALLHEART								4
-#define ID_ITEM_TYPE_ROI											5
-#define ID_ITEM_TYPE_HOLYWATER								6
-
+#define ID_ITEM_TYPE_CHAIN									3 
+#define ID_ITEM_TYPE_BIGHEART										4
+#define ID_ITEM_TYPE_KNIFE									5
+#define ID_ITEM_TYPE_EFFECTFIRE										6
 
 #define MAX_SCENE_LINE												1024
 
@@ -151,45 +150,8 @@
 /// ITEM
 /// 
 
-#define ITEM_GRAVITY										0.0001f
-#define ITEM_TIME_FIRE												500
-#define ITEM_TIME_BLUEMONEY									3000
-
-#define ITEM_DISAPPEAR_TIME									5000
-#define ITEM_ANI_ROI												0
-#define ITEM_ANI_TIM										1
-#define ITEM_ANI_BIG_TIM											2
-#define ITEM_ANI_HOLY_WATER									3
-#define ITEM_ANI_MEAT												4
-#define ITEM_ANI_SMALLHEART									5
-// item phu
-#define ITEM_ANI_TORCH										18
-#define ITEM_ANI_CANDLE												19
-#define ITEM_ANI_FIRE										20
-#define ITEM_ANI_BLUEMONEY											13
-
-#define ITEM_HEIGHT_ID_ANI_TORCH									64
-#define ITEM_WIDTH_ID_ANI_TORCH								32
-#define ITEM_HEIGHT_ID_ANI_CANDLE									15
-#define ITEM_WIDTH_ID_ANI_CANDLE							15
-#define ITEM_HEIGHT_ID_ANI_BLUEMONEY								28
-#define ITEM_WIDTH_ID_ANI_BLUEMONEY							32
-#define ITEM_WHIP_LOCATION_X										320	
-#define ITEM_WHIP_LOCATION_Y								303
 
 
-#define ITEM_HEIGHT_ID_ANI_0										32
-#define ITEM_WIDTH_ID_ANI_0									32
-#define ITEM_HEIGHT_ID_ANI_1										20
-#define ITEM_WIDTH_ID_ANI_1									24
-#define ITEM_HEIGHT_ID_ANI_2										30
-#define ITEM_WIDTH_ID_ANI_2									30
-#define ITEM_HEIGHT_ID_ANI_3										28
-#define ITEM_WIDTH_ID_ANI_3									32
-#define ITEM_HEIGHT_ID_ANI_4										26
-#define ITEM_WIDTH_ID_ANI_4									32
-#define ITEM_HEIGHT_ID_ANI_5										16
-#define ITEM_WIDTH_ID_ANI_5									16
 
 /// map
 #define SCENE_1														1

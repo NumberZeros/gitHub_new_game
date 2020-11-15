@@ -161,7 +161,7 @@ void CPlayScene::_ParseSection_LOADMAP(string line)
 		CAnimations::GetInstance()->Add(id, ani);
 		///set ani to obj
 		LPANIMATION_SET s = new CAnimationSet();
-		CAnimations * animations = CAnimations::GetInstance();
+		CAnimations* animations = CAnimations::GetInstance();
 		s->push_back(animations->Get(0));
 		CAnimationSets::GetInstance()->Add(400, s);
 		map->SetState(0);
@@ -286,7 +286,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	LPANIMATION_SET s = new CAnimationSet();
 
-	CAnimations *animations = CAnimations::GetInstance();
+	CAnimations* animations = CAnimations::GetInstance();
 
 	for (int i = 1; i < tokens.size(); i++)
 	{
@@ -318,9 +318,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	int id = 0;
 
-	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
+	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
-	CGameObject *obj = NULL;
+	CGameObject* obj = NULL;
 
 	switch (object_type)
 	{
@@ -344,8 +344,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN: obj = new CMerman(); break;
-	case OBJECT_TYPE_WEAPON: 
-		obj = new CWeapon(); 
+	case OBJECT_TYPE_WEAPON:
+		obj = new CWeapon();
 		weapon = (CWeapon*)obj;
 		break;
 	case OBJECT_TYPE_AXE:
@@ -365,32 +365,30 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
 	break;
-	case OBJECT_TYPE_ITEM:
+	case OBJECT_TYPE_ITEM: //12
 		id = atof(tokens[4].c_str());
 		obj = new CItem();
 		item = (CItem*)obj;
-		if (id == ID_ITEM_TYPE_TORCH) {
+		if (id == ID_ITEM_TYPE_TORCH) { // 1
 			item->SetID(ITEM_ANI_TORCH);
+			item->SetState(ITEM_STATE_SHOW);
 		}
-		else if (id == ID_ITEM_TYPE_CANDLE) {
-			item->SetID(ITEM_ANI_CANDLE);
+		else if (id == ID_ITEM_TYPE_CHAIN) { //3 CHAIN LÀ ITEM ROI 
+			item->SetID(ITEM_ANI_CHAIN);
+			item->SetState(ITEM_STATE_HIDDEN);
 		}
-		else if (id == ID_ITEM_TYPE_ROI) {
-			item->SetID(ITEM_ANI_ROI);
+		else if (id == ID_ITEM_TYPE_BIGHEART) { //4
+			item->SetID(ITEM_ANI_BIGHEART);
+			item->SetState(ITEM_STATE_HIDDEN);
 		}
-		else if (id == ID_ITEM_TYPE_SMALLHEART) {
-			item->SetID(ITEM_ANI_SMALLHEART);
+		else if (id == ID_ITEM_TYPE_KNIFE) { //5
+			item->SetID(ITEM_ANI_KNIFE);
+			item->SetState(ITEM_STATE_HIDDEN);
 		}
-		else if (id == ID_ITEM_TYPE_HOLYWATER) {
-			item->SetID(ITEM_ANI_HOLY_WATER);
+		else if (id == ID_ITEM_TYPE_EFFECTFIRE) { //6
+			item->SetID(ITEM_ANI_EFFECTFIRE);
+			item->SetState(ITEM_STATE_HIDDEN);
 		}
-		else if (id == ITEM_ANI_BLUEMONEY) {
-			item->SetID(ITEM_ANI_BLUEMONEY);
-		}
-		else {
-			item->SetID(0);
-		}
-
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -492,10 +490,10 @@ bool CPlayScene::CheckInCam(LPGAMEOBJECT a)
 
 }
 
-void CPlayScenceKeyHandler::KeyState(BYTE *states)
+void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
-	CGame *game = CGame::GetInstance();
-	CSimon *simon = ((CPlayScene*)scence)->player;
+	CGame* game = CGame::GetInstance();
+	CSimon* simon = ((CPlayScene*)scence)->player;
 
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 	// disable control key when simon die
