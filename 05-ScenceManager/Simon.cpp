@@ -28,10 +28,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-	HealthBar* hb = new HealthBar();
+	//HealthBar* hb = new HealthBar();
 	// Simple fall down
 	vy += SIMON_GRAVITY * dt;
-	
+	//hb->UpdateHP(this->simon_HP);
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -76,7 +77,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-		hb->UpdateHP(simon_HP);
+		//hb->UpdateHP(simon_HP);
 		x += dx;
 		y += dy;
 	}

@@ -297,7 +297,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_HEALTHBAR:
 		obj = new HealthBar();
-		healthber = (HealthBar*)obj;
+		healthbar = (HealthBar*)obj;
+		//healthbar->UpdateHP(player->simon_HP);
 		break;
 	case OBJECT_TYPE_ITEM:
 		id = atof(tokens[4].c_str());
@@ -378,8 +379,10 @@ void CPlayScene::Update(DWORD dt)
 	// fix bug camera 
 	if (cx < 0) cx = 0.0f;
 	if (player->x > lenghtMap) return;
+	//healthbar->Update(player->simon_HP);
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
+	healthbar->SetPosition(cx+1000, 0);
 }
 
 void CPlayScene::Render()

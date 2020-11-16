@@ -19,7 +19,7 @@
 #include "Board.h"
 #include "Item.h"
 #include "TileMap.h"
-
+#include "HealthBar.h"
 #include "Define.h"
 
 class CPlayScene: public CScene
@@ -34,13 +34,15 @@ public:
 	CKnife* knife;
 	CHlw* hlw;
 
-	HealthBar* healthber;
+	HealthBar* healthbar;
 	CBoard* board;
 	TileMap* tilemap;
+	//HealthBar* hb;
 	//Player* Cplayer;
 	vector<LPSPRITE> playerHP;
 	vector<LPSPRITE> enemyHP;
 	vector<LPSPRITE> loseHP;
+
 
 	int idstage;
 	int current_scene;
