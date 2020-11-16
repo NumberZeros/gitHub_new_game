@@ -65,7 +65,7 @@
 #define WEAPON_HEGTH_ANI_1									23;
 
 ///
-/// PLAY SENCE
+/// PLAY SCENE
 /// 
 
 #define SCREEN_WIDTH												512
@@ -83,18 +83,28 @@
 #define OBJECT_TYPE_BRICK											1
 #define OBJECT_TYPE_GOOMBA									2
 #define OBJECT_TYPE_KOOPAS											3
-#define OBJECT_TYPE_MAP										4
+#define OBJECT_TYPE_GATE									4
 #define OBJECT_TYPE_WEAPON											5
 #define OBJECT_TYPE_BOARD									8
 #define OBJECT_TYPE_AXE												9
+#define OBJECT_TYPE_KNIFE									91
+#define OBJECT_TYPE_HLW												92
 #define OBJECT_TYPE_ZOMBIE									10
 #define OBJECT_TYPE_BLACK_LEOPARD									11
 #define OBJECT_TYPE_ITEM									12
+#define OBJECT_TYPE_MERMAN											13
+#define OBJECT_TYPE_BOSS									15
+#define OBJECT_TYPE_STAIR											14
+
 #define OBJECT_TYPE_PORTAL											50
 
+//ITEM MAP ENTRANCE
 #define ID_ITEM_TYPE_GOODS									0
 #define ID_ITEM_TYPE_TORCH											1
-#define ID_ITEM_TYPE_CANDLE									2
+#define ID_ITEM_TYPE_CHAIN									3 
+#define ID_ITEM_TYPE_BIGHEART										4
+#define ID_ITEM_TYPE_KNIFE									5
+#define ID_ITEM_TYPE_EFFECTFIRE										6
 
 #define MAX_SCENE_LINE												1024
 
@@ -122,39 +132,30 @@
 #define BLACK_LEOPARD_ANI_JUMP										3
 
 ///
+/// MERMAN
+/// 
+
+#define MERMAN_JUMP_SPEED_Y											0.9f
+#define MERMAN_WALKING_SPEED_X								0.13f
+#define MERMAN_GRAVITY												0.002f
+
+#define MERMAN_BBOX_WIDTH											32
+#define MERMAN_BBOX_HEIGHT									64
+
+#define MERMAN_JUMP											1
+#define MERMAN_WALKING												2
+#define MERMAN_SHOOT_FIREBALL								3
+
+#define MERMAN_ANI_IDLE												0
+#define MERMAN_ANI_WALKING									1
+#define MERMAN_ANI_SHOOT_FIREBALL									2
+
+///
 /// ITEM
 /// 
 
-#define ITEM_GRAVITY										0.00005f
-#define ITEM_TIME_FIRE												500
-
-#define ITEM_DISAPPEAR_TIME									5000
-#define ITEM_ANI_ROI												0
-#define ITEM_ANI_TIM										1
-#define ITEM_ANI_MONEY_BAG											2
-#define ITEM_ANI_HOLY_WATER									3
-#define ITEM_ANI_MEAT												4
-// item phu
-#define ITEM_ANI_TORCH										18
-#define ITEM_ANI_CANDLE												19
-#define ITEM_ANI_FIRE										20
 
 
-#define ITEM_HEIGHT_ID_ANI_TORCH									64
-#define ITEM_WIDTH_ID_ANI_TORCH								32
-#define ITEM_HEIGHT_ID_ANI_CANDLE									15
-#define ITEM_WIDTH_ID_ANI_CANDLE							15
-
-#define ITEM_HEIGHT_ID_ANI_0										32
-#define ITEM_WIDTH_ID_ANI_0									32
-#define ITEM_HEIGHT_ID_ANI_1										20
-#define ITEM_WIDTH_ID_ANI_1									24
-#define ITEM_HEIGHT_ID_ANI_2										30
-#define ITEM_WIDTH_ID_ANI_2									30
-#define ITEM_HEIGHT_ID_ANI_3										28
-#define ITEM_WIDTH_ID_ANI_3									32
-#define ITEM_HEIGHT_ID_ANI_4										26
-#define ITEM_WIDTH_ID_ANI_4									32
 
 /// map
 #define SCENE_1														1
@@ -172,10 +173,14 @@
 #define TILE_HEIGHT											32
 
 #define MAX_SCENE_LINE												1024
-#define map2												4000
+#define map2												2484
 #define map3														6000
 #define map6												12000
 #define map4														8000
 
 #define max_row												100
 #define max_col														100
+
+// gate
+#define gate_box_width 100
+#define gate_box_height 300

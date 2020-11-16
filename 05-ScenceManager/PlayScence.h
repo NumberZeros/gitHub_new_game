@@ -5,7 +5,7 @@
 #include "Scence.h"
 #include "GameObject.h"
 #include "Koopas.h"
-#include "Map.h"
+#include "Gate.h"
 
 #include "Brick.h"
 #include "Simon.h"
@@ -13,6 +13,9 @@
 
 #include "Weapon.h"
 #include "Axe.h"
+#include "Knife.h"
+#include "Holywater.h"
+
 #include "Board.h"
 #include "Item.h"
 #include "TileMap.h"
@@ -24,9 +27,13 @@ class CPlayScene: public CScene
 public: 
 	CItem* item;
 	CSimon *player;					// A play scene has to have player, right? 
-	CMap* map;
+	Gate* gate;
+
 	CWeapon* weapon;
 	CAxe* axe;
+	CKnife* knife;
+	CHlw* hlw;
+
 	CBoard* board;
 	TileMap* tilemap;
 	//Player* Cplayer;
@@ -76,8 +83,9 @@ public:
 	void Run(int _nx);
 	void Jump();
 	void Hit();
-	void ThrowSubWeapon();
-
+	void Throw_Axe();
+	void Throw_Knife();
+	void Throw_Holywater();
 	void SitDown();
 	CPlayScenceKeyHandler(CScene *s) :CScenceKeyHandler(s) {};
 };

@@ -1,7 +1,7 @@
+#include "Merman.h"
 #include "PlayScence.h"
-#include "Zombie.h"
 
-void CZombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void CMerman::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
@@ -9,12 +9,15 @@ void CZombie::GetBoundingBox(float& left, float& top, float& right, float& botto
 	bottom = y + height;
 }
 
-void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
 	DWORD now = GetTickCount();
 	CGameObject::Update(dt, coObjects);
-	vy += ZOMBIE_GRAVITY * dt;
+
+	//fall down
+	vy += MERMAN_GRAVITY * dt;
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -45,7 +48,6 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x = SCREEN_WIDTH; vx = -vx;
 			this->nx = -1;
 		}
-
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
@@ -59,9 +61,8 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
 					{
-						if (GetTickCount() - action_time >= 1500)
-							die();
-							//ResetBB();
+						this->isHidden = true;
+						ResetBB();
 					}
 				}
 			}
@@ -73,11 +74,8 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				e->GetBoundingBox(left, top, right, bottom);
 				if (CheckColli(left, top, right, bottom))
 				{
-					vx = 0;
 					this->isHidden = true;
-					die();
-					
-						ResetBB();
+					ResetBB();
 				}
 
 			}
@@ -85,75 +83,54 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 }
 
-void CZombie::Render()
+void CMerman::Render()
 {
-	/*if (isHidden)
-		animation_set->at(1)->Render(nx, x, y);
-		if (GetTickCount() - action_time > 50000) {
-			return;
-		}*/
-	//int ani = ZOMBIE_ANI_WALKING;
-	///*if (state == BLACK_LEOPARD_IDLE)
-	//	ani = BLACK_LEOPARD_ANI_IDLE;
-	//else*/
-	//if (state == ZOMBIE_ANI_WALKING)
-	//	ani = ZOMBIE_ANI_WALKING;
-	//else 
-	//	ani = ZOMBIE_ANI_WALKING;
 	if (isHidden)
-	{
-		if (GetTickCount() - action_time >= 1500)
-			//ResetBB();
-			return;
-	}
-	/*if (state == ZOMBIE_WALKING)
-		this->state = ZOMBIE_WALKING;
-	else
-		this->state = ZOMBIE_DEAD;*/
-	animation_set->at(this->state)->Render(nx, x, y);
+		return;
+
+	int ani = MERMAN_ANI_WALKING;
+	if (!isGrounded)
+		ani = MERMAN_ANI_IDLE;
+	if (state == MERMAN_ANI_WALKING)
+		ani = MERMAN_ANI_WALKING;
+
+
+	animation_set->at(ani)->Render(nx, x, y);
 	RenderBoundingBox();
-	height = ZOMBIE_BBOX_HEIGHT;
-	width = ZOMBIE_BBOX_WIDTH;
+	height = MERMAN_BBOX_HEIGHT;
+	width = MERMAN_BBOX_WIDTH;
 }
 
-CZombie::CZombie()
-{
-	SetState(ZOMBIE_WALKING);
-
+CMerman::CMerman() {
+	vy = -MERMAN_JUMP_SPEED_Y;
+	nx = -1;
+	SetState(MERMAN_WALKING);
 }
 
-
-void CZombie::SetState(int state)
+void CMerman::SetState(int state)
 {
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case ZOMBIE_WALKING:
+	case MERMAN_WALKING:
+		isGrounded = true;
 		DebugOut(L"nx %d \n", nx);
 		if (nx > 0)
-			vx = ZOMBIE_WALKING_SPEED_X;
+			vx = MERMAN_WALKING_SPEED_X;
 		else
-			vx = -ZOMBIE_WALKING_SPEED_X;
+			vx = -MERMAN_WALKING_SPEED_X;
 		DebugOut(L"vx %f \n", vx);
 		break;
-	case ZOMBIE_DEAD:
-		vx = 0;
 	}
 }
-void CZombie::die()
-{
-	isHidden = true;
-	action_time = GetTickCount();
-	this->state = ZOMBIE_DEAD;
-	vx = 0;
 
-}
-bool CZombie::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
+bool CMerman::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
 	float l, t, r, b;
-	CZombie::GetBoundingBox(l, t, r, b);
+	CMerman::GetBoundingBox(l, t, r, b);
 
 	if (CGameObject::AABBCheck(l, t, r, b, left_a, top_a, right_a, bottom_a))
 		return true;
 	else
 		return false;
 }
+

@@ -12,6 +12,7 @@
 
 class TileMap
 {
+public:
 	CSprites* sprites;
 	LPCWSTR mapFilePath;
 
