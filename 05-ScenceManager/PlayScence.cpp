@@ -382,7 +382,7 @@ void CPlayScene::Update(DWORD dt)
 	//healthbar->Update(player->simon_HP);
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
-	healthbar->SetPosition(cx+1000, 0);
+	healthbar->SetPosition(cx, 0);
 }
 
 void CPlayScene::Render()
