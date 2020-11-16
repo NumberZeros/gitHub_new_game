@@ -30,6 +30,7 @@ public:
 	CBoard* board;
 	TileMap* tilemap;
 
+
 	int idstage;
 	int current_scene;
 

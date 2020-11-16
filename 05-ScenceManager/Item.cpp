@@ -130,8 +130,8 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isFire = false;
 			isTorch = false;
 			this->action_time = 0;
-			DebugOut(L" id %d \n", secondGood);
-			SetID(secondGood);
+			DebugOut(L" id %d \n", itemDrop);
+			SetID(itemDrop);
 		}
 	}
 	else
@@ -141,6 +141,9 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			y += speedy * dt;
 		}
 		else if (id == ITEM_ANI_CHAIN) {
+			y += speedy * dt;
+		}
+		else if (id == ITEM_ANI_KNIFE) {
 			y += speedy * dt;
 		}
 	}
@@ -214,6 +217,10 @@ void CItem::CheckSize()
 	case ITEM_ANI_EFFECTFIRE:
 		this->width = ITEM_EFFECTFIRE_BBOX_WIDTH;
 		this->height = ITEM_EFFECTFIRE_BBOX_HEIGHT;
+		break;
+	case ITEM_ANI_KNIFE:
+		this->width = ITEM_KNIFE_BBOX_WIDTH;
+		this->height = ITEM_KNIFE_BBOX_HEIGHT;
 		break;
 	default:
 		break;

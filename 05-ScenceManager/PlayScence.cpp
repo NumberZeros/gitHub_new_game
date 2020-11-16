@@ -12,6 +12,7 @@
 #include"Zombie.h"
 #include "Item.h"
 #include "Merman.h"
+#include "VampireBat.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
@@ -317,7 +318,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int ani_set_id = atoi(tokens[3].c_str());
 
 	int id = 0;
-	int secondGood = 12;
+	int itemDrop = 12;
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
@@ -345,6 +346,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN: obj = new CMerman(); break;
+	case OBJECT_TYPE_VAMPIREBAT: obj = new CVampireBat(); break;
 	case OBJECT_TYPE_WEAPON:
 		obj = new CWeapon();
 		weapon = (CWeapon*)obj;
@@ -368,13 +370,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	break;
 	case OBJECT_TYPE_ITEM: //12
 		id = atof(tokens[4].c_str());
-		secondGood = atof(tokens[5].c_str());
+		itemDrop = atof(tokens[5].c_str());
 		obj = new CItem();
 		item = (CItem*)obj;
 		if (id == ID_ITEM_TYPE_TORCH) { // 1
 			item->SetID(ITEM_ANI_TORCH);
 			item->SetState(ITEM_STATE_SHOW);
-			item->secondGood = secondGood;
+			item->itemDrop = itemDrop;
 		}
 		break;
 	default:

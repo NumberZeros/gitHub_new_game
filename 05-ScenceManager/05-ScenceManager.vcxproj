@@ -145,6 +145,7 @@
     <ClCompile Include="Scence.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="VampireBat.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="Scence.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="VampireBat.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>

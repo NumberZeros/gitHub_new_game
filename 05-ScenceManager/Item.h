@@ -6,7 +6,7 @@
 #define ITEM_STATE_SHOW	  1
 
 #define ITEM_GRAVITY										0.0001f
-#define ITEM_TIME_FIRE												300
+#define ITEM_TIME_FIRE												250
 
 #define ITEM_DISAPPEAR_TIME									5000
 #define ITEM_ANI_CHAIN												0
@@ -43,7 +43,7 @@ public:
 	bool isChain = false;
 	bool isBigHeart = false;
 	bool isKnife = false;
-	int secondGood;
+	int itemDrop;
 public:
 
 	CItem();

@@ -19,16 +19,20 @@
 #ZOMBIE
 10	20	110	410
 
+#VAMPIRE	
+14	200	200	500	
+
+
 #ITEM
 
-# GOODS				idTypeItem 
+# GOODS			idTypeItem 
 
 # TORCH 			
-12	160	303	5	1	0
-12	450	303	5	1	1
-12	675	303	5	1	1
-12	960	303	5	1	0
-12	1218	303	5	1	0
+12	160	303	5	1	1
+12	450	303	5	1	0
+12	675	303	5	1	0
+12	960	303	5	1	1
+12	1218	303	5	1	21
 
 # BRICK 
 # --- platform (hint: I created the list using Excel!) ----
