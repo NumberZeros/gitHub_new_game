@@ -102,7 +102,7 @@ void CMerman::Render()
 }
 
 CMerman::CMerman() {
-	vy = -MERMAN_JUMP_SPEED_Y;
+	//vy = -MERMAN_JUMP_SPEED_Y;
 	nx = -1;
 	SetState(MERMAN_WALKING);
 }

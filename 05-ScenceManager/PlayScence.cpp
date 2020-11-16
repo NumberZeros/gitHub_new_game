@@ -259,7 +259,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] simon object was created before!\n");
 			return;
 		}
-		DebugOut(L" Player %f %f !\n", x,y);
+		DebugOut(L" Player %f %f !\n", x, y);
 		obj = new CSimon(x, y);
 		player = (CSimon*)obj;
 		player->SetState(SIMON_STATE_WALKING);
@@ -269,7 +269,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
-	case OBJECT_TYPE_MERMAN: obj = new CMerman(); break;
+	case OBJECT_TYPE_MERMAN:
+		obj = new CMerman();
+		break;
 	case OBJECT_TYPE_WEAPON:
 		obj = new CWeapon();
 		weapon = (CWeapon*)obj;
@@ -287,10 +289,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		this->hlw = (CHlw*)obj;
 		break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
-	case OBJECT_TYPE_GATE:
-		obj = new Gate();
-		gate = (Gate*)obj;
-		break;
+		//case OBJECT_TYPE_GATE:
+		//	obj = new Gate();
+		//	gate = (Gate*)obj;
+		//	break;
 	case OBJECT_TYPE_BOARD:
 		obj = new CBoard();
 		board = (CBoard*)obj;
@@ -382,7 +384,7 @@ void CPlayScene::Render()
 {
 	CGame* game = CGame::GetInstance();
 	tilemap->Draw();
-	for (int i = 0; i < objects.size(); i++) 
+	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }
 

@@ -19,7 +19,7 @@
 22	textures\Zombie.png	255	0	255
 600	textures\Boss.png	255	0	255
 888	textures\FireBall.png	255	0	255
-
+999	textures\Fish.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -37,6 +37,14 @@
 304	128	0	192	32	21
 #jump
 305	192	0	256	32	21
+#MERMAN
+#idle
+500	0	0	32	64	999
+#walking
+501	32	0	60	64	999
+502	64	0	96	64	999
+#attack
+503	0	0	32	64	999
 # Simon
 # idle
 1	11	3	44	64	0
@@ -224,6 +232,13 @@
 #jumo
 252	305	100
 
+# ==== MERMAN ==========
+#idle
+253	500	100
+#walking
+254	501	100	502	100
+#attack
+255	503	100
 # ==== SIMON=========
 #idle
 0	1	100
@@ -350,6 +365,8 @@
 410	260	
 #BLACK_LEOPARD
 400	250	251	252
+#MERMAN
+420	253	254	255	
 # Simon
 1	0	1	2	3	4	5	6	7	8	9	10	11	12
 # GROUNDmap1

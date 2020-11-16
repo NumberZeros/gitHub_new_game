@@ -43,6 +43,8 @@ public:
 	bool isChain = false;
 	bool isBigHeart = false;
 	bool isKnife = false;
+	bool isMeat = false;
+	bool isBluemoney = false;
 	int secondGood;
 public:
 
@@ -58,3 +60,6 @@ public:
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 };
+
+
+

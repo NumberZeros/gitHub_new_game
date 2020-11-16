@@ -160,7 +160,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 		if (this->isTorch == true) {
-			
+
 			if (dynamic_cast<CWeapon*>(obj))
 			{
 				CWeapon* e = dynamic_cast<CWeapon*>(obj);
@@ -175,6 +175,70 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						this->isFire = true;
 						action_time = GetTickCount();
 					}
+				}
+			}
+		}
+		else if (this->isChain == true) {
+
+			if (dynamic_cast<CSimon*>(obj))
+			{
+				CSimon* e = dynamic_cast<CSimon*>(obj);
+				float left, top, right, bottom;
+				e->GetBoundingBox(left, top, right, bottom);
+
+				if (CheckColli(left, top, right, bottom))
+				{
+					this->isHidden = true;
+					this->isChain = false;
+					action_time = GetTickCount();
+				}
+			}
+		}
+		else if (this->isBigHeart == true) {
+
+			if (dynamic_cast<CSimon*>(obj))
+			{
+				CSimon* e = dynamic_cast<CSimon*>(obj);
+				float left, top, right, bottom;
+				e->GetBoundingBox(left, top, right, bottom);
+
+				if (CheckColli(left, top, right, bottom))
+				{
+					this->isHidden = true;
+					this->isBigHeart = false;
+					action_time = GetTickCount();
+				}
+			}
+		}
+		else if (this->isMeat == true) {
+
+			if (dynamic_cast<CSimon*>(obj))
+			{
+				CSimon* e = dynamic_cast<CSimon*>(obj);
+				float left, top, right, bottom;
+				e->GetBoundingBox(left, top, right, bottom);
+
+				if (CheckColli(left, top, right, bottom))
+				{
+					this->isHidden = true;
+					this->isMeat = false;
+					action_time = GetTickCount();
+				}
+			}
+		}
+		else if (this->isBluemoney == true) {
+
+			if (dynamic_cast<CSimon*>(obj))
+			{
+				CSimon* e = dynamic_cast<CSimon*>(obj);
+				float left, top, right, bottom;
+				e->GetBoundingBox(left, top, right, bottom);
+
+				if (CheckColli(left, top, right, bottom))
+				{
+					this->isHidden = true;
+					this->isBluemoney = false;
+					action_time = GetTickCount();
 				}
 			}
 		}

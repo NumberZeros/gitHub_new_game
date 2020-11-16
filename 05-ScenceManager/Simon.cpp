@@ -38,7 +38,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// turn off collision when die 
 	if (state != SIMON_ANI_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
-	
+
 	// reset untouchable timer if untouchable time has passed
 	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
 	{
@@ -82,7 +82,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float min_tx, min_ty, nx = 0, ny;
 		float rdx = 0;
 		float rdy = 0;
-		
+
 
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
@@ -125,13 +125,13 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					item->ResetBB();
 				}
 			}
-			
+
 			if (dynamic_cast<Gate*>(e->obj))
 			{
-				Gate* gate = dynamic_cast<Gate*>(e->obj);
+				/*Gate* gate = dynamic_cast<Gate*>(e->obj);
 				CGame* game = CGame::GetInstance();
-				CGame::GetInstance()->SwitchScene(game->current_scene +1);
-				
+				CGame::GetInstance()->SwitchScene(game->current_scene +1);*/
+
 			}
 		}
 	}
@@ -162,7 +162,7 @@ void CSimon::Render()
 			else
 				ani = SIMON_ANI_IDLE;
 		}
-			
+
 		else
 			ani = SIMON_ANI_WALKING;
 
@@ -173,8 +173,8 @@ void CSimon::Render()
 			else
 				ani = SIMON_ANI_STAND_HIT;
 		}
-			
-		
+
+
 	}
 	int alpha = 255;
 	if (untouchable) alpha = 128;
@@ -219,11 +219,11 @@ void CSimon::SetState(int state)
 
 void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x ;
+	left = x;
 	right = left + width;
 	top = y;
 	bottom = y + height;
-	
+
 }
 
 void CSimon::SitDown()
@@ -237,9 +237,9 @@ void CSimon::SitDown()
 
 void CSimon::attack()
 {
-		animation_set->at(SIMON_ANI_STAND_HIT)->ResetFrame();
-		action_time = GetTickCount();
-		isAttack = true;
+	animation_set->at(SIMON_ANI_STAND_HIT)->ResetFrame();
+	action_time = GetTickCount();
+	isAttack = true;
 }
 
 void CSimon::ResetAnimation() {
