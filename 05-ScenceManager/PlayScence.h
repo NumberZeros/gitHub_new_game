@@ -15,7 +15,7 @@
 #include "Axe.h"
 #include "Knife.h"
 #include "Holywater.h"
-
+#include "HealthBar.h"
 #include "Board.h"
 #include "Item.h"
 #include "TileMap.h"
@@ -34,9 +34,13 @@ public:
 	CKnife* knife;
 	CHlw* hlw;
 
+	HealthBar* healthber;
 	CBoard* board;
 	TileMap* tilemap;
 	//Player* Cplayer;
+	vector<LPSPRITE> playerHP;
+	vector<LPSPRITE> enemyHP;
+	vector<LPSPRITE> loseHP;
 
 	int idstage;
 	int current_scene;

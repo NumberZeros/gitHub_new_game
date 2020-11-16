@@ -8,6 +8,8 @@
 
 # board
 8	0	0	8
+#healthbar
+16	10	10	9
 #whip
 5	-100	-100	4
 #Axe = 9, knife = 91, holywater = 92

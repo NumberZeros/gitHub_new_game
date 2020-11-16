@@ -8,7 +8,7 @@
 
 #include "Goomba.h"
 #include "Portal.h"
-
+#include "HealthBar.h"
 CSimon::CSimon(float x, float y) : CGameObject()
 {
 	level = 1;
@@ -21,15 +21,17 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->start_y = y;
 	this->x = x;
 	this->y = y;
+	simon_HP = 16;
 }
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-
+	HealthBar* hb = new HealthBar();
 	// Simple fall down
 	vy += SIMON_GRAVITY * dt;
+	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -74,6 +76,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
+		hb->UpdateHP(simon_HP);
 		x += dx;
 		y += dy;
 	}
