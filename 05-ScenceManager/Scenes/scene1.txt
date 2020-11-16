@@ -10,6 +10,7 @@
 8	110	0	8
 #healthbar
 16	110	33	9
+
 #whip
 5	-100	-100	4
 #Axe = 9, knife = 91, holywater = 92

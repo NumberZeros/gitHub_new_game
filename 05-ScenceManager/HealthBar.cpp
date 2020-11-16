@@ -16,6 +16,10 @@ void HealthBar::Render()
 	{
 		animation_set->at(1)->Render(0,x+260 - 10 *i, y+33);
 	}
+	for (int i = 0; i < 16; i++)
+	{
+		animation_set->at(2)->Render(0, x + 110 + 10 * i, y + 52);
+	}
 	//animation_set->at(0)->Render(0, x+110, y+33);
 	RenderBoundingBox();
 }
