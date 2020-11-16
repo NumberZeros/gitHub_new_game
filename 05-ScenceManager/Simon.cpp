@@ -101,23 +101,25 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//
 		// Collision logic with other objects
 		//
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			LPGAMEOBJECT obj = coObjects->at(i);
-		}
+		//for (UINT i = 0; i < coObjects->size(); i++)
+		//{
+		//	LPGAMEOBJECT obj = coObjects->at(i);
+		//}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CItem*>(e->obj)) {
 				CItem* item = dynamic_cast<CItem*>(e->obj);
-				if (item->isTorch || item->isFire) {
-					vy = SIMON_JUMP_SPEED_Y;
-					if (e->nx != 0) {
+				if (item->isTorch || item->isFire|| item->isCandle) {
+					if (e->nx != 0) 
 						x += dx;
-					}
-					if (e->ny != 0) {
-						if (e->ny > 0) vy = -vy;
-						y += dy;
+					if (!isGrounded) {
+						if (ny < 0) 
+							y += dy;
+						if (ny > 0) {
+							vy = -SIMON_JUMP_SPEED_Y;
+							y += dy;
+						}
 					}
 				}
 				else {
@@ -126,7 +128,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 			
-			if (dynamic_cast<Gate*>(e->obj))
+			else if (dynamic_cast<Gate*>(e->obj))
 			{
 				Gate* gate = dynamic_cast<Gate*>(e->obj);
 				CGame* game = CGame::GetInstance();
@@ -173,8 +175,6 @@ void CSimon::Render()
 			else
 				ani = SIMON_ANI_STAND_HIT;
 		}
-			
-		
 	}
 	int alpha = 255;
 	if (untouchable) alpha = 128;

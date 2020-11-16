@@ -305,6 +305,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			item->SetState(ITEM_STATE_SHOW);
 			item->secondGood = secondGood;
 		}
+		else if (id == ID_ITEM_TYPE_CANDLE) {
+			item->SetID(ITEM_ANI_CANDLE);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
+		}
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);

@@ -12,6 +12,7 @@
 #define ITEM_ANI_CHAIN												0
 #define ITEM_ANI_BIGHEART									1
 #define ITEM_ANI_TORCH												18
+#define ITEM_ANI_CANDLE										19
 #define ITEM_ANI_KNIFE										21
 #define ITEM_ANI_EFFECTFIRE											20
 
@@ -31,6 +32,9 @@
 #define ITEM_EFFECTFIRE_BBOX_WIDTH							32
 #define ITEM_EFFECTFIRE_BBOX_HEIGHT									64
 
+#define ITEM_CANDLE_BBOX_WIDTH								16
+#define ITEM_CANDLE_BBOX_HEIGHT										32
+
 #define	ITEM_SPEED_Y										0.2f
 
 class CItem : public CGameObject
@@ -40,9 +44,7 @@ public:
 	int state;
 	bool isTorch = false;
 	bool isFire = false;
-	bool isChain = false;
-	bool isBigHeart = false;
-	bool isKnife = false;
+	bool isCandle = false;
 	int secondGood;
 public:
 
