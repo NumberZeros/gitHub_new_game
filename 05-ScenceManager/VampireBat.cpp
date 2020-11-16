@@ -7,25 +7,40 @@ void CVampireBat::GetBoundingBox(float& left, float& top, float& right, float& b
 	top = y;
 	right = x + width;
 	bottom = y + height;
+	vy = 1;
 }
-
+int vecty = 1;
 void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
 	DWORD now = GetTickCount();
 	CGameObject::Update(dt, coObjects);
-	vy += VAMPIREBAT_GRAVITY * dt;
+	//vy += VAMPIREBAT_GRAVITY * dt;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
+	x += VAMPIREBAT_FLYING_SPEED_X * dt * vx;
+	y += VAMPIREBAT_FLYING_SPEED_Y * dt * vecty;
 	coEvents.clear();
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
+	if (vx < 0 && x < 0) {
+		x = 0; vx = -vx;
+		this->nx = 1;
+
+	}
+	if (vx > 0 && x > SCREEN_WIDTH - 30) {
+		x = SCREEN_WIDTH; vx = -vx;
+		this->nx = -1;
+	}
+	if (y < 100 || y > 200)
+	{
+		vecty = - vecty;
+	}
+
 	if (coEvents.size() == 0)
 	{
-		x += dx;
-		y += dy;
+
 	}
 	else
 	{
@@ -36,15 +51,6 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += dx;
 		y += min_ty * dy + ny * 0.1f;
 
-		if (vx < 0 && x < 0) {
-			x = 0; vx = -vx;
-			this->nx = 1;
-		}
-
-		if (vx > 0 && x > SCREEN_WIDTH) {
-			x = SCREEN_WIDTH; vx = -vx;
-			this->nx = -1;
-		}
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
