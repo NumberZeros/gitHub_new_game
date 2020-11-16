@@ -2,7 +2,7 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Simon , 1 = Ground 
 # Simon
-0	2500	100	1
+0	10	100	1
 #whip
 5	-100	-100	4
 #Axe
@@ -108,6 +108,9 @@
 1	3040	400	24
 1	3072	400	24
 1	3104	400	24
+
+#gate
+4	200	300	2
 
 # board
 8	0	0	8
