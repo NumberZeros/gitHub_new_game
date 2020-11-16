@@ -1,6 +1,6 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Simon , 1 = Ground 
+# type: 0 = Simon , 1 = Ground , 13 = Merman
 # Simon
 0	768	370	1	7	0	0	1	0
 # Brick
@@ -67,6 +67,9 @@
 13	666	112	500	12	0	1	2	3
 13	794	112	500	12	0	1	2	4
 13	922	112	500	12	0	1	3	4
+
+#Merman
+14	300	200	420	
 
 
 

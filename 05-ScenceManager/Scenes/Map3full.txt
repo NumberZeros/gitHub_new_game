@@ -17,13 +17,24 @@
 11	textures\Stair.png	1	1	1
 12	textures\GroundMove.png	255	0	255
 13	textures\Knight.png	116	116	116
-14	textures\VampireBat.png	255	0	255	
+14	textures\VampireBat.png	255	0	255
+15	textures\Fish.png	0	0	0
+	
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+#Merman
+#idle
+200	63	0	96	64	23	
+#walking
+210	63	0	96	64	23
+211	31	0	62	63	23
+#shoot fireball
+212	0	0	33	63	23
+
 #STAIR
 139	0	0	32	32	11
 140	32	0	64	32	11
-#MOVINGGOURND
+#MOVINGGROUND
 141	0	0	64	16	12
 #KNIGHT
 142	0	0	32	64	13
@@ -39,6 +50,13 @@
 78	80	0	96	32	3
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+# ====MERMAN==================
+#idle
+200	200	100
+#walking
+201	210	100	211	100
+#shoot fire
+202	212	100
 #====STAIR======
 96	139	100
 97	140	100
@@ -55,9 +73,11 @@
 # id	ani1	ani2	ani3
 #
 [ANIMATION_SETS]
+#MERMAN
+420	200	201	202
 #STAIR
 10	96
-#movegournd
+#moveground
 24	98
 #KNIGHT
 25	99	90

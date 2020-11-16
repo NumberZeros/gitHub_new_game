@@ -1,6 +1,6 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Simon , 1 = Ground , 2 = Candle, 3=Gate	
+# type: 0 = Simon , 1 = Ground , 2 = Candle, 3=Gate, 13 = Merman	
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
@@ -33,7 +33,7 @@
 12	704	270	5	2
 12	1120	270	5	2
 12	1408	270	5	2
-	
+
 
 # BRICK 
 # --- platform (hint: I created the list using Excel!) ----
@@ -89,3 +89,7 @@
 
 # Simon
 0	20	100	1
+
+
+#Merman
+13	500	400	420
