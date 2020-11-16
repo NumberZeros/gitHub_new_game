@@ -288,11 +288,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CHlw();
 		this->hlw = (CHlw*)obj;
 		break;
-	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
-		//case OBJECT_TYPE_GATE:
-		//	obj = new Gate();
-		//	gate = (Gate*)obj;
-		//	break;
+	case OBJECT_TYPE_KOOPAS: 
+		obj = new CKoopas(); 
+		break;
+	case OBJECT_TYPE_GATE:
+		obj = new Gate();
+		gate = (Gate*)obj;
+		break;
 	case OBJECT_TYPE_BOARD:
 		obj = new CBoard();
 		board = (CBoard*)obj;
