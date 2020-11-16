@@ -8,6 +8,7 @@
 #include "Zombie.h"
 #include "Goomba.h"
 #include "Portal.h"
+#include "BlackLeopard.h"
 #include "HealthBar.h"
 CSimon::CSimon(float x, float y) : CGameObject()
 {
@@ -147,6 +148,16 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (e->ny > 0 || e->ny < 0) {
 						simon_HP -= 1;
 					}
+			}
+			if (dynamic_cast<CBlackLeopard*>(e->obj)) {
+				CBlackLeopard* bl = dynamic_cast<CBlackLeopard*>(e->obj);
+				if (e->nx > 0 || e->nx < 0) {
+					simon_HP -= 1;
+					DebugOut(L"co va cham x ne");
+				}
+				if (e->ny > 0 || e->ny < 0) {
+					simon_HP -= 1;
+				}
 			}
 		}
 	}
