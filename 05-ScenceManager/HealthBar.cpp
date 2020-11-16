@@ -1,17 +1,22 @@
 #include "HealthBar.h"
 
+void HealthBar::Update(CSimon* simon)
+{
+	this->hp = simon->simon_HP;
+}
+
 void HealthBar::Render()
 {
 	//CSimon* simon = new CSimon();
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < hp; i++)
 	{
 		animation_set->at(0)->Render(0, x+110+10*i, y+33);
 	}
-	/*for (int i = 0; i < hplost; i++)
+	for (int i = 0; i < 16-hp; i++)
 	{
-		animation_set->at(1)->Render(0,260 - x*i, 33);
-	}*/
-	animation_set->at(0)->Render(0, x+110, y+33);
+		animation_set->at(1)->Render(0,x+260 - 10 *i, y+33);
+	}
+	//animation_set->at(0)->Render(0, x+110, y+33);
 	RenderBoundingBox();
 }
 //int HealthBar::UpdateHP(int _hp)
@@ -19,6 +24,7 @@ void HealthBar::Render()
 //	//this->hp = _hp;
 //	return _hp;
 //}
+
 void HealthBar::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	//l = x;

@@ -379,7 +379,7 @@ void CPlayScene::Update(DWORD dt)
 	// fix bug camera 
 	if (cx < 0) cx = 0.0f;
 	if (player->x > lenghtMap) return;
-	//healthbar->Update(player->simon_HP);
+	healthbar->Update(player);
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
 	healthbar->SetPosition(cx, 0);
