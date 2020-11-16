@@ -1,9 +1,5 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Simon , 1 = Ground , 2 = Candle, 3=Gate	
-
-[OBJECTS]
-# type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba
 
 # board
@@ -85,8 +81,25 @@
 1	1472	368	2
 1	1504	368	2
 
+#stop map
+1	-32	0	2
+1	-32	32	2
+1	-32	64	2
+1	-32	96	2
+1	-32	128	2
+1	-32	160	2
+1	-32	192	2
+1	-32	224	2
+1	-32	256	2
+1	-32	288	2
+1	-32	320	2
+1	-32	352	2
+1	-32	384	2
+1	-32	416	2
+1	-32	448	2
+
 #gate
-4	200	300	2
+4	300	300	2
 
 # Simon
 0	20	100	1

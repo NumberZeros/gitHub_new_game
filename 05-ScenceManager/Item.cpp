@@ -23,88 +23,7 @@ void CItem::Render()
 	animation_set->at(ani)->Render(nx, x, y, 255);
 	RenderBoundingBox();
 }
-void CItem::SetState(int state)
-{
-	int ani;
-	CGameObject::SetState(state);
-	switch (state)
-	{
-	case ITEM_STATE_SHOW:
-		if (this->id == ITEM_ANI_TORCH)
-		{
-			ani = GetAnimation();
-			this->action_time = GetTickCount();
-			isTorch = true;
-			isHidden = false;
-		}
-		if (this->id == ITEM_ANI_EFFECTFIRE)
-		{
-			ani = GetAnimation();
-			this->action_time = GetTickCount();
-			isFire = true;
-			isHidden = false;
-		}
-		else
-		{
-			vy += speedy * dt;
-			ani = GetAnimation();
-			this->action_time = GetTickCount();
-			isKnife = true;
-			isChain = true;
-			isBigHeart = true;
-			isHidden = false;
-		}
-		break;
-	case ITEM_STATE_HIDDEN:
-		ani = GetAnimation();
-		isHidden = true;
-		isTorch = false;
-		isChain = false;
-		isBigHeart = false;
-		isKnife = false;
-		isFire = false;
-		break;
-	default:
-		break;
-	}
-}
-int CItem::GetAnimation()
-{
-	int ani;
-	switch (this->id)
-	{
-	case ITEM_ANI_TORCH:
-		ani = ITEM_ANI_TORCH;
-		this->isTorch = true;
-		this->isHidden = false;
-		break;
-	case ITEM_ANI_CHAIN:
-		ani = ITEM_ANI_CHAIN;
-		this->isChain = true;
-		this->isHidden = false;
-		break;
-	case ITEM_ANI_BIGHEART:
-		ani = ITEM_ANI_BIGHEART;
-		this->isBigHeart = true;
-		this->isHidden = false;
-		break;
-	case ITEM_ANI_KNIFE:
-		ani = ITEM_ANI_KNIFE;
-		this->isKnife = true;
-		this->isHidden = false;
-		break;
-	case ITEM_ANI_EFFECTFIRE:
-		ani = ITEM_ANI_EFFECTFIRE;
-		this->isFire = true;
-		this->isHidden = false;
-		break;
-	default:
-		ani = ITEM_STATE_HIDDEN;
-		this->isHidden = true;
-		break;
-	}
-	return ani;
-}
+
 void CItem::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
@@ -119,7 +38,6 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	vy += ITEM_SPEED_Y * dt;
 	coEvents.clear();
 	CheckSize();
 
@@ -130,17 +48,12 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isFire = false;
 			isTorch = false;
 			this->action_time = 0;
-			DebugOut(L" id %d \n", secondGood);
 			SetID(secondGood);
 		}
 	}
 	else
 	{
-
-		if (id == ITEM_ANI_BIGHEART) {
-			y += speedy * dt;
-		}
-		else if (id == ITEM_ANI_CHAIN) {
+		if (id != ITEM_ANI_CANDLE && id != ITEM_ANI_TORCH) {
 			y += speedy * dt;
 		}
 	}
@@ -159,8 +72,8 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				speedy = 0;
 			}
 		}
-		if (this->isTorch == true) {
-
+		if (isTorch || isCandle) {
+			
 			if (dynamic_cast<CWeapon*>(obj))
 			{
 				CWeapon* e = dynamic_cast<CWeapon*>(obj);
@@ -259,7 +172,7 @@ bool CItem::CheckColli(float left_a, float top_a, float right_a, float bottom_a)
 }
 void CItem::CheckSize()
 {
-	switch (this->id)
+	switch (id)
 	{
 	case ITEM_ANI_CHAIN: {
 		this->width = ITEM_CHAIN_BBOX_WIDTH;
@@ -275,6 +188,10 @@ void CItem::CheckSize()
 		this->width = ITEM_TORCH_BBOX_WIDTH;
 		this->height = ITEM_TORCH_BBOX_HEIGHT;
 		break;
+	case ITEM_ANI_CANDLE:
+		this->width = ITEM_CANDLE_BBOX_WIDTH;
+		this->height = ITEM_CANDLE_BBOX_HEIGHT;
+		break;
 	case ITEM_ANI_EFFECTFIRE:
 		this->width = ITEM_EFFECTFIRE_BBOX_WIDTH;
 		this->height = ITEM_EFFECTFIRE_BBOX_HEIGHT;
@@ -282,5 +199,77 @@ void CItem::CheckSize()
 	default:
 		break;
 	}
+}
+
+void CItem::SetState(int state)
+{
+	int ani;
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case ITEM_STATE_SHOW:
+		if (id == ITEM_ANI_TORCH)
+		{
+			ani = GetAnimation();
+			this->isTorch = true;
+			this->isCandle = false;
+			this->isFire = false;
+			this->isHidden = false;
+		}
+		else if (id == ITEM_ANI_EFFECTFIRE)
+		{
+			ani = GetAnimation();
+			this->action_time = GetTickCount();
+			this->isFire = true;
+			this->isHidden = false;
+		}
+		else if (id == ITEM_ANI_CANDLE) {
+			ani = GetAnimation();
+			this->isTorch = false;
+			this->isCandle = true;
+			this->isFire = false;
+			this->isHidden = false;
+		}
+		else
+		{
+			vy += speedy * dt;
+			ani = GetAnimation();
+			this->action_time = GetTickCount();
+			isHidden = false;
+		}
+		break;
+	case ITEM_STATE_HIDDEN:
+		ani = GetAnimation();
+		isHidden = true;
+		isTorch = false;
+		isCandle = false;
+		isFire = false;
+		break;
+	default:
+		break;
+	}
+}
+int CItem::GetAnimation()
+{
+	int ani;
+	switch (id)
+	{
+	case ITEM_ANI_TORCH:
+		ani = ITEM_ANI_TORCH;
+		break;
+	case ITEM_ANI_BIGHEART:
+		ani = ITEM_ANI_BIGHEART;
+		break;
+	case ITEM_ANI_CANDLE:
+		ani = ITEM_ANI_CANDLE;
+		break;
+	case ITEM_ANI_EFFECTFIRE:
+		ani = ITEM_ANI_EFFECTFIRE;
+		break;
+	default:
+		ani = ITEM_STATE_HIDDEN;
+		break;
+	}
+	return ani;
 }
 

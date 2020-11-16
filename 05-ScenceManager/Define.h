@@ -101,6 +101,7 @@
 //ITEM MAP ENTRANCE
 #define ID_ITEM_TYPE_GOODS									0
 #define ID_ITEM_TYPE_TORCH											1
+#define ID_ITEM_TYPE_CANDLE									2
 #define ID_ITEM_TYPE_CHAIN									3 
 #define ID_ITEM_TYPE_BIGHEART										4
 #define ID_ITEM_TYPE_KNIFE									5
@@ -183,4 +184,4 @@
 
 // gate
 #define gate_box_width 100
-#define gate_box_height 300
+#define gate_box_height 50
