@@ -133,7 +133,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					item->ResetBB();
 				}
 			}
-			
 			else if (dynamic_cast<Gate*>(e->obj))
 			{
 				Gate* gate = dynamic_cast<Gate*>(e->obj);
@@ -141,7 +140,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CGame::GetInstance()->SwitchScene(game->current_scene +1);
 
 			}
-			if (dynamic_cast<CZombie*>(e->obj)) {
+			else if (dynamic_cast<CZombie*>(e->obj)) {
 				CZombie* zb = dynamic_cast<CZombie*>(e->obj);
 					if (e->nx > 0 || e->nx <0) {
 						simon_HP -= 1;
@@ -151,7 +150,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						simon_HP -= 1;
 					}
 			}
-			if (dynamic_cast<CBlackLeopard*>(e->obj)) {
+			else if (dynamic_cast<CBlackLeopard*>(e->obj)) {
 				CBlackLeopard* bl = dynamic_cast<CBlackLeopard*>(e->obj);
 				if (e->nx > 0 || e->nx < 0) {
 					simon_HP -= 1;
