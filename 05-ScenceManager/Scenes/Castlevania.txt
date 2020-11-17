@@ -8,7 +8,7 @@
 5	textures\SubWeapons.png	255	0	255
 6	textures\Effect.png	255	0	255
 7	textures\Spark.png	255	0	255
-8	textures\blackboard.png	255	0	255
+8	textures\BlackBoard.png	255	0	255
 9	textures\HP.png	0	0	0
 10	textures\Texts.png	255	0	255
 11	textures\Stair.png	1	1	1
@@ -223,6 +223,17 @@
 # ====ZOMBIE==================
 #walking
 260	310	100	311	100
+#===Time====
+920	129	100
+921	130	100
+922	131	100
+923	132	100
+924	133	100
+925	134	100
+926	135	100
+927	136	100
+928	137	100
+929	138	100
 
 # ==== BLACK_LEOPARD==========
 #idle
@@ -362,7 +373,9 @@
 #
 [ANIMATION_SETS]
 #ZOMBIE
-410	260	
+410	260	90
+#TIME
+17	920	921	922	923	924	925	926	927	928	929	
 #BLACK_LEOPARD
 400	250	251	252
 #MERMAN

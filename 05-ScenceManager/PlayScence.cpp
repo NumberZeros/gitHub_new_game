@@ -8,8 +8,8 @@
 #include "Portal.h"
 #include "Gate.h"
 #include "Board.h"
-#include"BlackLeopard.h"
-#include"Zombie.h"
+#include "BlackLeopard.h"
+#include "Zombie.h"
 #include "Item.h"
 #include "Merman.h"
 using namespace std;
@@ -296,8 +296,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		gate = (Gate*)obj;
 		break;
 	case OBJECT_TYPE_BOARD:
-		obj = new CBoard();
+		obj = new CBoard(8);
 		board = (CBoard*)obj;
+		break;
+	case OBJECT_TYPE_HEALTHBAR:
+		obj = new HealthBar();
+		healthbar = (HealthBar*)obj;
+		//healthbar->UpdateHP(player->simon_HP);
+		break;
+	case OBJECT_TYPE_TIMER:
+		obj = new Timer();
+		timer = (Timer*)obj;
 		break;
 	case OBJECT_TYPE_ITEM:
 		id = atof(tokens[4].c_str());
@@ -383,8 +392,12 @@ void CPlayScene::Update(DWORD dt)
 	// fix bug camera 
 	if (cx < 0) cx = 0.0f;
 	if (player->x > lenghtMap) return;
+	healthbar->Update(player);
+	timer->Update();
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
+	healthbar->SetPosition(cx, 0);
+	timer->SetPosition(cx, 0);
 }
 
 void CPlayScene::Render()
@@ -393,6 +406,17 @@ void CPlayScene::Render()
 	tilemap->Draw();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	/*CSprites* sprites = CSprites::GetInstance();
+	for (int i = 0; i < 16; i++)
+	{
+		playerHP.push_back(sprites->Get(126));
+		loseHP.push_back(sprites->Get(127));
+		enemyHP.push_back(sprites->Get(128));
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		playerHP[i]->Draw(0, -1, 105 + i * 9, 31);
+	}*/
 }
 
 /*

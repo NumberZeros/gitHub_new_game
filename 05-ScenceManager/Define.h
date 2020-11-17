@@ -8,7 +8,7 @@
 #define SIMON_DIE_DEFLECT_SPEED										0.002f
 
 #define SIMON_ATTACK_TIME									400
-#define SIMON_UNTOUCHABLE_TIME										5000
+#define SIMON_UNTOUCHABLE_TIME										1000
 #define SIMON_RESET_JUMP_TIME								500
 
 #define SIMON_STATE_IDLE											0
@@ -95,6 +95,8 @@
 #define OBJECT_TYPE_MERMAN											13
 #define OBJECT_TYPE_BOSS									15
 #define OBJECT_TYPE_STAIR											14
+#define OBJECT_TYPE_HEALTHBAR								16				
+#define OBJECT_TYPE_TIMER											17	
 
 #define OBJECT_TYPE_PORTAL											50
 
@@ -117,7 +119,7 @@
 #define ZOMBIE_WALKING_SPEED_X								0.13f
 #define ZOMBIE_WALKING_SPEED_Y										0.2f
 #define ZOMBIE_GRAVITY										0.001f
-
+#define ZOMBIE_DEAD											1
 #define ZOMBIE_BBOX_WIDTH											32
 #define ZOMBIE_BBOX_HEIGHT									64
 #define BLACK_LEOPARD_ACTIVE_BBOX_WIDTH								100
@@ -125,7 +127,7 @@
 
 #define BLACK_LEOPARD_ACTIVE										0    
 #define BLACK_LEOPARD_DESTROYED								1
-#define ZOMBIE_WALKING												2
+#define ZOMBIE_WALKING												0
 
 #define ZOMBIE_ANI_WALKING									0
 #define BLACK_LEOPARD_ANI_IDLE										1

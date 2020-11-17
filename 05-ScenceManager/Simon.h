@@ -12,12 +12,12 @@ public:
 	bool isAttack;
 	bool isGrounded;
 	int actionAttack = 0;	// 0 right 1 left
-
 	int start_x;
 	int start_y;
 
 	DWORD untouchable_start;
 public:
+	int simon_HP = 8;
 	CSimon();
 	virtual void SitDown();
 	virtual void attack();
@@ -33,6 +33,7 @@ public:
 	//void SetWeapon(CWeapon* _weapon) {
 	//	weapon = _weapon;
 	//}
+	//int GetHealth() { return this->health; };
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	bool GetAttack() { return this->isAttack; };
 

@@ -55,8 +55,9 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (CheckColli(left, top, right, bottom))
 				{
-					this->isHidden = true;
-					ResetBB();
+					/*this->isHidden = true;
+					ResetBB();*/
+					die();
 				}
 
 			}
@@ -81,18 +82,29 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CBlackLeopard::Render()
 {
-	int ani = BLACK_LEOPARD_ANI_RUN;
+	//int ani = BLACK_LEOPARD_ANI_RUN;
 	/*if (state == BLACK_LEOPARD_IDLE)
 		ani = BLACK_LEOPARD_ANI_IDLE;
 	else*/
-	if (isHidden)
-		return;
-	if (state == BLACK_LEOPARD_ANI_RUN)
-		ani = BLACK_LEOPARD_ANI_RUN;
-	animation_set->at(ani)->Render(nx, x, y);
+	if (isHidden) 
+	{
+		if (GetTickCount() - action_time >= 1500)
+			return;
+	}
+	//if (state == BLACK_LEOPARD_ANI_RUN)
+	//	ani = BLACK_LEOPARD_ANI_RUN;
+	animation_set->at(state)->Render(nx, x, y);
 	RenderBoundingBox();
 	height = BLACK_LEOPARD_BBOX_HEIGHT;
 	width = BLACK_LEOPARD_BBOX_WIDTH;
+}
+
+void CBlackLeopard::die()
+{
+	isHidden = true;
+	action_time = GetTickCount();
+	this->state = BLACK_LEOPARD_DESTROYED;
+	vx = 0;
 }
 
 CBlackLeopard::CBlackLeopard()
@@ -117,6 +129,8 @@ void CBlackLeopard::SetState(int state)
 	case BLACK_LEOPARD_IDLE:
 		vx = 0;
 		break;
+	case BLACK_LEOPARD_DESTROYED:
+		vx = 0;		
 	}
 }
 

@@ -15,11 +15,12 @@
 #include "Axe.h"
 #include "Knife.h"
 #include "Holywater.h"
-
+#include "HealthBar.h"
 #include "Board.h"
+#include "Timer.h"
 #include "Item.h"
 #include "TileMap.h"
-
+#include "HealthBar.h"
 #include "Define.h"
 
 class CPlayScene: public CScene
@@ -34,8 +35,16 @@ public:
 	CKnife* knife;
 	CHlw* hlw;
 
+	HealthBar* healthbar;
+	Timer* timer;
 	CBoard* board;
 	TileMap* tilemap;
+	//HealthBar* hb;
+	//Player* Cplayer;
+	vector<LPSPRITE> playerHP;
+	vector<LPSPRITE> enemyHP;
+	vector<LPSPRITE> loseHP;
+
 
 	int idstage;
 	int current_scene;

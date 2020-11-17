@@ -5,10 +5,11 @@
 #include "Simon.h"
 #include "Game.h"
 #include "PlayScence.h"
-
+#include "Zombie.h"
 #include "Goomba.h"
 #include "Portal.h"
-
+#include "BlackLeopard.h"
+#include "HealthBar.h"
 CSimon::CSimon(float x, float y) : CGameObject()
 {
 	level = 1;
@@ -21,15 +22,20 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->start_y = y;
 	this->x = x;
 	this->y = y;
+	simon_HP = 16;
+	untouchable_start = 0;
+	untouchable = 0;
 }
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-
+	//HealthBar* hb = new HealthBar();
 	// Simple fall down
 	vy += SIMON_GRAVITY * dt;
+	//hb->UpdateHP(this->simon_HP);
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -42,8 +48,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// reset untouchable timer if untouchable time has passed
 	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
 	{
-		untouchable_start = 0;
-		untouchable = 0;
+		
 	}
 
 	//jump
@@ -74,6 +79,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
+		//hb->UpdateHP(simon_HP);
 		x += dx;
 		y += dy;
 	}
@@ -134,6 +140,26 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CGame* game = CGame::GetInstance();
 				CGame::GetInstance()->SwitchScene(game->current_scene +1);
 
+			}
+			if (dynamic_cast<CZombie*>(e->obj)) {
+				CZombie* zb = dynamic_cast<CZombie*>(e->obj);
+					if (e->nx > 0 || e->nx <0) {
+						simon_HP -= 1;
+						DebugOut(L"co va cham x ne");
+					}
+					if (e->ny > 0 || e->ny < 0) {
+						simon_HP -= 1;
+					}
+			}
+			if (dynamic_cast<CBlackLeopard*>(e->obj)) {
+				CBlackLeopard* bl = dynamic_cast<CBlackLeopard*>(e->obj);
+				if (e->nx > 0 || e->nx < 0) {
+					simon_HP -= 1;
+					DebugOut(L"co va cham x ne");
+				}
+				if (e->ny > 0 || e->ny < 0) {
+					simon_HP -= 1;
+				}
 			}
 		}
 	}
