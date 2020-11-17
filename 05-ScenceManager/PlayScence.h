@@ -17,6 +17,7 @@
 #include "Holywater.h"
 #include "HealthBar.h"
 #include "Board.h"
+#include "Timer.h"
 #include "Item.h"
 #include "TileMap.h"
 #include "HealthBar.h"
@@ -35,6 +36,7 @@ public:
 	CHlw* hlw;
 
 	HealthBar* healthbar;
+	Timer* timer;
 	CBoard* board;
 	TileMap* tilemap;
 	//HealthBar* hb;

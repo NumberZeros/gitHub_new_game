@@ -114,6 +114,7 @@ void CZombie::Render()
 	RenderBoundingBox();
 	height = ZOMBIE_BBOX_HEIGHT;
 	width = ZOMBIE_BBOX_WIDTH;
+	//DebugOut(L"dt: %d \f", dt);
 }
 
 CZombie::CZombie()

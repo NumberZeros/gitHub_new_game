@@ -139,6 +139,7 @@
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Portal.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />

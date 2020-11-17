@@ -26,7 +26,7 @@ void CAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			this->action_time = 0;
 			ResetBB();
 			axe_isAtk = 0;
-			//DebugOut(L"axe_isatk: %d \f", axe_isAtk);
+			DebugOut(L"axe_isatk: %d \f", GetTickCount() - action_time);
 		}
 		else
 		{

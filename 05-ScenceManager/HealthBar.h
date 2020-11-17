@@ -4,8 +4,7 @@
 
 //#define BRICK_BBOX_WIDTH  16
 //#define BRICK_BBOX_HEIGHT 16
-#define MAX_SIMON_HP 16
-#define MAX_BOSS_HP 16
+
 
 class HealthBar : public CGameObject
 {
