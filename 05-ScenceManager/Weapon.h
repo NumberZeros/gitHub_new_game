@@ -18,7 +18,6 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void SetState(int state);
-
 	void ResetAnimation();
 	void SetFrame(int _frame) { frame = _frame; };
 	int GetFrame() { return frame; };

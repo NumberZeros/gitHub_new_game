@@ -10,6 +10,8 @@
 #include "Portal.h"
 #include "BlackLeopard.h"
 #include "HealthBar.h"
+#include "Weapon.h"
+
 CSimon::CSimon(float x, float y) : CGameObject()
 {
 	level = 1;
@@ -129,6 +131,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 				else {
+					CWeapon* weapon = new CWeapon();
+					item->isChain = true;
+					weapon->level += 1;
+					DebugOut(L"level: %d \f", weapon->level);
 					item->isHidden = true;
 					item->ResetBB();
 				}

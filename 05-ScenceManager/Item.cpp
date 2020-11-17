@@ -132,6 +132,14 @@ void CItem::CheckSize()
 		this->width = ITEM_EFFECTFIRE_BBOX_WIDTH;
 		this->height = ITEM_EFFECTFIRE_BBOX_HEIGHT;
 		break;
+	case ITEM_ANI_HOLYWATER:
+		this->width = ITEM_HOLYWATER_BBOX_WIDTH;
+		this->height = ITEM_HOLYWATER_BBOX_HEIGHT;
+		break;
+	case ITEM_ANI_MEAT:
+		this->width = ITEM_MEAT_BBOX_WIDTH;
+		this->height = ITEM_MEAT_BBOX_HEIGHT;
+		break;
 	default:
 		break;
 	}
@@ -163,6 +171,22 @@ void CItem::SetState(int state)
 			ani = GetAnimation();
 			this->isTorch = false;
 			this->isCandle = true;
+			this->isFire = false;
+			this->isHidden = false;
+		}
+		if (id == ITEM_ANI_HOLYWATER)
+		{
+			ani = GetAnimation();
+			this->isHolyWater = true;
+			this->isCandle = false;
+			this->isFire = false;
+			this->isHidden = false;
+		}
+		if (id == ITEM_ANI_MEAT)
+		{
+			ani = GetAnimation();
+			this->isMeat = true;
+			this->isCandle = false;
 			this->isFire = false;
 			this->isHidden = false;
 		}
@@ -201,6 +225,12 @@ int CItem::GetAnimation()
 		break;
 	case ITEM_ANI_EFFECTFIRE:
 		ani = ITEM_ANI_EFFECTFIRE;
+		break;
+	case ITEM_ANI_HOLYWATER:
+		ani = ITEM_ANI_HOLYWATER;
+		break;
+	case ITEM_ANI_MEAT:
+		ani = ITEM_ANI_MEAT;
 		break;
 	default:
 		ani = ITEM_STATE_HIDDEN;

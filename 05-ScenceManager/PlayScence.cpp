@@ -273,6 +273,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CMerman();
 		break;
 	case OBJECT_TYPE_WEAPON:
+	
 		obj = new CWeapon();
 		weapon = (CWeapon*)obj;
 		break;
@@ -404,19 +405,9 @@ void CPlayScene::Render()
 {
 	CGame* game = CGame::GetInstance();
 	tilemap->Draw();
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < objects.size(); i++) 
 		objects[i]->Render();
-	/*CSprites* sprites = CSprites::GetInstance();
-	for (int i = 0; i < 16; i++)
-	{
-		playerHP.push_back(sprites->Get(126));
-		loseHP.push_back(sprites->Get(127));
-		enemyHP.push_back(sprites->Get(128));
-	}
-	for (int i = 0; i < 4; i++)
-	{
-		playerHP[i]->Draw(0, -1, 105 + i * 9, 31);
-	}*/
+	weapon->SetPosition(player->x, player->y);
 }
 
 /*
