@@ -378,8 +378,7 @@ void CPlayScene::Update(DWORD dt)
 
 	if (player == NULL) return;
 
-	//update position for simon
-	weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
+	
 	// Update camera to follow mario
 	CGame* game = CGame::GetInstance();
 	float cx, cy;
@@ -407,7 +406,8 @@ void CPlayScene::Render()
 	tilemap->Draw();
 	for (int i = 0; i < objects.size(); i++) 
 		objects[i]->Render();
-	weapon->SetPosition(player->x, player->y);
+	//update position for simon
+	weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
 }
 
 /*
