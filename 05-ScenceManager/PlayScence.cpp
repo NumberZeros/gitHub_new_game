@@ -344,7 +344,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
-	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
+	case OBJECT_TYPE_ZOMBIE:
+		obj = new CZombie();
+		id = atof(tokens[4].c_str());
+		itemDrop = atof(tokens[5].c_str());
+		obj = new CItem();
+		item = (CItem*)obj;
+		if (id == ID_ITEM_TYPE_ZOMBIE) { // 7
+			item->SetID(ITEM_ANI_EFFECTFIRE);
+			item->SetState(ITEM_STATE_SHOW);
+			item->itemDrop = itemDrop;
+		}
+		break;
 	case OBJECT_TYPE_MERMAN: obj = new CMerman(); break;
 	case OBJECT_TYPE_VAMPIREBAT: obj = new CVampireBat(); break;
 	case OBJECT_TYPE_WEAPON:

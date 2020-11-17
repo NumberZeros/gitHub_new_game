@@ -102,6 +102,7 @@
 #define ID_ITEM_TYPE_BIGHEART										4
 #define ID_ITEM_TYPE_KNIFE									5
 #define ID_ITEM_TYPE_EFFECTFIRE										6
+#define ID_ITEM_TYPE_ZOMBIE									7
 
 #define MAX_SCENE_LINE												1024
 
@@ -122,6 +123,7 @@
 #define BLACK_LEOPARD_ACTIVE										0    
 #define BLACK_LEOPARD_DESTROYED								1
 #define ZOMBIE_WALKING												2
+#define ZOMBIE_DIE											3
 
 #define ZOMBIE_ANI_WALKING									0
 #define BLACK_LEOPARD_ANI_IDLE										1

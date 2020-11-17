@@ -21,6 +21,17 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	CalcPotentialCollisions(coObjects, coEvents);
+	if (isFire == true)
+	{
+		if (GetTickCount() - action_time > ITEM_TIME_FIRE) {
+			dx = 0;
+			isFire = false;
+			isZombie = false;
+			action_time = 0;
+			this->isHidden = true;
+			ResetBB();
+		}
+	}
 
 	if (coEvents.size() == 0)
 	{
@@ -48,34 +59,37 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
-			if (dynamic_cast<CWeapon*>(obj))
-			{
-				CWeapon* e = dynamic_cast<CWeapon*>(obj);
+				if (dynamic_cast<CWeapon*>(obj))
+				{
+					CWeapon* e = dynamic_cast<CWeapon*>(obj);
 
-				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
+					float left, top, right, bottom;
+					e->GetBoundingBox(left, top, right, bottom);
 
-				if (e->frame == 2) {
+					if (e->frame == 2) {
+						if (CheckColli(left, top, right, bottom))
+						{
+							SetID(ITEM_ANI_EFFECTFIRE);
+							this->isFire = true;
+							action_time = GetTickCount();
+							/*this->isHidden = true;
+							ResetBB();*/
+						}
+					}
+				}
+				if (dynamic_cast<CAxe*>(obj))
+				{
+					CAxe* e = dynamic_cast<CAxe*>(obj);
+
+					float left, top, right, bottom;
+					e->GetBoundingBox(left, top, right, bottom);
 					if (CheckColli(left, top, right, bottom))
 					{
 						this->isHidden = true;
 						ResetBB();
 					}
 				}
-			}
-			if (dynamic_cast<CAxe*>(obj))
-			{
-				CAxe* e = dynamic_cast<CAxe*>(obj);
-
-				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
-				if (CheckColli(left, top, right, bottom))
-				{
-					this->isHidden = true;
-					ResetBB();
-				}
-
-			}
+			
 		}
 	}
 }
@@ -88,9 +102,16 @@ void CZombie::Render()
 	/*if (state == BLACK_LEOPARD_IDLE)
 		ani = BLACK_LEOPARD_ANI_IDLE;
 	else*/
-	if (state == ZOMBIE_ANI_WALKING)
+	if (state == ZOMBIE_ANI_WALKING) {
 		ani = ZOMBIE_ANI_WALKING;
-	else 
+		isZombie = true;
+	}
+
+	else if (state == ZOMBIE_STATE_DIE) {
+		ani = ITEM_ANI_EFFECTFIRE;
+		isZombie = false;
+	}
+	else
 		ani = ZOMBIE_ANI_WALKING;
 	animation_set->at(ani)->Render(nx, x, y);
 	RenderBoundingBox();
@@ -117,6 +138,10 @@ void CZombie::SetState(int state)
 		else
 			vx = -ZOMBIE_WALKING_SPEED_X;
 		DebugOut(L"vx %f \n", vx);
+		break;
+	case ZOMBIE_DIE:
+		this->action_time = GetTickCount();
+		isFire = true;
 		break;
 	}
 }
