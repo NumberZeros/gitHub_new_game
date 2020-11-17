@@ -15,6 +15,8 @@
 #define ITEM_ANI_CANDLE										19
 #define ITEM_ANI_KNIFE										21
 #define ITEM_ANI_EFFECTFIRE											20
+#define ITEM_ANI_HOLYWATER									11
+#define ITEM_ANI_MEAT												13
 
 
 #define ITEM_CHAIN_BBOX_WIDTH										32
@@ -35,6 +37,12 @@
 #define ITEM_CANDLE_BBOX_WIDTH								16
 #define ITEM_CANDLE_BBOX_HEIGHT										32
 
+#define ITEM_HOLYWATER_BBOX_WIDTH							32
+#define ITEM_HOLYWATER_BBOX_HEIGHT									30
+
+#define ITEM_MEAT_BBOX_WIDTH								32
+#define ITEM_MEAT_BBOX_HEIGHT										26
+
 #define	ITEM_SPEED_Y										0.2f
 
 class CItem : public CGameObject
@@ -43,13 +51,16 @@ public:
 	int id;
 	int state;
 	bool isTorch = false;
-	bool isFire = false;
+	bool isChain = false;
 	bool isCandle = false;
+	bool isHolyWater = false;
+	bool isMeat = false;
 	int secondGood;
 public:
 
 	CItem();
 	~CItem();
+	bool isFire = false;
 	float speedy = ITEM_SPEED_Y;
 	void SetID(int _id) { id = _id; };
 	int GetAnimation();

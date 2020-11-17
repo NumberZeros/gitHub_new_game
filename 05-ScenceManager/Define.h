@@ -107,6 +107,8 @@
 #define ID_ITEM_TYPE_KNIFE									5
 #define ID_ITEM_TYPE_EFFECTFIRE										6
 
+
+
 #define MAX_SCENE_LINE												1024
 
 

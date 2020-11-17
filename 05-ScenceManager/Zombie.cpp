@@ -57,7 +57,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
-					{
+					{	
 						this->isHidden = true;
 						ResetBB();
 					}
