@@ -501,8 +501,11 @@ void CPlayScenceKeyHandler::SitDown() {
 void CPlayScenceKeyHandler::Hit() {
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
-	weapon->SetState(WEAPON_STATE_ATTACK);
-	simon->SetState(SIMON_STATE_HIT);
+	if (simon->isDone) {
+		weapon->SetState(WEAPON_STATE_ATTACK);
+		simon->SetState(SIMON_STATE_HIT);
+	}
+	
 }
 
 void CPlayScenceKeyHandler::Throw_Axe() {

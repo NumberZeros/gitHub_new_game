@@ -47,12 +47,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state != SIMON_ANI_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
-	// reset untouchable timer if untouchable time has passed
-	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
-	{
-		
-	}
-
 	//jump
 	if (!isGrounded) {
 		if (GetTickCount() - action_time > SIMON_RESET_JUMP_TIME) {
@@ -65,6 +59,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isAttack) {
 		if (GetTickCount() - action_time > SIMON_ATTACK_TIME) {
 			isAttack = false;
+			isDone = true;
 			action_time = 0;
 		}
 	}
@@ -270,6 +265,7 @@ void CSimon::attack()
 {
 	animation_set->at(SIMON_ANI_STAND_HIT)->ResetFrame();
 	action_time = GetTickCount();
+	isDone = false;
 	isAttack = true;
 }
 
