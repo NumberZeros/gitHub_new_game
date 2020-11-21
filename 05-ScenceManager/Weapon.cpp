@@ -95,10 +95,6 @@ void CWeapon::SetState(int state)
 	}
 }
 
-void CWeapon::CheckSize() {
-
-}
-
 CWeapon* CWeapon::__instance = NULL;
 CWeapon* CWeapon::GetInstance()
 {
