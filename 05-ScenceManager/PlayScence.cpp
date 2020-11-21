@@ -384,6 +384,13 @@ void CPlayScene::Update(DWORD dt)
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
+	//update position for simon
+	if (!prevWeaponX || !prevWeaponY || prevWeaponX != weapon->x || prevWeaponY != weapon->y) {
+		prevWeaponX = player->x;
+		prevWeaponY = player->y;
+		weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
+	}
+	
 
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
@@ -406,8 +413,6 @@ void CPlayScene::Render()
 	tilemap->Draw();
 	for (int i = 0; i < objects.size(); i++) 
 		objects[i]->Render();
-	//update position for simon
-	weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
 }
 
 /*
@@ -426,12 +431,16 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	CGame* game = CGame::GetInstance();
 	CSimon* simon = ((CPlayScene*)scence)->player;
+	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 	// disable control key when simon die
 	if (simon->isAttack) return;
 	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
 	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
+	else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
+	else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
+	else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
 	else simon->SetState(SIMON_STATE_IDLE);
 }
 

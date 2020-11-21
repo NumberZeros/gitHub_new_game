@@ -22,6 +22,7 @@ public:
 	void SetFrame(int _frame) { frame = _frame; };
 	int GetFrame() { return frame; };
 	void UpdatePosionWithSimon(float _x, float _y, int _nx);
+	void SetPosion();
 	static CWeapon* GetInstance();
 	CWeapon();
 	~CWeapon();
@@ -30,5 +31,4 @@ public:
 	int GetLevel() { return level; };
 	
 	int GetAnimation();
-	void GetPositionForSimon();
 };

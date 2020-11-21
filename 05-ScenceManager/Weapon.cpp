@@ -26,7 +26,6 @@ void CWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	//vy += SIMON_GRAVITY * dt;
 
 	if (!isHidden) {
 		if (GetTickCount() - action_time > SIMON_ATTACK_TIME) {
@@ -143,8 +142,17 @@ void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
 				frame = 1;
 			}
 			else if(currenFrame == 2) {
-				x = _x + 43.0f;
-				y = _y +  8.0f;
+				x = _x + 43;
+				if (level == 3) {
+					
+					y = _y + 17;
+				}
+				else if (level == 2) {
+					y = _y + 5;
+				}
+				else {
+					y = _y + 8.0f;
+				}
 				frame = 2;
 			}
 		}
@@ -163,8 +171,19 @@ void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
 				frame = 1;
 			}
 			else if (currenFrame == 2) {
-				x = _x - 45;
-				y = _y + 10;
+
+				if (level == 3) {
+					x = _x - 73;
+					y = _y + 18;
+				}
+				else if (level == 2) {
+					x = _x - 45;
+					y = _y + 3;
+				}
+				else {
+					x = _x - 45;
+					y = _y + 10;
+				}
 				frame = 2;
 			}
 		}

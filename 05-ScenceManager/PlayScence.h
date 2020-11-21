@@ -51,6 +51,8 @@ public:
 
 	vector<LPGAMEOBJECT> objects;
 
+	float prevWeaponX, prevWeaponY;
+
 
 	vector<string> linkmap;
 
