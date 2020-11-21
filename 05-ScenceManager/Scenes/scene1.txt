@@ -2,19 +2,6 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba
 
-# board
-8	110	0	8
-#healthbar
-16	110	33	9
-#timer
-17	300	13	17
-
-#whip
-5	-100	-100	4
-#Axe = 9, knife = 91, holywater = 92
-9	0	0	20
-91	0	0	6
-92	0	0	22
 #BLACK_LEOPARD
 11	70	0	400
 
@@ -107,3 +94,16 @@
 
 # Simon
 0	20	100	1
+# board
+8	110	0	8
+#healthbar
+16	110	33	9
+#timer
+17	300	13	17
+
+#whip
+5	-100	-100	4
+#Axe = 9, knife = 91, holywater = 92
+9	0	0	20
+91	0	0	6
+92	0	0	22

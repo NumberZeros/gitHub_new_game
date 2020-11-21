@@ -64,6 +64,8 @@
 #define WEAPON_WIDHT_ANI_1											44;
 #define WEAPON_HEGTH_ANI_1									23;
 
+#define WEAPON_WIDHT_ANI_3											75;
+
 ///
 /// PLAY SCENE
 /// 

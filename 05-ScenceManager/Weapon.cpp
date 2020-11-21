@@ -16,8 +16,8 @@ CWeapon::CWeapon() {
 CWeapon::~CWeapon()
 {
 	this->SetState(WEAPON_STATE_HIDDEN);
-	x = -100;
-	y = -100;
+	heigth = WEAPON_HEGTH_ANI_1;
+	width = WEAPON_WIDHT_ANI_1;
 	isHidden = false;
 }
 
@@ -26,7 +26,12 @@ void CWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
+	if (level == 3) {
+		width = WEAPON_WIDHT_ANI_3;
+	}
+	else {
+		width = WEAPON_WIDHT_ANI_1;
+	}
 	if (!isHidden) {
 		if (GetTickCount() - action_time > SIMON_ATTACK_TIME) {
 			isHidden = true;
@@ -48,10 +53,10 @@ bool CWeapon::CheckColli(float left_a, float top_a, float right_a, float bottom_
 
 void CWeapon::Render()
 {
+	RenderBoundingBox();
 	if (isHidden) return;
 	int ani = GetAnimation();
 	animation_set->at(ani)->Render(nx,x, y, 255);
-	RenderBoundingBox();
 }
 void CWeapon::ResetAnimation()
 {
@@ -90,6 +95,10 @@ void CWeapon::SetState(int state)
 	}
 }
 
+void CWeapon::CheckSize() {
+
+}
+
 CWeapon* CWeapon::__instance = NULL;
 CWeapon* CWeapon::GetInstance()
 {
@@ -99,12 +108,10 @@ CWeapon* CWeapon::GetInstance()
 
 int CWeapon::GetAnimation() {
 	int ani;
-		switch (this->level)
+		switch (level)
 		{
 		case 1: {
 			ani = WEAPON_ANI_1;
-			heigth = WEAPON_HEGTH_ANI_1;
-			width = WEAPON_WIDHT_ANI_1;
 			break;
 		}
 		case 2: {
