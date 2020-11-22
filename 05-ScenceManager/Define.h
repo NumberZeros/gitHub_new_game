@@ -10,19 +10,20 @@
 #define SIMON_ATTACK_TIME									300
 #define SIMON_UNTOUCHABLE_TIME										1000
 #define SIMON_RESET_JUMP_TIME								500
+#define SIMON_HURT_SPEED											0.002f
 
 #define SIMON_STATE_IDLE											0
-#define SIMON_STATE_WALKING									1001
-#define SIMON_STATE_JUMP											1002
-#define SIMON_STATE_SIT_DOWN								1003
-#define SIMON_STATE_HIT												1004
-#define SIMON_STATE_SIT_HIT									1005
-#define SIMON_STATE_STAIR_UP										1006
-#define SIMON_STATE_STAIR_DOWN								1007
-#define SIMON_STATE_STAIR_UP_HIT									1008
-#define SIMON_STATE_STAIR_DOWN_HIT							1009
-#define SIMON_STATE_STAIR_HURT										1010
-#define SIMON_STATE_DIE										1011
+#define SIMON_STATE_WALKING									1
+#define SIMON_STATE_JUMP											2
+#define SIMON_STATE_SIT_DOWN								3
+#define SIMON_STATE_HIT												4
+#define SIMON_STATE_SIT_HIT									5
+#define SIMON_STATE_STAIR_UP										6
+#define SIMON_STATE_STAIR_DOWN								7
+#define SIMON_STATE_STAIR_UP_HIT									8
+#define SIMON_STATE_STAIR_DOWN_HIT							9
+#define SIMON_STATE_HURT											10
+#define SIMON_STATE_DIE										11
 
 #define SIMON_ANI_IDLE												0
 #define SIMON_ANI_WALKING									1
@@ -35,7 +36,7 @@
 #define SIMON_ANI_STAIR_DOWN										8
 #define SIMON_ANI_STAIR_UP_HIT								9
 #define SIMON_ANI_STAIR_DOWN_HIT									10
-#define SIMON_ANI_STAIR_HURT								11
+#define SIMON_ANI_HURT										11
 #define SIMON_ANI_DIE												12
 #define SIMON_ANI_WHIP_LV1									13
 #define SIMON_ANI_WHIP_LV2											14

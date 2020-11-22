@@ -42,6 +42,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state != SIMON_ANI_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
+	if ((isImmortal && isDone == true) || isAttack)
+		dx = 0;
 	//jump
 	if (!isGrounded) {
 		if (GetTickCount() - action_time > SIMON_RESET_JUMP_TIME) {
@@ -69,7 +71,15 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (isImmortal) {
-		if (GetTickCount() - timeImmortal > 500)
+		if (GetTickCount() - timeImmortal > 300) 
+		{
+			SetState(SIMON_STATE_IDLE);
+			isDone = true;
+		}
+		else 
+			vx = -SIMON_HURT_SPEED;
+			
+		if (GetTickCount() - timeImmortal > 1000)
 		{
 			isImmortal = false;
 			timeImmortal = 0;
@@ -117,6 +127,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					item->isHidden = true;
 					item->ResetBB();
 				}
+				else if (item->id == ITEM_ANI_HOLYWATER) {
+					simon_HP = 16;
+					item->isHidden = true;
+					item->ResetBB();
+				}
 			} 
 			else if (dynamic_cast<Gate*>(e->obj))
 			{
@@ -151,23 +166,25 @@ void CSimon::Render()
 		ani = SIMON_ANI_DIE;
 	else {
 		/// di chuyen 
-		if (state == SIMON_STATE_IDLE) {
+		if (state == SIMON_STATE_IDLE)
+		{
 			if (isSit && vx == 0)
 				ani = SIMON_ANI_SIT_DOWN;
 			else
 				ani = SIMON_ANI_IDLE;
-		}
-
-		else
+		} else
 			ani = SIMON_ANI_WALKING;
 
 		///tan cong
 		if (isAttack) {
-			if (isSit && vx == 0)
+			if (isSit)
 				ani = SIMON_ANI_SIT_HIT;
 			else
 				ani = SIMON_ANI_STAND_HIT;
 		}
+		if (isImmortal && isDone == false)
+			ani = SIMON_ANI_HURT;
+
 	}
 	int alpha = 255;
 	if (untouchable) alpha = 128;
@@ -203,6 +220,14 @@ void CSimon::SetState(int state)
 		break;
 	case SIMON_STATE_SIT_DOWN:
 		SitDown();
+		break;
+	case SIMON_STATE_HURT:
+		isDone = false;
+		simon_HP -= 1;
+		isImmortal = true;
+		timeImmortal = GetTickCount();
+		vy = -SIMON_JUMP_SPEED_Y;
+		vx = 0;
 		break;
 	case SIMON_ANI_DIE:
 		vy = -SIMON_DIE_DEFLECT_SPEED;

@@ -15,10 +15,11 @@ public:
 	int actionAttack = 0;	// 0 right 1 left
 	int start_x;
 	int start_y;
+	int simon_HP = 8;
 
 	DWORD timeImmortal;
 public:
-	int simon_HP = 8;
+	
 	CSimon();
 	virtual void SitDown();
 	virtual void attack();

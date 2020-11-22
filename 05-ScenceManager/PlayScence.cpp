@@ -444,14 +444,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
 	if (simon->GetState() == SIMON_STATE_DIE) return;
-	// disable control key when simon die
-	if (simon->isAttack) return;
-	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
-	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
-	else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
-	else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
-	else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
-	else simon->SetState(SIMON_STATE_IDLE);
+		if (game->IsKeyDown(DIK_RIGHT)) Run(1);
+		else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
+		else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
+		else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
+		else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
+		else simon->SetState(SIMON_STATE_IDLE);
 }
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)

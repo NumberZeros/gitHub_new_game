@@ -64,9 +64,7 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
 					if (CheckColli(left, top, right, bottom))
 					{
-						simon->simon_HP -= 1;
-						simon->isImmortal = true;
-						simon->timeImmortal = GetTickCount();
+						simon->SetState(SIMON_STATE_HURT);
 					}
 				}
 			}
