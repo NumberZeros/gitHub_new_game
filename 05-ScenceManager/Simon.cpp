@@ -112,11 +112,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
-				else {
-					CWeapon* weapon = CWeapon::GetInstance();
-					item->isChain = true;
-					weapon->level += 1;
-					DebugOut(L"level: %d \f", weapon->level);
+				else if(item->id == ITEM_ANI_CHAIN) {
+					level += 1;
 					item->isHidden = true;
 					item->ResetBB();
 				}
