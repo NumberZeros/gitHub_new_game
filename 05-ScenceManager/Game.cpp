@@ -421,9 +421,10 @@ void CGame::SwitchScene(int scene_id)
 	CTextures::GetInstance()->Clear();
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();
-
+	CSimon* prevSimon = ((CPlayScene*)scenes[current_scene])->player;
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
+	if (prevSimon) s->LoadSimon(prevSimon);
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
-	s->Load();	
+ 	s->Load();	
 }

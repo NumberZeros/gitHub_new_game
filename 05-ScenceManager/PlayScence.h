@@ -39,8 +39,6 @@ public:
 	Timer* timer;
 	CBoard* board;
 	TileMap* tilemap;
-	//HealthBar* hb;
-	//Player* Cplayer;
 	vector<LPSPRITE> playerHP;
 	vector<LPSPRITE> enemyHP;
 	vector<LPSPRITE> loseHP;
@@ -70,9 +68,8 @@ public:
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
 
-	void _ParseSection_LOADMAP(string line);
-
 	virtual void Load();
+	void LoadSimon(CSimon* prevSimon);
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();

@@ -25,13 +25,23 @@ void CPlayScene::Load()
 	LoadMap();
 }
 
+void CPlayScene::LoadSimon(CSimon* prevSimon) {
+	player = prevSimon;
+}
+
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
+	for (int i = 0; i < objects.size(); i++) {
+		LPGAMEOBJECT obj = objects.at(i);
+		if (!dynamic_cast<CSimon*>(obj))
+		{
+			delete objects[i];
+			objects.erase(objects.begin() + i);
+		}
+			
+	}
 
-	objects.clear();
-	player = NULL;
+	//objects.clear();
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
@@ -253,16 +263,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_SIMON:
-		if (player != NULL)
+		if (!player)
 		{
-			DebugOut(L"[ERROR] simon object was created before!\n");
-			return;
+			obj = new CSimon(x, y);
+			player = (CSimon*)obj;
+			player->SetState(SIMON_STATE_WALKING);
+			DebugOut(L"[INFO] Player object created!\n");
 		}
-		DebugOut(L" Player %f %f !\n", x, y);
-		obj = new CSimon(x, y);
-		player = (CSimon*)obj;
-		player->SetState(SIMON_STATE_WALKING);
-		DebugOut(L"[INFO] Player object created!\n");
+		else {
+			obj = player;
+		}
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
@@ -399,7 +409,7 @@ void CPlayScene::Update(DWORD dt)
 	if (cx < 0) cx = 0.0f;
 	if (player->x > lenghtMap) return;
 	healthbar->Update(player);
-	timer->Update();
+	//timer->Update();										// khi chuyen man da bi lôi nen tam comment 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
 	healthbar->SetPosition(cx, 0);
