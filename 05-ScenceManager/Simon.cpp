@@ -98,7 +98,27 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<Gate*>(e->obj))
+			if (dynamic_cast<CItem*>(e->obj)) {
+				CItem* item = dynamic_cast<CItem*>(e->obj);
+				if (item->isTorch || item->isFire || item->isCandle) {
+					if (e->nx != 0)
+						x += dx;
+					if (!isGrounded) {
+						if (ny < 0)
+							y += dy;
+						if (ny > 0) {
+							vy = -SIMON_JUMP_SPEED_Y;
+							y += dy;
+						}
+					}
+				}
+				else if (item->id == ITEM_ANI_CHAIN) {
+					level += 1;
+					item->isHidden = true;
+					item->ResetBB();
+				}
+			} 
+			else if (dynamic_cast<Gate*>(e->obj))
 			{
 				Gate* gate = dynamic_cast<Gate*>(e->obj);
 				CGame* game = CGame::GetInstance();
