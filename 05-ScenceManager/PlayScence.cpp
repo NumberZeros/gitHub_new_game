@@ -32,7 +32,6 @@ void CPlayScene::Unload()
 
 	objects.clear();
 	player = NULL;
-
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
@@ -303,7 +302,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_HEALTHBAR:
 		obj = new HealthBar();
 		healthbar = (HealthBar*)obj;
-		//healthbar->UpdateHP(player->simon_HP);
 		break;
 	case OBJECT_TYPE_TIMER:
 		obj = new Timer();
@@ -389,6 +387,7 @@ void CPlayScene::Update(DWORD dt)
 		prevWeaponX = player->x;
 		prevWeaponY = player->y;
 		weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
+		weapon->level = player->level;
 	}
 	
 

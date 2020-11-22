@@ -143,24 +143,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		LPGAMEOBJECT obj = coObjects->at(i);
-		if (dynamic_cast<CZombie*>(obj)) {
-			CZombie* zb = dynamic_cast<CZombie*>(obj);
-			float left, top, right, bottom;
-			obj->GetBoundingBox(left, top, right, bottom);
-			if (!zb->isHidden && !isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
-				if (CheckColli(left, top, right, bottom))
-				{
-					simon_HP -= 1;
-					isImmortal = true;
-					timeImmortal = GetTickCount();
-				}
-			}
-		}
-	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }

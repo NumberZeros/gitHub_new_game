@@ -72,7 +72,8 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				speedy = 0;
 			}
 		}
-		if (isTorch || isCandle) {
+		if (isTorch || isCandle) 
+		{
 			
 			if (dynamic_cast<CWeapon*>(obj))
 			{
@@ -91,6 +92,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
+
 	}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

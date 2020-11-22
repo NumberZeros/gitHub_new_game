@@ -89,6 +89,23 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (dynamic_cast<CSimon*>(obj)) {
+			CSimon* simon = dynamic_cast<CSimon*>(obj);
+			float left, top, right, bottom;
+			obj->GetBoundingBox(left, top, right, bottom);
+			if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
+				if (CheckColli(left, top, right, bottom))
+				{
+					simon->simon_HP -= 1;
+					simon->isImmortal = true;
+					simon->timeImmortal = GetTickCount();
+				}
+			}
+		}
+	}
 }
 
 void CZombie::Render()
