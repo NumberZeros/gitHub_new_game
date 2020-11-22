@@ -25,18 +25,13 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->x = x;
 	this->y = y;
 	simon_HP = 16;
-	untouchable_start = 0;
 	untouchable = 0;
 }
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	// Calculate dx, dy 
 	CGameObject::Update(dt);
-	//HealthBar* hb = new HealthBar();
-	// Simple fall down
 	vy += SIMON_GRAVITY * dt;
-	//hb->UpdateHP(this->simon_HP);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -73,6 +68,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+	if (isImmortal) {
+		if (GetTickCount() - timeImmortal > 500)
+		{
+			isImmortal = false;
+			timeImmortal = 0;
+		}
+	}
+
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
@@ -85,29 +88,13 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float min_tx, min_ty, nx = 0, ny;
 		float rdx = 0;
 		float rdy = 0;
-
-
-		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		// how to push back simon if collides with a moving objects, what if simon is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
-
-
-		//
-		// Collision logic with other objects
-		//
-		//for (UINT i = 0; i < coObjects->size(); i++)
-		//{
-		//	LPGAMEOBJECT obj = coObjects->at(i);
-		//}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -126,7 +113,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 				else {
-					CWeapon* weapon = new CWeapon();
+					CWeapon* weapon = CWeapon::GetInstance();
 					item->isChain = true;
 					weapon->level += 1;
 					DebugOut(L"level: %d \f", weapon->level);
@@ -141,16 +128,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CGame::GetInstance()->SwitchScene(game->current_scene +1);
 
 			}
-			else if (dynamic_cast<CZombie*>(e->obj)) {
-				CZombie* zb = dynamic_cast<CZombie*>(e->obj);
-					if (e->nx > 0 || e->nx <0) {
-						simon_HP -= 1;
-						DebugOut(L"co va cham x ne");
-					}
-					if (e->ny > 0 || e->ny < 0) {
-						simon_HP -= 1;
-					}
-			}
 			else if (dynamic_cast<CBlackLeopard*>(e->obj)) {
 				CBlackLeopard* bl = dynamic_cast<CBlackLeopard*>(e->obj);
 				if (e->nx > 0 || e->nx < 0) {
@@ -159,6 +136,24 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				if (e->ny > 0 || e->ny < 0) {
 					simon_HP -= 1;
+				}
+			}
+		}
+	}
+
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (dynamic_cast<CZombie*>(obj)) {
+			CZombie* zb = dynamic_cast<CZombie*>(obj);
+			float left, top, right, bottom;
+			obj->GetBoundingBox(left, top, right, bottom);
+			if (!zb->isHidden && !isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
+				if (CheckColli(left, top, right, bottom))
+				{
+					simon_HP -= 1;
+					isImmortal = true;
+					timeImmortal = GetTickCount();
 				}
 			}
 		}

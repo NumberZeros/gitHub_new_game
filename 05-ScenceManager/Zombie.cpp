@@ -1,6 +1,14 @@
 #include "PlayScence.h"
 #include "Zombie.h"
 
+CZombie::CZombie()
+{
+	isHidden = false;
+	SetState(ZOMBIE_WALKING);
+	height = ZOMBIE_BBOX_HEIGHT;
+	width = ZOMBIE_BBOX_WIDTH;
+}
+
 void CZombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -11,8 +19,6 @@ void CZombie::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
-	DWORD now = GetTickCount();
 	CGameObject::Update(dt, coObjects);
 	vy += ZOMBIE_GRAVITY * dt;
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -21,6 +27,12 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	CalcPotentialCollisions(coObjects, coEvents);
+
+	if (isHidden)
+	{
+		if (GetTickCount() - action_time >= 1500)
+			ResetBB();
+	}
 
 	if (coEvents.size() == 0)
 	{
@@ -59,9 +71,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
 					{
-						if (GetTickCount() - action_time >= 1500)
 							die();
-							//ResetBB();
 					}
 				}
 			}
@@ -73,11 +83,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				e->GetBoundingBox(left, top, right, bottom);
 				if (CheckColli(left, top, right, bottom))
 				{
-					vx = 0;
-					this->isHidden = true;
 					die();
-					
-						ResetBB();
 				}
 
 			}
@@ -87,40 +93,8 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CZombie::Render()
 {
-	/*if (isHidden)
-		animation_set->at(1)->Render(nx, x, y);
-		if (GetTickCount() - action_time > 50000) {
-			return;
-		}*/
-	//int ani = ZOMBIE_ANI_WALKING;
-	///*if (state == BLACK_LEOPARD_IDLE)
-	//	ani = BLACK_LEOPARD_ANI_IDLE;
-	//else*/
-	//if (state == ZOMBIE_ANI_WALKING)
-	//	ani = ZOMBIE_ANI_WALKING;
-	//else 
-	//	ani = ZOMBIE_ANI_WALKING;
-	if (isHidden)
-	{
-		if (GetTickCount() - action_time >= 1500)
-			//ResetBB();
-			return;
-	}
-	/*if (state == ZOMBIE_WALKING)
-		this->state = ZOMBIE_WALKING;
-	else
-		this->state = ZOMBIE_DEAD;*/
 	animation_set->at(this->state)->Render(nx, x, y);
 	RenderBoundingBox();
-	height = ZOMBIE_BBOX_HEIGHT;
-	width = ZOMBIE_BBOX_WIDTH;
-	//DebugOut(L"dt: %d \f", dt);
-}
-
-CZombie::CZombie()
-{
-	SetState(ZOMBIE_WALKING);
-
 }
 
 

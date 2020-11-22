@@ -11,11 +11,12 @@ public:
 	bool isSit;
 	bool isAttack;
 	bool isGrounded;
+	bool isImmortal = false;
 	int actionAttack = 0;	// 0 right 1 left
 	int start_x;
 	int start_y;
 
-	DWORD untouchable_start;
+	DWORD timeImmortal;
 public:
 	int simon_HP = 8;
 	CSimon();
@@ -30,11 +31,6 @@ public:
 	void SetNX(int _nx) { nx = _nx; }
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
-	//void SetWeapon(CWeapon* _weapon) {
-	//	weapon = _weapon;
-	//}
-	//int GetHealth() { return this->health; };
-	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	bool GetAttack() { return this->isAttack; };
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
