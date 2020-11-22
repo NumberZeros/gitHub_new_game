@@ -128,6 +128,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CGame::GetInstance()->SwitchScene(game->current_scene +1);
 
 			}
+			else if (dynamic_cast<CZombie*>(e->obj)) {
+				x += dx;
+			}
 			else if (dynamic_cast<CBlackLeopard*>(e->obj)) {
 				CBlackLeopard* bl = dynamic_cast<CBlackLeopard*>(e->obj);
 				if (e->nx > 0 || e->nx < 0) {
