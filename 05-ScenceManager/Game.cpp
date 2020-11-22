@@ -416,7 +416,7 @@ void CGame::SwitchScene(int scene_id)
 {
 	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
 
-	scenes[current_scene]->Unload();;
+	scenes[current_scene]->Unload();;							// da update nhieu trong ham unload
 
 	CTextures::GetInstance()->Clear();
 	CSprites::GetInstance()->Clear();
@@ -424,7 +424,7 @@ void CGame::SwitchScene(int scene_id)
 	CSimon* prevSimon = ((CPlayScene*)scenes[current_scene])->player;
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
-	if (prevSimon) s->LoadSimon(prevSimon);
+	if (prevSimon) s->LoadSimon(prevSimon);							// chuyen player sang man tiep theo ma khong xoa di
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
  	s->Load();	
 }

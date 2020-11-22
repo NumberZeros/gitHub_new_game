@@ -396,6 +396,7 @@ void CPlayScene::Update(DWORD dt)
 	if (!prevWeaponX || !prevWeaponY || prevWeaponX != weapon->x || prevWeaponY != weapon->y) {
 		prevWeaponX = player->x;
 		prevWeaponY = player->y;
+		if (player->isSit) weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY() + 20, player->nx);
 		weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
 		weapon->level = player->level;
 	}

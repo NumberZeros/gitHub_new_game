@@ -125,18 +125,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CGame::GetInstance()->SwitchScene(game->current_scene +1);
 
 			}
-			else if (dynamic_cast<CZombie*>(e->obj)) {
+			else if (dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
 				x += dx;
-			}
-			else if (dynamic_cast<CBlackLeopard*>(e->obj)) {
-				CBlackLeopard* bl = dynamic_cast<CBlackLeopard*>(e->obj);
-				if (e->nx > 0 || e->nx < 0) {
-					simon_HP -= 1;
-					DebugOut(L"co va cham x ne");
-				}
-				if (e->ny > 0 || e->ny < 0) {
-					simon_HP -= 1;
-				}
 			}
 		}
 	}

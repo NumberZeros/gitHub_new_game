@@ -70,9 +70,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
-					{
-							die();
-					}
+						die();
 				}
 			}
 			if (dynamic_cast<CAxe*>(obj))
@@ -82,10 +80,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				float left, top, right, bottom;
 				e->GetBoundingBox(left, top, right, bottom);
 				if (CheckColli(left, top, right, bottom))
-				{
 					die();
-				}
-
 			}
 		}
 	}

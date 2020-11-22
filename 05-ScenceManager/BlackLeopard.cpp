@@ -1,5 +1,12 @@
 #include "BlackLeopard.h"
 
+CBlackLeopard::CBlackLeopard()
+{
+	SetState(BLACK_LEOPARD_RUN);
+	height = BLACK_LEOPARD_BBOX_HEIGHT;
+	width = BLACK_LEOPARD_BBOX_WIDTH;
+}
+
 void CBlackLeopard::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -10,13 +17,17 @@ void CBlackLeopard::GetBoundingBox(float& left, float& top, float& right, float&
 
 void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DWORD now = GetTickCount();
 	CGameObject::Update(dt, coObjects);
 	vy += BLACK_LEOPARD_GRAVITY * dt;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
+
+	if (isHidden) {
+		if (GetTickCount() - action_time >= 1500)
+			ResetBB();
+	}
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
@@ -46,6 +57,19 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<CSimon*>(obj)) {
+				CSimon* simon = dynamic_cast<CSimon*>(obj);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
+				if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
+					if (CheckColli(left, top, right, bottom))
+					{
+						simon->simon_HP -= 1;
+						simon->isImmortal = true;
+						simon->timeImmortal = GetTickCount();
+					}
+				}
+			}
 			if (dynamic_cast<CWeapon*>(obj))
 			{
 				CWeapon* e = dynamic_cast<CWeapon*>(obj);
@@ -53,13 +77,10 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				float left, top, right, bottom;
 				e->GetBoundingBox(left, top, right, bottom);
 
-				if (CheckColli(left, top, right, bottom))
-				{
-					/*this->isHidden = true;
-					ResetBB();*/
-					die();
+				if (e->frame == 2) {
+					if (CheckColli(left, top, right, bottom))
+						die();
 				}
-
 			}
 			if (dynamic_cast<CAxe*>(obj))
 			{
@@ -69,34 +90,18 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				e->GetBoundingBox(left, top, right, bottom);
 
 				if (CheckColli(left, top, right, bottom))
-				{
-					this->isHidden = true;
-					ResetBB();
-				}
-
+					die();
 			}
 		}
 	}
-
+	
 }
 
 void CBlackLeopard::Render()
 {
-	//int ani = BLACK_LEOPARD_ANI_RUN;
-	/*if (state == BLACK_LEOPARD_IDLE)
-		ani = BLACK_LEOPARD_ANI_IDLE;
-	else*/
-	if (isHidden) 
-	{
-		if (GetTickCount() - action_time >= 1500)
-			return;
-	}
-	//if (state == BLACK_LEOPARD_ANI_RUN)
-	//	ani = BLACK_LEOPARD_ANI_RUN;
 	animation_set->at(state)->Render(nx, x, y);
 	RenderBoundingBox();
-	height = BLACK_LEOPARD_BBOX_HEIGHT;
-	width = BLACK_LEOPARD_BBOX_WIDTH;
+	
 }
 
 void CBlackLeopard::die()
@@ -104,12 +109,8 @@ void CBlackLeopard::die()
 	isHidden = true;
 	action_time = GetTickCount();
 	this->state = BLACK_LEOPARD_DESTROYED;
+	height = BLACK_LEOPARD_BBOX_HEIGHT_DIE;
 	vx = 0;
-}
-
-CBlackLeopard::CBlackLeopard()
-{
-	SetState(BLACK_LEOPARD_RUN);
 }
 
 void CBlackLeopard::SetState(int state)
@@ -118,14 +119,11 @@ void CBlackLeopard::SetState(int state)
 	switch (state)
 	{
 	case BLACK_LEOPARD_RUN:
-		DebugOut(L"nx %d \n", nx);
 		if (nx > 0)
 			vx = BLACK_LEOPARD_RUNNING_SPEED_X;
 		else
 			vx = -BLACK_LEOPARD_RUNNING_SPEED_X;
-		DebugOut(L"vx %f \n", vx);
 		break;
-
 	case BLACK_LEOPARD_IDLE:
 		vx = 0;
 		break;
