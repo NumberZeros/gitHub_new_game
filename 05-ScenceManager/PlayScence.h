@@ -29,7 +29,6 @@ public:
 	CItem* item;
 	CSimon *player;					// A play scene has to have player, right? 
 	Gate* gate;
-	CBlackLeopard* blackleopard;
 
 	CWeapon* weapon;
 	CAxe* axe;

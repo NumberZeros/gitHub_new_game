@@ -283,16 +283,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_BLACK_LEOPARD: 
-		obj = new CBlackLeopard(); 
-		blackleopard = (CBlackLeopard*)obj;
-		break;
+	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); 	break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN:
 		obj = new CMerman();
 		break;
 	case OBJECT_TYPE_WEAPON:
-	
 		obj = new CWeapon();
 		weapon = (CWeapon*)obj;
 		break;
@@ -420,17 +416,6 @@ void CPlayScene::Update(DWORD dt)
 		weapon->level = player->level;
 	}
 
-
-	/*if (nx > 1)
-		distanceLimit = 85;
-	else
-		distanceLimit = 175;
-	if (player->GetPositionX() - (blackleopard->x) <= distanceLimit)
-	{
-		BLACK_LEOPARD_ANI_JUMP;
-	}*/
-
-	
 
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
