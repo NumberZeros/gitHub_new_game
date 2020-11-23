@@ -59,6 +59,7 @@ void CPlayScene::ResetMap() {
 
 	objects.clear();
 	player = NULL;
+	timer = NULL;
 	DebugOut(L"ResetMap! \n");
 }
 
@@ -329,15 +330,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new HealthBar();
 		healthbar = (HealthBar*)obj;
 		break;
+	case OBJECT_TYPE_SCORE:
+		obj = new Score();
+		score = (Score*)obj;
+		break;
 	case OBJECT_TYPE_TIMER:
-		if (!timer) {
+		if (!timer)
+		{
 			obj = new Timer();
 			timer = (Timer*)obj;
 		}
 		else {
 			obj = timer;
 		}
-		
 		break;
 	case OBJECT_TYPE_ITEM:
 		id = atof(tokens[4].c_str());
@@ -408,7 +413,9 @@ void CPlayScene::Update(DWORD dt)
 
 
 	if (player == NULL) return;
-
+	if (timer == NULL) return;
+	timer->Update();
+	healthbar->hp = player->simon_HP;
 
 	//simon die reset scence
 	if (player->simon_HP < 1) {
@@ -418,6 +425,19 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
+	if (timer->timeremain < 1)
+	{
+		player->SetState(SIMON_STATE_DIE);
+		if (GetTickCount() - player->action_time > 3000) 
+		{
+			ResetMap();
+			CGame::GetInstance()->SwitchScene(game->current_scene);
+		}
+		
+	}
+	
+
+	//// nhung ham lien quan vi tri nam o duoi nhung ham lien quan trang thai nam o tren
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
@@ -431,9 +451,6 @@ void CPlayScene::Update(DWORD dt)
 			weapon->level = player->level;
 		}
 	}
-	//healthbar->Update(player);
-	timer->Update();
-	healthbar->hp = player->simon_HP;
 	
 
 	cx -= game->GetScreenWidth() / 2;
@@ -442,9 +459,7 @@ void CPlayScene::Update(DWORD dt)
 	float lenghtMap = (float)(tilemap->getwidthmap() - (game->GetScreenWidth() / 2));
 	// fix bug camera 
 	if (cx < 0) cx = 0.0f;
-	if (player->x > lenghtMap) return;
-
-											// khi chuyen man da bi l�i nen tam comment 
+	if (player->x > lenghtMap) return;										// khi chuyen man da bi l�i nen tam comment 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
 	healthbar->SetPosition(cx, 0);

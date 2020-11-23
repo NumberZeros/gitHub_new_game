@@ -28,7 +28,7 @@ typedef CScene * LPSCENE;
 
 class CScenceKeyHandler : public CKeyEventHandler
 {
-protected: 
+public: 
 	CScene * scence; 
 
 public:

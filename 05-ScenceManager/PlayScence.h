@@ -10,7 +10,6 @@
 #include "Brick.h"
 #include "Simon.h"
 #include "Goomba.h"
-
 #include "Weapon.h"
 #include "Axe.h"
 #include "Knife.h"
@@ -21,6 +20,7 @@
 #include "Item.h"
 #include "TileMap.h"
 #include "HealthBar.h"
+#include "Score.h"
 #include "Define.h"
 
 class CPlayScene: public CScene
@@ -38,6 +38,7 @@ public:
 	HealthBar* healthbar;
 	Timer* timer;
 	CBoard* board;
+	Score* score;
 	TileMap* tilemap;
 	vector<LPSPRITE> playerHP;
 	vector<LPSPRITE> enemyHP;

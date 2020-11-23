@@ -25,6 +25,7 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->x = x;
 	this->y = y;
 	simon_HP = 16;
+	simon_Score = 000000;
 }
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -37,11 +38,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 	// turn off collision when die 
-	if (state != SIMON_ANI_DIE)
+	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	if (simon_HP < 1)
-		state = SIMON_ANI_DIE;
+		state = SIMON_STATE_DIE;
 		
 
 	if ((isImmortal && isDone == true) || isAttack || simon_HP < 1)
@@ -165,7 +166,7 @@ bool CSimon::CheckColli(float left_a, float top_a, float right_a, float bottom_a
 void CSimon::Render()
 {
 	int ani = -1;
-	if (state == SIMON_ANI_DIE)
+	if (state == SIMON_STATE_DIE)
 		ani = SIMON_ANI_DIE;
 	else {
 		/// di chuyen 
@@ -238,7 +239,6 @@ void CSimon::SetState(int state)
 			dy = 0;
 			simon_HP = 0;
 		}
-		
 		break;
 	case SIMON_ANI_DIE:
 		action_time = GetTickCount();
