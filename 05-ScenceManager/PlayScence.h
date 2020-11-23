@@ -29,6 +29,7 @@ public:
 	CItem* item;
 	CSimon *player;					// A play scene has to have player, right? 
 	Gate* gate;
+	CBlackLeopard* blackleopard;
 
 	CWeapon* weapon;
 	CAxe* axe;
@@ -43,7 +44,7 @@ public:
 	vector<LPSPRITE> enemyHP;
 	vector<LPSPRITE> loseHP;
 
-
+	float distanceLimit;
 	int idstage;
 	int current_scene;
 
