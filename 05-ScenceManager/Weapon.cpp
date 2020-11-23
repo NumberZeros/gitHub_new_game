@@ -119,7 +119,7 @@ int CWeapon::GetAnimation() {
 			break;
 		}
 		default:
-			ani = WEAPON_STATE_HIDDEN;
+			ani = WEAPON_ANI_1;
 			break;
 		}
 	return ani;
@@ -128,7 +128,6 @@ int CWeapon::GetAnimation() {
 void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
 	nx = _nx;
 	int ani = GetAnimation();
-	if (ani == 0) return;
 	int currenFrame = animation_set->at(ani)->GetCurrentFrame();
 	if (nx > 0) {
 		if (currenFrame != frame) {
