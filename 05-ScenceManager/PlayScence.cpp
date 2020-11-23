@@ -40,9 +40,16 @@ void CPlayScene::Unload()
 		}
 			
 	}
-
-	//objects.clear();
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
+}
+
+void CPlayScene::ResetMap() {
+	for (int i = 0; i < objects.size(); i++) 
+		delete objects[i];
+
+	objects.clear();
+	player = NULL;
+	DebugOut(L"ResetMap! \n");
 }
 
 void CPlayScene::LoadMap() {
@@ -386,6 +393,15 @@ void CPlayScene::Update(DWORD dt)
 
 	if (player == NULL) return;
 
+
+	//simon die reset scence
+	if (player->simon_HP < 1) {
+		if (GetTickCount() - player->action_time > 3000) {
+			CGame* game = CGame::GetInstance();
+			ResetMap();
+			CGame::GetInstance()->SwitchScene(game->current_scene);
+		}
+	}
 	
 	// Update camera to follow mario
 	CGame* game = CGame::GetInstance();

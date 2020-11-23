@@ -74,6 +74,8 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
+	void ResetMap();
+
 	void LoadMap();
 	void LoadObject();
 

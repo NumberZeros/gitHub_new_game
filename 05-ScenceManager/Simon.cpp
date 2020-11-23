@@ -24,8 +24,7 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->start_y = y;
 	this->x = x;
 	this->y = y;
-	simon_HP = 16;
-	untouchable = 0;
+	simon_HP = 3;
 }
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -37,12 +36,15 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-
 	// turn off collision when die 
 	if (state != SIMON_ANI_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
-	if ((isImmortal && isDone == true) || isAttack)
+	if (simon_HP < 1)
+		state = SIMON_ANI_DIE;
+		
+
+	if ((isImmortal && isDone == true) || isAttack || simon_HP < 1)
 		dx = 0;
 	//jump
 	if (!isGrounded) {
@@ -73,7 +75,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isImmortal) {
 		if (GetTickCount() - timeImmortal > 300) 
 		{
-			SetState(SIMON_STATE_IDLE);
+			if(simon_HP > 1)
+				SetState(SIMON_STATE_IDLE);
 			isDone = true;
 		}
 		else 
@@ -222,14 +225,23 @@ void CSimon::SetState(int state)
 		SitDown();
 		break;
 	case SIMON_STATE_HURT:
-		isDone = false;
-		simon_HP -= 1;
-		isImmortal = true;
-		timeImmortal = GetTickCount();
-		vy = -SIMON_JUMP_SPEED_Y;
-		vx = 0;
+		if (simon_HP > 0) {
+			isDone = false;
+			simon_HP -= 1;
+			isImmortal = true;
+			timeImmortal = GetTickCount();
+			vy = -SIMON_JUMP_SPEED_Y;
+			vx = 0;
+		}
+		else {
+			dx = 0;
+			dy = 0;
+			simon_HP = 0;
+		}
+		
 		break;
 	case SIMON_ANI_DIE:
+		action_time = GetTickCount();
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
 	}
