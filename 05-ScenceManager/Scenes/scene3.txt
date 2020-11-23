@@ -2,6 +2,13 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Simon , 1 = Ground 
 
+# board
+8	110	0	8
+#healthbar
+16	110	33	9
+#timer
+17	300	13	17
+
 # Brick
 1	0	400	24
 1	32	400	24
@@ -121,13 +128,8 @@
 12	750	200	5	2	1
 
 #gate				visible = true (1)
-4	96	390	2	1
-# board
-8	110	0	8
-#healthbar
-16	110	33	9
-#timer
-17	300	13	17
+4	96	336	2	1
+
 #whip
 5	-100	-100	4
 #Axe

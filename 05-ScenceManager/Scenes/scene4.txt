@@ -1,6 +1,13 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Simon , 1 = Ground 
+
+# board
+8	110	0	8
+#healthbar
+16	110	33	9
+#timer
+17	300	13	17
 # Brick
 1	0	240	24
 1	32	240	24
@@ -73,12 +80,6 @@
 #gate
 4	672	100	2
 
-# board
-8	110	0	8
-#healthbar
-16	110	33	9
-#timer
-17	300	13	17
 # Simon
 0	10	100	1
 #whip

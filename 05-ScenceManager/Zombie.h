@@ -14,5 +14,6 @@ public:
 	CZombie();
 	virtual void SetState(int state);
 	void die();
+	bool Checkcam();
 };
 

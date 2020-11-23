@@ -44,7 +44,7 @@ public:
 	vector<LPSPRITE> enemyHP;
 	vector<LPSPRITE> loseHP;
 
-
+	float distanceLimit;
 	int idstage;
 	int current_scene;
 
@@ -89,7 +89,8 @@ class CPlayScenceKeyHandler : public CScenceKeyHandler
 public: 
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);
-	virtual void OnKeyUp(int KeyCode) {};
+	virtual void OnKeyUp(int KeyCode);
+	
 
 	void Run(int _nx);
 	void Jump();

@@ -21,7 +21,7 @@ public:
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
 	virtual void LoadSimon(CSimon* simon) =0;
-	virtual void LoadTimer(Timer* prevTimer) =0;
+	virtual void LoadTimer(Timer* timer) = 0;
 };
 typedef CScene * LPSCENE;
 

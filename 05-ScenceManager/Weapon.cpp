@@ -119,7 +119,7 @@ int CWeapon::GetAnimation() {
 			break;
 		}
 		default:
-			ani = WEAPON_STATE_HIDDEN;
+			ani = WEAPON_ANI_1;
 			break;
 		}
 	return ani;
