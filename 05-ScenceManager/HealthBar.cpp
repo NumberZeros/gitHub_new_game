@@ -2,7 +2,7 @@
 
 void HealthBar::Update(CSimon* simon)
 {
-	this->hp = simon->simon_HP;
+	//this->hp = simon->simon_HP;
 }
 
 void HealthBar::Render()

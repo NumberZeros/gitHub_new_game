@@ -26,20 +26,30 @@ void CPlayScene::Load()
 }
 
 void CPlayScene::LoadSimon(CSimon* prevSimon) {
-	player = prevSimon;
+     	player = prevSimon;
+}
+
+void CPlayScene::LoadTimer(Timer* prevTimer) {
+	timer = prevTimer;
 }
 
 void CPlayScene::Unload()
 {
 	for (int i = 0; i < objects.size(); i++) {
 		LPGAMEOBJECT obj = objects.at(i);
+		
 		if (!dynamic_cast<CSimon*>(obj))
 		{
-			delete objects[i];
-			objects.erase(objects.begin() + i);
+			if (!dynamic_cast<Timer*>(obj)) {
+				delete objects[i];
+				objects.erase(objects.begin() + i);
+			}
+			
 		}
+		
 			
 	}
+	weapon = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
@@ -289,7 +299,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CMerman();
 		break;
 	case OBJECT_TYPE_WEAPON:
-	
 		obj = new CWeapon();
 		weapon = (CWeapon*)obj;
 		break;
@@ -321,8 +330,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		healthbar = (HealthBar*)obj;
 		break;
 	case OBJECT_TYPE_TIMER:
-		obj = new Timer();
-		timer = (Timer*)obj;
+		if (!timer) {
+			obj = new Timer();
+			timer = (Timer*)obj;
+		}
+		else {
+			obj = timer;
+		}
+		
 		break;
 	case OBJECT_TYPE_ITEM:
 		id = atof(tokens[4].c_str());
@@ -380,6 +395,7 @@ void CPlayScene::Update(DWORD dt)
 	// We know that simon is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 	vector<LPGAMEOBJECT> coObjects;
+	CGame* game = CGame::GetInstance();
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
@@ -397,25 +413,27 @@ void CPlayScene::Update(DWORD dt)
 	//simon die reset scence
 	if (player->simon_HP < 1) {
 		if (GetTickCount() - player->action_time > 3000) {
-			CGame* game = CGame::GetInstance();
 			ResetMap();
 			CGame::GetInstance()->SwitchScene(game->current_scene);
 		}
 	}
-	
-	// Update camera to follow mario
-	CGame* game = CGame::GetInstance();
+
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
-	//update position for simon
-	if (!prevWeaponX || !prevWeaponY || prevWeaponX != weapon->x || prevWeaponY != weapon->y) {
-		prevWeaponX = player->x;
-		prevWeaponY = player->y;
-		if (player->isSit) weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY() + 20, player->nx);
-		weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
-		weapon->level = player->level;
+	if (weapon) {
+		//update position for simon
+		if (!prevWeaponX || !prevWeaponY || prevWeaponX != weapon->x || prevWeaponY != weapon->y) {
+			prevWeaponX = player->x;
+			prevWeaponY = player->y;
+			if (player->isSit) weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY() + 20, player->nx);
+			weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
+			weapon->level = player->level;
+		}
 	}
+	//healthbar->Update(player);
+	timer->Update();
+	healthbar->hp = player->simon_HP;
 	
 
 	cx -= game->GetScreenWidth() / 2;
@@ -425,8 +443,8 @@ void CPlayScene::Update(DWORD dt)
 	// fix bug camera 
 	if (cx < 0) cx = 0.0f;
 	if (player->x > lenghtMap) return;
-	healthbar->Update(player);
-	//timer->Update();										// khi chuyen man da bi lôi nen tam comment 
+
+											// khi chuyen man da bi lôi nen tam comment 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
 	healthbar->SetPosition(cx, 0);
@@ -468,6 +486,16 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		else simon->SetState(SIMON_STATE_IDLE);
 }
 
+void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
+{
+	CGame* game = CGame::GetInstance();
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	if (game->IsKeyRelease(DIK_DOWN))
+	{
+		SitDown();
+	}
+}
+
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	CGame* game = CGame::GetInstance();
@@ -476,6 +504,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	CKnife* knife = ((CPlayScene*)scence)->knife;
 	CHlw* hlw = ((CPlayScene*)scence)->hlw;
 	CPlayScene* playscene = ((CPlayScene*)scence);
+
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
@@ -485,9 +514,18 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		SitDown();
 		break;
 	case DIK_X:
-		Hit();
+		if (game->IsKeyDown(DIK_UP))
+		{
+			if (axe->axe_isAtk == 0)
+			{
+				Throw_Axe();
+			}
+			break;
+		}
+		else
+			Hit();
 		break;
-	case DIK_C:
+	/*case DIK_C:
 		if (axe->axe_isAtk == 0)
 		{
 			Throw_Axe();
@@ -504,11 +542,36 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		{
 			Throw_Holywater();
 		}
-		break;
+		break;*/
 	case DIK_A:
 		simon->Reset();
 		break;
 	}
+	
+	/*if (game->IsKeyDown(DIK_SPACE))
+	{
+		Jump();
+	}
+	if (game->IsKeyDown(DIK_X))
+	{
+		Hit();
+	}
+	if (game->IsKeyDown(DIK_UP) && game->IsKeyDown(DIK_X))
+	{
+		if (axe->axe_isAtk == 0)
+		{
+			Throw_Axe();
+		}
+	}
+	if (game->IsKeyDown(DIK_DOWN))
+	{
+		SitDown();
+	}
+	
+	if (game->IsKeyDown(DIK_A))
+	{
+		simon->Reset();
+	}*/
 }
 
 
