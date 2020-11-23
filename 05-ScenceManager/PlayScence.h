@@ -70,6 +70,7 @@ public:
 
 	virtual void Load();
 	void LoadSimon(CSimon* prevSimon);
+	void LoadTimer(Timer* prevTimer);
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();

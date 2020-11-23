@@ -26,18 +26,27 @@ void CPlayScene::Load()
 }
 
 void CPlayScene::LoadSimon(CSimon* prevSimon) {
-	player = prevSimon;
+     	player = prevSimon;
+}
+
+void CPlayScene::LoadTimer(Timer* prevTimer) {
+	timer = prevTimer;
 }
 
 void CPlayScene::Unload()
 {
 	for (int i = 0; i < objects.size(); i++) {
 		LPGAMEOBJECT obj = objects.at(i);
+		
 		if (!dynamic_cast<CSimon*>(obj))
 		{
-			delete objects[i];
-			objects.erase(objects.begin() + i);
+			if (!dynamic_cast<Timer*>(obj)) {
+				delete objects[i];
+				objects.erase(objects.begin() + i);
+			}
+			
 		}
+		
 			
 	}
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
@@ -289,7 +298,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CMerman();
 		break;
 	case OBJECT_TYPE_WEAPON:
-	
 		obj = new CWeapon();
 		weapon = (CWeapon*)obj;
 		break;
@@ -321,8 +329,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		healthbar = (HealthBar*)obj;
 		break;
 	case OBJECT_TYPE_TIMER:
-		obj = new Timer();
-		timer = (Timer*)obj;
+		if (!timer) {
+			obj = new Timer();
+			timer = (Timer*)obj;
+		}
+		else {
+			obj = timer;
+		}
+		
 		break;
 	case OBJECT_TYPE_ITEM:
 		id = atof(tokens[4].c_str());
@@ -416,9 +430,9 @@ void CPlayScene::Update(DWORD dt)
 			weapon->level = player->level;
 		}
 	}
-	healthbar->Update(player);
-	//timer->Update();
-	
+	//healthbar->Update(player);
+	timer->Update();
+	healthbar->hp = player->simon_HP;
 	
 
 	cx -= game->GetScreenWidth() / 2;
