@@ -100,6 +100,7 @@
 #define OBJECT_TYPE_STAIR											14
 #define OBJECT_TYPE_HEALTHBAR								16				
 #define OBJECT_TYPE_TIMER											17	
+#define OBJECT_TYPE_SCORE									18	
 
 #define OBJECT_TYPE_PORTAL											50
 

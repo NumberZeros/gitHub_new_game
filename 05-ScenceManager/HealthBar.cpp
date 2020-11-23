@@ -3,6 +3,8 @@
 void HealthBar::Update(CSimon* simon)
 {
 	this->hp = simon->simon_HP;
+	if (hp < 0)
+		hp = 0;
 }
 
 void HealthBar::Render()

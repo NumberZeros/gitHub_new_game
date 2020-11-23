@@ -29,6 +29,11 @@ void CPlayScene::LoadSimon(CSimon* prevSimon) {
 	player = prevSimon;
 }
 
+void CPlayScene::LoadTimer(Timer* prevTimer)
+{
+	timer = prevTimer;
+}
+
 void CPlayScene::Unload()
 {
 	for (int i = 0; i < objects.size(); i++) {
@@ -320,9 +325,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new HealthBar();
 		healthbar = (HealthBar*)obj;
 		break;
+	case OBJECT_TYPE_SCORE:
+		obj = new Score();
+		score = (Score*)obj;
+		break;
 	case OBJECT_TYPE_TIMER:
-		obj = new Timer();
-		timer = (Timer*)obj;
+		if (!timer)
+		{
+			obj = new Timer();
+			timer = (Timer*)obj;
+		}
+		else {
+			obj = timer;
+		}
 		break;
 	case OBJECT_TYPE_ITEM:
 		id = atof(tokens[4].c_str());
@@ -426,7 +441,15 @@ void CPlayScene::Update(DWORD dt)
 	if (cx < 0) cx = 0.0f;
 	if (player->x > lenghtMap) return;
 	healthbar->Update(player);
-	//timer->Update();										// khi chuyen man da bi lôi nen tam comment 
+	if (timer->timeremain < 1)
+	{
+		player->SetState(SIMON_STATE_DIE);
+	}
+	if (healthbar->hp < 0)
+	{
+		player->SetState(SIMON_STATE_DIE);
+	}
+	timer->Update();										// khi chuyen man da bi lôi nen tam comment 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
 	healthbar->SetPosition(cx, 0);

@@ -422,9 +422,11 @@ void CGame::SwitchScene(int scene_id)
 	CSprites::GetInstance()->Clear();
 	CAnimations::GetInstance()->Clear();
 	CSimon* prevSimon = ((CPlayScene*)scenes[current_scene])->player;
+	//Timer* prevTimer = ((CPlayScene*)scenes[current_scene])->timer;
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
 	if (prevSimon) s->LoadSimon(prevSimon);							// chuyen player sang man tiep theo ma khong xoa di
+	//if (prevTimer) s->LoadTimer(prevTimer);
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
  	s->Load();	
 }

@@ -3,6 +3,7 @@
 #include <d3dx9.h>
 #include "KeyEventHandler.h"
 #include "Simon.h"
+#include "Timer.h"
 
 class CScene
 {
@@ -20,6 +21,7 @@ public:
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
 	virtual void LoadSimon(CSimon* simon) =0;
+	virtual void LoadTimer(Timer* prevTimer) =0;
 };
 typedef CScene * LPSCENE;
 
