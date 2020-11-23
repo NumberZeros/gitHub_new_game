@@ -8,8 +8,8 @@
 #include "Portal.h"
 #include "Gate.h"
 #include "Board.h"
-#include"BlackLeopard.h"
-#include"Zombie.h"
+#include "BlackLeopard.h"
+#include "Zombie.h"
 #include "Item.h"
 #include "Merman.h"
 using namespace std;
@@ -25,14 +25,23 @@ void CPlayScene::Load()
 	LoadMap();
 }
 
+void CPlayScene::LoadSimon(CSimon* prevSimon) {
+	player = prevSimon;
+}
+
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
+	for (int i = 0; i < objects.size(); i++) {
+		LPGAMEOBJECT obj = objects.at(i);
+		if (!dynamic_cast<CSimon*>(obj))
+		{
+			delete objects[i];
+			objects.erase(objects.begin() + i);
+		}
+			
+	}
 
-	objects.clear();
-	player = NULL;
-
+	//objects.clear();
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
@@ -215,7 +224,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	LPANIMATION_SET s = new CAnimationSet();
 
-	CAnimations *animations = CAnimations::GetInstance();
+	CAnimations* animations = CAnimations::GetInstance();
 
 	for (int i = 1; i < tokens.size(); i++)
 	{
@@ -245,31 +254,36 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	int ani_set_id = atoi(tokens[3].c_str());
 	int id = 0;
-	CAnimationSets * animation_sets = CAnimationSets::GetInstance();
+	int secondGood = 12;
 
-	CGameObject *obj = NULL;
+	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+
+	CGameObject* obj = NULL;
 
 	switch (object_type)
 	{
 	case OBJECT_TYPE_SIMON:
-		if (player != NULL)
+		if (!player)
 		{
-			DebugOut(L"[ERROR] simon object was created before!\n");
-			return;
+			obj = new CSimon(x, y);
+			player = (CSimon*)obj;
+			player->SetState(SIMON_STATE_WALKING);
+			DebugOut(L"[INFO] Player object created!\n");
 		}
-		DebugOut(L" Player %f %f !\n", x,y);
-		obj = new CSimon(x, y);
-		player = (CSimon*)obj;
-		player->SetState(SIMON_STATE_WALKING);
-		DebugOut(L"[INFO] Player object created!\n");
+		else {
+			obj = player;
+		}
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
-	case OBJECT_TYPE_MERMAN: obj = new CMerman(); break;
-	case OBJECT_TYPE_WEAPON: 
-		obj = new CWeapon(); 
+	case OBJECT_TYPE_MERMAN:
+		obj = new CMerman();
+		break;
+	case OBJECT_TYPE_WEAPON:
+	
+		obj = new CWeapon();
 		weapon = (CWeapon*)obj;
 		break;
 	case OBJECT_TYPE_AXE:
@@ -284,32 +298,40 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CHlw();
 		this->hlw = (CHlw*)obj;
 		break;
-	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_KOOPAS: 
+		obj = new CKoopas(); 
+		break;
 	case OBJECT_TYPE_GATE:
 		obj = new Gate();
 		gate = (Gate*)obj;
 		break;
 	case OBJECT_TYPE_BOARD:
-		obj = new CBoard();
+		obj = new CBoard(8);
 		board = (CBoard*)obj;
+		break;
+	case OBJECT_TYPE_HEALTHBAR:
+		obj = new HealthBar();
+		healthbar = (HealthBar*)obj;
+		break;
+	case OBJECT_TYPE_TIMER:
+		obj = new Timer();
+		timer = (Timer*)obj;
 		break;
 	case OBJECT_TYPE_ITEM:
 		id = atof(tokens[4].c_str());
+		secondGood = atof(tokens[5].c_str());
 		obj = new CItem();
 		item = (CItem*)obj;
-		if (id == ID_ITEM_TYPE_TORCH) {
+		if (id == ID_ITEM_TYPE_TORCH) { // 1
 			item->SetID(ITEM_ANI_TORCH);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
 		}
 		else if (id == ID_ITEM_TYPE_CANDLE) {
 			item->SetID(ITEM_ANI_CANDLE);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
 		}
-		else if (id == ID_ITEM_TYPE_BLUEMONEY) {
-			item->SetID(ITEM_ANI_BLUEMONEY);
-		}
-		else {
-			item->SetID(0);
-		}
-
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -364,13 +386,21 @@ void CPlayScene::Update(DWORD dt)
 
 	if (player == NULL) return;
 
-	//update position for simon
-	weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
+	
 	// Update camera to follow mario
 	CGame* game = CGame::GetInstance();
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
+	//update position for simon
+	if (!prevWeaponX || !prevWeaponY || prevWeaponX != weapon->x || prevWeaponY != weapon->y) {
+		prevWeaponX = player->x;
+		prevWeaponY = player->y;
+		if (player->isSit) weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY() + 20, player->nx);
+		weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
+		weapon->level = player->level;
+	}
+	
 
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
@@ -379,8 +409,12 @@ void CPlayScene::Update(DWORD dt)
 	// fix bug camera 
 	if (cx < 0) cx = 0.0f;
 	if (player->x > lenghtMap) return;
+	healthbar->Update(player);
+	//timer->Update();										// khi chuyen man da bi lôi nen tam comment 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
+	healthbar->SetPosition(cx, 0);
+	timer->SetPosition(cx, 0);
 }
 
 void CPlayScene::Render()
@@ -403,17 +437,19 @@ bool CPlayScene::CheckInCam(LPGAMEOBJECT a)
 
 }
 
-void CPlayScenceKeyHandler::KeyState(BYTE *states)
+void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
-	CGame *game = CGame::GetInstance();
-	CSimon *simon = ((CPlayScene*)scence)->player;
+	CGame* game = CGame::GetInstance();
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
 	if (simon->GetState() == SIMON_STATE_DIE) return;
-	// disable control key when simon die
-	if (simon->isAttack) return;
-	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
-	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
-	else simon->SetState(SIMON_STATE_IDLE);
+		if (game->IsKeyDown(DIK_RIGHT)) Run(1);
+		else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
+		else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
+		else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
+		else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
+		else simon->SetState(SIMON_STATE_IDLE);
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
@@ -527,8 +563,11 @@ void CPlayScenceKeyHandler::SitDown() {
 void CPlayScenceKeyHandler::Hit() {
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
-	weapon->SetState(WEAPON_STATE_ATTACK);
-	simon->SetState(SIMON_STATE_HIT);
+	if (simon->isDone) {
+		weapon->SetState(WEAPON_STATE_ATTACK);
+		simon->SetState(SIMON_STATE_HIT);
+	}
+	
 }
 
 void CPlayScenceKeyHandler::Throw_Axe() {

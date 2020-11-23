@@ -62,7 +62,7 @@ public:
 	int state;
 
 	bool isHidden;
-
+	bool isDone = true;
 	DWORD action_time;
 	DWORD dt; 
 

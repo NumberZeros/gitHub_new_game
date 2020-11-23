@@ -15,11 +15,12 @@
 #include "Axe.h"
 #include "Knife.h"
 #include "Holywater.h"
-
+#include "HealthBar.h"
 #include "Board.h"
+#include "Timer.h"
 #include "Item.h"
 #include "TileMap.h"
-
+#include "HealthBar.h"
 #include "Define.h"
 
 class CPlayScene: public CScene
@@ -34,13 +35,21 @@ public:
 	CKnife* knife;
 	CHlw* hlw;
 
+	HealthBar* healthbar;
+	Timer* timer;
 	CBoard* board;
 	TileMap* tilemap;
+	vector<LPSPRITE> playerHP;
+	vector<LPSPRITE> enemyHP;
+	vector<LPSPRITE> loseHP;
+
 
 	int idstage;
 	int current_scene;
 
 	vector<LPGAMEOBJECT> objects;
+
+	float prevWeaponX, prevWeaponY;
 
 
 	vector<string> linkmap;
@@ -59,9 +68,8 @@ public:
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
 
-	void _ParseSection_LOADMAP(string line);
-
 	virtual void Load();
+	void LoadSimon(CSimon* prevSimon);
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();

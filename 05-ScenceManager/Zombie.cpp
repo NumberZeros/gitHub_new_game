@@ -1,6 +1,14 @@
 #include "PlayScence.h"
 #include "Zombie.h"
 
+CZombie::CZombie()
+{
+	isHidden = false;
+	SetState(ZOMBIE_WALKING);
+	height = ZOMBIE_BBOX_HEIGHT;
+	width = ZOMBIE_BBOX_WIDTH;
+}
+
 void CZombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -11,8 +19,6 @@ void CZombie::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
-	DWORD now = GetTickCount();
 	CGameObject::Update(dt, coObjects);
 	vy += ZOMBIE_GRAVITY * dt;
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -21,6 +27,12 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	CalcPotentialCollisions(coObjects, coEvents);
+
+	if (isHidden)
+	{
+		if (GetTickCount() - action_time >= 1500)
+			ResetBB();
+	}
 
 	if (coEvents.size() == 0)
 	{
@@ -45,6 +57,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x = SCREEN_WIDTH; vx = -vx;
 			this->nx = -1;
 		}
+
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
@@ -57,10 +70,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
-					{
-						this->isHidden = true;
-						ResetBB();
-					}
+						die();
 				}
 			}
 			if (dynamic_cast<CAxe*>(obj))
@@ -70,11 +80,22 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				float left, top, right, bottom;
 				e->GetBoundingBox(left, top, right, bottom);
 				if (CheckColli(left, top, right, bottom))
-				{
-					this->isHidden = true;
-					ResetBB();
+					die();
+			}
+			if (dynamic_cast<CSimon*>(obj)) {
+				CSimon* simon = dynamic_cast<CSimon*>(obj);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
+				if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
+					if (CheckColli(left, top, right, bottom))
+					{
+						simon->SetState(SIMON_STATE_HURT);
+						/*if (vx < 0)
+							simon->vx = -SIMON_HURT_SPEED;
+						else
+							simon->vx = SIMON_HURT_SPEED;*/
+					}
 				}
-
 			}
 		}
 	}
@@ -82,26 +103,8 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CZombie::Render()
 {
-	if (isHidden)
-		return;
-	int ani = ZOMBIE_ANI_WALKING;
-	/*if (state == BLACK_LEOPARD_IDLE)
-		ani = BLACK_LEOPARD_ANI_IDLE;
-	else*/
-	if (state == ZOMBIE_ANI_WALKING)
-		ani = ZOMBIE_ANI_WALKING;
-	else 
-		ani = ZOMBIE_ANI_WALKING;
-	animation_set->at(ani)->Render(nx, x, y);
+	animation_set->at(this->state)->Render(nx, x, y);
 	RenderBoundingBox();
-	height = ZOMBIE_BBOX_HEIGHT;
-	width = ZOMBIE_BBOX_WIDTH;
-}
-
-CZombie::CZombie()
-{
-	SetState(ZOMBIE_WALKING);
-
 }
 
 
@@ -118,7 +121,17 @@ void CZombie::SetState(int state)
 			vx = -ZOMBIE_WALKING_SPEED_X;
 		DebugOut(L"vx %f \n", vx);
 		break;
+	case ZOMBIE_DEAD:
+		vx = 0;
 	}
+}
+void CZombie::die()
+{
+	isHidden = true;
+	action_time = GetTickCount();
+	this->state = ZOMBIE_DEAD;
+	vx = 0;
+
 }
 bool CZombie::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
 	float l, t, r, b;

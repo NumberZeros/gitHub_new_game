@@ -8,8 +8,8 @@
 5	textures\SubWeapons.png	255	0	255
 6	textures\Effect.png	255	0	255
 7	textures\Spark.png	255	0	255
-8	textures\blackboard.png	255	255	255
-9	textures\HP.png	0	0	0
+8	textures\blackboard.png	0	0	0
+9	textures\HP.png	255	0	255
 10	textures\Texts.png	255	0	255
 20	textures\Piece.png	255	0	255
 21	textures\BlackLeopard.png	255	0	255
@@ -325,7 +325,7 @@
 
 
 
-# id	ani1	ani2	ani3
+# id	ani0	ani1	ani2	ani3	ani4	ani5	ani6	ani7	ani8	 
 #
 [ANIMATION_SETS]
 #ZOMBIE
@@ -346,7 +346,7 @@
 #Whip
 4	40	41	42
 #GOODS
-5	60	61	62	63	64	65	66	67	68	200	201	69	70	71	72	73	74	75	55	56	90
+5	60	61	62	63	64	65	66	67	68	200	201	69	70	71	72	73	74	75	55	56	90	81
 #SubWeapon
 #knife
 6	80
@@ -430,12 +430,14 @@
 
 #board
 8	0	0	8
+#healthbar
+16	30	270	9
 
 #Axe
 9	0	0	20
 
 #ZOMBIE
-10	20	110	410
+10	0	0	410
 
 #BLACK_LEOPARD
 11	70	0	400
@@ -453,7 +455,12 @@
 12	704	270	5	2
 12	1120	270	5	2
 12	1408	270	5	2
-
+# WHIP	
+12	320	303	4	3
+# SMALLHEART
+12	704	303	5	4
+# HOLYWATER
+12	1120	303	22	5
 #MERMAN
 13	450	300	420
 13	50	300	420

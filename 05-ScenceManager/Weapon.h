@@ -18,11 +18,12 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void SetState(int state);
-
+	void CheckSize();
 	void ResetAnimation();
 	void SetFrame(int _frame) { frame = _frame; };
 	int GetFrame() { return frame; };
 	void UpdatePosionWithSimon(float _x, float _y, int _nx);
+	void SetPosion();
 	static CWeapon* GetInstance();
 	CWeapon();
 	~CWeapon();
@@ -31,5 +32,4 @@ public:
 	int GetLevel() { return level; };
 	
 	int GetAnimation();
-	void GetPositionForSimon();
 };

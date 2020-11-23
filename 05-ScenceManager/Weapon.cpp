@@ -16,8 +16,8 @@ CWeapon::CWeapon() {
 CWeapon::~CWeapon()
 {
 	this->SetState(WEAPON_STATE_HIDDEN);
-	x = -100;
-	y = -100;
+	heigth = WEAPON_HEGTH_ANI_1;
+	width = WEAPON_WIDHT_ANI_1;
 	isHidden = false;
 }
 
@@ -26,8 +26,12 @@ void CWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	//vy += SIMON_GRAVITY * dt;
-
+	if (level == 3) {
+		width = WEAPON_WIDHT_ANI_3;
+	}
+	else {
+		width = WEAPON_WIDHT_ANI_1;
+	}
 	if (!isHidden) {
 		if (GetTickCount() - action_time > SIMON_ATTACK_TIME) {
 			isHidden = true;
@@ -49,10 +53,10 @@ bool CWeapon::CheckColli(float left_a, float top_a, float right_a, float bottom_
 
 void CWeapon::Render()
 {
+	RenderBoundingBox();
 	if (isHidden) return;
 	int ani = GetAnimation();
 	animation_set->at(ani)->Render(nx,x, y, 255);
-	RenderBoundingBox();
 }
 void CWeapon::ResetAnimation()
 {
@@ -100,12 +104,10 @@ CWeapon* CWeapon::GetInstance()
 
 int CWeapon::GetAnimation() {
 	int ani;
-		switch (this->level)
+		switch (level)
 		{
 		case 1: {
 			ani = WEAPON_ANI_1;
-			heigth = WEAPON_HEGTH_ANI_1;
-			width = WEAPON_WIDHT_ANI_1;
 			break;
 		}
 		case 2: {
@@ -124,8 +126,6 @@ int CWeapon::GetAnimation() {
 }
 
 void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
-	//DebugOut(L"x update %f \n", _x);
-	//DebugOut(L"y update %f \n", _y);
 	nx = _nx;
 	int ani = GetAnimation();
 	int currenFrame = animation_set->at(ani)->GetCurrentFrame();
@@ -143,8 +143,17 @@ void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
 				frame = 1;
 			}
 			else if(currenFrame == 2) {
-				x = _x + 43.0f;
-				y = _y +  8.0f;
+				x = _x + 43;
+				if (level == 3) {
+					
+					y = _y + 17;
+				}
+				else if (level == 2) {
+					y = _y + 5;
+				}
+				else {
+					y = _y + 8.0f;
+				}
 				frame = 2;
 			}
 		}
@@ -163,8 +172,19 @@ void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
 				frame = 1;
 			}
 			else if (currenFrame == 2) {
-				x = _x - 45;
-				y = _y + 10;
+
+				if (level == 3) {
+					x = _x - 73;
+					y = _y + 18;
+				}
+				else if (level == 2) {
+					x = _x - 45;
+					y = _y + 3;
+				}
+				else {
+					x = _x - 45;
+					y = _y + 10;
+				}
 				frame = 2;
 			}
 		}

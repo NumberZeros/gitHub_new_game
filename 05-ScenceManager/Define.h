@@ -1,28 +1,29 @@
 ///
 /// SIMON
 /// 
-#define SIMON_WALKING_SPEED											0.1f
+#define SIMON_WALKING_SPEED											0.15f
 #define SIMON_JUMP_SPEED_Y									0.5f
 #define SIMON_JUMP_DEFLECT_SPEED									0.2f
 #define SIMON_GRAVITY										0.002f
 #define SIMON_DIE_DEFLECT_SPEED										0.002f
 
-#define SIMON_ATTACK_TIME									400
-#define SIMON_UNTOUCHABLE_TIME										5000
+#define SIMON_ATTACK_TIME									300
+#define SIMON_UNTOUCHABLE_TIME										1000
 #define SIMON_RESET_JUMP_TIME								500
+#define SIMON_HURT_SPEED											0.002f
 
 #define SIMON_STATE_IDLE											0
-#define SIMON_STATE_WALKING									1001
-#define SIMON_STATE_JUMP											1002
-#define SIMON_STATE_SIT_DOWN								1003
-#define SIMON_STATE_HIT												1004
-#define SIMON_STATE_SIT_HIT									1005
-#define SIMON_STATE_STAIR_UP										1006
-#define SIMON_STATE_STAIR_DOWN								1007
-#define SIMON_STATE_STAIR_UP_HIT									1008
-#define SIMON_STATE_STAIR_DOWN_HIT							1009
-#define SIMON_STATE_STAIR_HURT										1010
-#define SIMON_STATE_DIE										1011
+#define SIMON_STATE_WALKING									1
+#define SIMON_STATE_JUMP											2
+#define SIMON_STATE_SIT_DOWN								3
+#define SIMON_STATE_HIT												4
+#define SIMON_STATE_SIT_HIT									5
+#define SIMON_STATE_STAIR_UP										6
+#define SIMON_STATE_STAIR_DOWN								7
+#define SIMON_STATE_STAIR_UP_HIT									8
+#define SIMON_STATE_STAIR_DOWN_HIT							9
+#define SIMON_STATE_HURT											10
+#define SIMON_STATE_DIE										11
 
 #define SIMON_ANI_IDLE												0
 #define SIMON_ANI_WALKING									1
@@ -35,7 +36,7 @@
 #define SIMON_ANI_STAIR_DOWN										8
 #define SIMON_ANI_STAIR_UP_HIT								9
 #define SIMON_ANI_STAIR_DOWN_HIT									10
-#define SIMON_ANI_STAIR_HURT								11
+#define SIMON_ANI_HURT										11
 #define SIMON_ANI_DIE												12
 #define SIMON_ANI_WHIP_LV1									13
 #define SIMON_ANI_WHIP_LV2											14
@@ -63,6 +64,8 @@
 #define WEAPON_Y											15
 #define WEAPON_WIDHT_ANI_1											44;
 #define WEAPON_HEGTH_ANI_1									23;
+
+#define WEAPON_WIDHT_ANI_3											75;
 
 ///
 /// PLAY SCENE
@@ -95,13 +98,21 @@
 #define OBJECT_TYPE_MERMAN											13
 #define OBJECT_TYPE_BOSS									15
 #define OBJECT_TYPE_STAIR											14
+#define OBJECT_TYPE_HEALTHBAR								16				
+#define OBJECT_TYPE_TIMER											17	
 
 #define OBJECT_TYPE_PORTAL											50
 
+//ITEM MAP ENTRANCE
 #define ID_ITEM_TYPE_GOODS									0
 #define ID_ITEM_TYPE_TORCH											1
 #define ID_ITEM_TYPE_CANDLE									2
-#define ID_ITEM_TYPE_BLUEMONEY										3
+#define ID_ITEM_TYPE_CHAIN									3 
+#define ID_ITEM_TYPE_BIGHEART										4
+#define ID_ITEM_TYPE_KNIFE									5
+#define ID_ITEM_TYPE_EFFECTFIRE										6
+
+
 
 #define MAX_SCENE_LINE												1024
 
@@ -113,20 +124,23 @@
 #define ZOMBIE_WALKING_SPEED_X								0.13f
 #define ZOMBIE_WALKING_SPEED_Y										0.2f
 #define ZOMBIE_GRAVITY										0.001f
-
+#define ZOMBIE_DEAD											1
 #define ZOMBIE_BBOX_WIDTH											32
 #define ZOMBIE_BBOX_HEIGHT									64
-#define BLACK_LEOPARD_ACTIVE_BBOX_WIDTH								100
-#define BLACK_LEOPARD_ACTIVE_BBOX_HEIGHT					200
+#define ZOMBIE_WALKING												0
 
-#define BLACK_LEOPARD_ACTIVE										0    
-#define BLACK_LEOPARD_DESTROYED								1
-#define ZOMBIE_WALKING												2
+#define BLACK_LEOPARD_IDLE									0  
+#define BLACK_LEOPARD_RUN											1
+#define BLACK_LEOPARD_ANI_JUMP								2
+#define BLACK_LEOPARD_DESTROYED										3
 
-#define ZOMBIE_ANI_WALKING									0
-#define BLACK_LEOPARD_ANI_IDLE										1
-#define BLACK_LEOPARD_ANI_RUN_RIGHT							2
-#define BLACK_LEOPARD_ANI_JUMP										3
+#define BLACK_LEOPARD_RUNNING_SPEED_X						0.15f
+#define BLACK_LEOPARD_RUNNING_SPEED_Y								0.2f
+#define BLACK_LEOPARD_GRAVITY								0.001f
+
+#define BLACK_LEOPARD_BBOX_WIDTH									64
+#define BLACK_LEOPARD_BBOX_HEIGHT							32
+#define BLACK_LEOPARD_BBOX_HEIGHT_DIE								64
 
 ///
 /// MERMAN
@@ -151,39 +165,8 @@
 /// ITEM
 /// 
 
-#define ITEM_GRAVITY										0.00005f
-#define ITEM_TIME_FIRE												500
-#define ITEM_TIME_BLUEMONEY									3000
 
-#define ITEM_DISAPPEAR_TIME									5000
-#define ITEM_ANI_ROI												0
-#define ITEM_ANI_TIM										1
-#define ITEM_ANI_BIG_TIM											2
-#define ITEM_ANI_HOLY_WATER									3
-#define ITEM_ANI_MEAT												4
-// item phu
-#define ITEM_ANI_TORCH										18
-#define ITEM_ANI_CANDLE												19
-#define ITEM_ANI_FIRE										20
-#define ITEM_ANI_BLUEMONEY											13
 
-#define ITEM_HEIGHT_ID_ANI_TORCH									64
-#define ITEM_WIDTH_ID_ANI_TORCH								32
-#define ITEM_HEIGHT_ID_ANI_CANDLE									15
-#define ITEM_WIDTH_ID_ANI_CANDLE							15
-#define ITEM_HEIGHT_ID_ANI_BLUEMONEY								28
-#define ITEM_WIDTH_ID_ANI_BLUEMONEY							32
-
-#define ITEM_HEIGHT_ID_ANI_0										32
-#define ITEM_WIDTH_ID_ANI_0									32
-#define ITEM_HEIGHT_ID_ANI_1										20
-#define ITEM_WIDTH_ID_ANI_1									24
-#define ITEM_HEIGHT_ID_ANI_2										30
-#define ITEM_WIDTH_ID_ANI_2									30
-#define ITEM_HEIGHT_ID_ANI_3										28
-#define ITEM_WIDTH_ID_ANI_3									32
-#define ITEM_HEIGHT_ID_ANI_4										26
-#define ITEM_WIDTH_ID_ANI_4									32
 
 /// map
 #define SCENE_1														1
@@ -201,7 +184,7 @@
 #define TILE_HEIGHT											32
 
 #define MAX_SCENE_LINE												1024
-#define map2												4000
+#define map2												2484
 #define map3														6000
 #define map6												12000
 #define map4														8000
@@ -210,5 +193,5 @@
 #define max_col														100
 
 // gate
-#define gate_box_width 100
-#define gate_box_height 300
+#define gate_box_width										32
+#define gate_box_height												50

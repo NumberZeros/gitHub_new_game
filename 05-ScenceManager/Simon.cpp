@@ -5,9 +5,12 @@
 #include "Simon.h"
 #include "Game.h"
 #include "PlayScence.h"
-
+#include "Zombie.h"
 #include "Goomba.h"
 #include "Portal.h"
+#include "BlackLeopard.h"
+#include "HealthBar.h"
+#include "Weapon.h"
 
 CSimon::CSimon(float x, float y) : CGameObject()
 {
@@ -21,15 +24,15 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->start_y = y;
 	this->x = x;
 	this->y = y;
+	simon_HP = 16;
+	untouchable = 0;
 }
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	// Calculate dx, dy 
 	CGameObject::Update(dt);
-
-	// Simple fall down
 	vy += SIMON_GRAVITY * dt;
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -38,14 +41,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// turn off collision when die 
 	if (state != SIMON_ANI_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
-	
-	// reset untouchable timer if untouchable time has passed
-	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
-	{
-		untouchable_start = 0;
-		untouchable = 0;
-	}
 
+	if ((isImmortal && isDone == true) || isAttack)
+		dx = 0;
 	//jump
 	if (!isGrounded) {
 		if (GetTickCount() - action_time > SIMON_RESET_JUMP_TIME) {
@@ -58,6 +56,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isAttack) {
 		if (GetTickCount() - action_time > SIMON_ATTACK_TIME) {
 			isAttack = false;
+			isDone = true;
 			action_time = 0;
 		}
 	}
@@ -71,9 +70,26 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+	if (isImmortal) {
+		if (GetTickCount() - timeImmortal > 300) 
+		{
+			SetState(SIMON_STATE_IDLE);
+			isDone = true;
+		}
+		else 
+			vx = -SIMON_HURT_SPEED;
+			
+		if (GetTickCount() - timeImmortal > 1000)
+		{
+			isImmortal = false;
+			timeImmortal = 0;
+		}
+	}
+
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
+		//hb->UpdateHP(simon_HP);
 		x += dx;
 		y += dy;
 	}
@@ -82,56 +98,50 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float min_tx, min_ty, nx = 0, ny;
 		float rdx = 0;
 		float rdy = 0;
-		
-
-		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		// how to push back simon if collides with a moving objects, what if simon is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
-
-
-		//
-		// Collision logic with other objects
-		//
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			LPGAMEOBJECT obj = coObjects->at(i);
-		}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CItem*>(e->obj)) {
 				CItem* item = dynamic_cast<CItem*>(e->obj);
-				if (item->isCandle || item->isTorch || item->isFire) {
-					vy = SIMON_JUMP_SPEED_Y;
-					if (e->nx != 0) {
+				if (item->isTorch || item->isFire || item->isCandle) {
+					if (e->nx != 0)
 						x += dx;
-					}
-					if (e->ny != 0) {
-						if (e->ny > 0) vy = -vy;
-						y += dy;
+					if (!isGrounded) {
+						if (ny < 0)
+							y += dy;
+						if (ny > 0) {
+							vy = -SIMON_JUMP_SPEED_Y;
+							y += dy;
+						}
 					}
 				}
-				else {
+				else if (item->id == ITEM_ANI_CHAIN) {
+					level += 1;
 					item->isHidden = true;
 					item->ResetBB();
 				}
-			}
-			
-			if (dynamic_cast<Gate*>(e->obj))
+				else if (item->id == ITEM_ANI_HOLYWATER) {
+					simon_HP = 16;
+					item->isHidden = true;
+					item->ResetBB();
+				}
+			} 
+			else if (dynamic_cast<Gate*>(e->obj))
 			{
 				Gate* gate = dynamic_cast<Gate*>(e->obj);
 				CGame* game = CGame::GetInstance();
 				CGame::GetInstance()->SwitchScene(game->current_scene +1);
-				
+
+			}
+			else if (dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
+				x += dx;
 			}
 		}
 	}
@@ -156,25 +166,25 @@ void CSimon::Render()
 		ani = SIMON_ANI_DIE;
 	else {
 		/// di chuyen 
-		if (state == SIMON_STATE_IDLE) {
+		if (state == SIMON_STATE_IDLE)
+		{
 			if (isSit && vx == 0)
 				ani = SIMON_ANI_SIT_DOWN;
 			else
 				ani = SIMON_ANI_IDLE;
-		}
-			
-		else
+		} else
 			ani = SIMON_ANI_WALKING;
 
 		///tan cong
 		if (isAttack) {
-			if (isSit && vx == 0)
+			if (isSit)
 				ani = SIMON_ANI_SIT_HIT;
 			else
 				ani = SIMON_ANI_STAND_HIT;
 		}
-			
-		
+		if (isImmortal && isDone == false)
+			ani = SIMON_ANI_HURT;
+
 	}
 	int alpha = 255;
 	if (untouchable) alpha = 128;
@@ -211,6 +221,14 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_SIT_DOWN:
 		SitDown();
 		break;
+	case SIMON_STATE_HURT:
+		isDone = false;
+		simon_HP -= 1;
+		isImmortal = true;
+		timeImmortal = GetTickCount();
+		vy = -SIMON_JUMP_SPEED_Y;
+		vx = 0;
+		break;
 	case SIMON_ANI_DIE:
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
@@ -219,11 +237,11 @@ void CSimon::SetState(int state)
 
 void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x ;
+	left = x;
 	right = left + width;
 	top = y;
 	bottom = y + height;
-	
+
 }
 
 void CSimon::SitDown()
@@ -237,9 +255,10 @@ void CSimon::SitDown()
 
 void CSimon::attack()
 {
-		animation_set->at(SIMON_ANI_STAND_HIT)->ResetFrame();
-		action_time = GetTickCount();
-		isAttack = true;
+	animation_set->at(SIMON_ANI_STAND_HIT)->ResetFrame();
+	action_time = GetTickCount();
+	isDone = false;
+	isAttack = true;
 }
 
 void CSimon::ResetAnimation() {
