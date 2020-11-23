@@ -380,6 +380,7 @@ void CPlayScene::Update(DWORD dt)
 	// We know that simon is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 	vector<LPGAMEOBJECT> coObjects;
+	CGame* game = CGame::GetInstance();
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
@@ -397,25 +398,27 @@ void CPlayScene::Update(DWORD dt)
 	//simon die reset scence
 	if (player->simon_HP < 1) {
 		if (GetTickCount() - player->action_time > 3000) {
-			CGame* game = CGame::GetInstance();
 			ResetMap();
 			CGame::GetInstance()->SwitchScene(game->current_scene);
 		}
 	}
-	
-	// Update camera to follow mario
-	CGame* game = CGame::GetInstance();
+
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
-	//update position for simon
-	if (!prevWeaponX || !prevWeaponY || prevWeaponX != weapon->x || prevWeaponY != weapon->y) {
-		prevWeaponX = player->x;
-		prevWeaponY = player->y;
-		if (player->isSit) weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY() + 20, player->nx);
-		weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
-		weapon->level = player->level;
+	if (weapon) {
+		//update position for simon
+		if (!prevWeaponX || !prevWeaponY || prevWeaponX != weapon->x || prevWeaponY != weapon->y) {
+			prevWeaponX = player->x;
+			prevWeaponY = player->y;
+			if (player->isSit) weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY() + 20, player->nx);
+			weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
+			weapon->level = player->level;
+		}
 	}
+	healthbar->Update(player);
+	//timer->Update();
+	
 	
 
 	cx -= game->GetScreenWidth() / 2;
@@ -425,8 +428,8 @@ void CPlayScene::Update(DWORD dt)
 	// fix bug camera 
 	if (cx < 0) cx = 0.0f;
 	if (player->x > lenghtMap) return;
-	healthbar->Update(player);
-	//timer->Update();										// khi chuyen man da bi lôi nen tam comment 
+
+											// khi chuyen man da bi lôi nen tam comment 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
 	healthbar->SetPosition(cx, 0);

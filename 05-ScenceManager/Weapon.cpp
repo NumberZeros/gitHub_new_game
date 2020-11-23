@@ -128,6 +128,7 @@ int CWeapon::GetAnimation() {
 void CWeapon::UpdatePosionWithSimon(float _x, float _y, int _nx) {
 	nx = _nx;
 	int ani = GetAnimation();
+	if (ani == 0) return;
 	int currenFrame = animation_set->at(ani)->GetCurrentFrame();
 	if (nx > 0) {
 		if (currenFrame != frame) {
