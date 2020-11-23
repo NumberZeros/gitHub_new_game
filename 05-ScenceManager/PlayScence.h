@@ -43,7 +43,7 @@ public:
 	vector<LPSPRITE> enemyHP;
 	vector<LPSPRITE> loseHP;
 
-
+	float distanceLimit;
 	int idstage;
 	int current_scene;
 

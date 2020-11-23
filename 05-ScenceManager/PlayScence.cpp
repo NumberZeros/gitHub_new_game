@@ -293,7 +293,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
+	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); 	break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN:
 		obj = new CMerman();
@@ -444,7 +444,7 @@ void CPlayScene::Update(DWORD dt)
 	if (cx < 0) cx = 0.0f;
 	if (player->x > lenghtMap) return;
 
-											// khi chuyen man da bi lôi nen tam comment 
+											// khi chuyen man da bi lï¿½i nen tam comment 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
 	healthbar->SetPosition(cx, 0);

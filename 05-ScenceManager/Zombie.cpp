@@ -7,6 +7,7 @@ CZombie::CZombie()
 	SetState(ZOMBIE_WALKING);
 	height = ZOMBIE_BBOX_HEIGHT;
 	width = ZOMBIE_BBOX_WIDTH;
+	nx = -1;
 }
 
 void CZombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -48,10 +49,10 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += dx;
 		y += min_ty * dy + ny * 0.1f;
 
-		if (vx < 0 && x < 0) {
-			x = 0; vx = -vx;
-			this->nx = 1;
-		}
+		//if (vx < 0 && x < 0) {
+		//	x = 0; vx = -vx;
+		//	this->nx = 1;
+		//}
 
 		if (vx > 0 && x > SCREEN_WIDTH) {
 			x = SCREEN_WIDTH; vx = -vx;
@@ -116,8 +117,6 @@ void CZombie::SetState(int state)
 	case ZOMBIE_WALKING:
 		DebugOut(L"nx %d \n", nx);
 		if (nx > 0)
-			vx = ZOMBIE_WALKING_SPEED_X;
-		else
 			vx = -ZOMBIE_WALKING_SPEED_X;
 		DebugOut(L"vx %f \n", vx);
 		break;

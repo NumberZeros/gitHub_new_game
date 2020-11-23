@@ -1,8 +1,9 @@
 #include "BlackLeopard.h"
+#include "GameObject.h"
 
 CBlackLeopard::CBlackLeopard()
 {
-	SetState(BLACK_LEOPARD_RUN);
+	SetState(BLACK_LEOPARD_IDLE);
 	height = BLACK_LEOPARD_BBOX_HEIGHT;
 	width = BLACK_LEOPARD_BBOX_WIDTH;
 }
@@ -92,7 +93,8 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-	
+
+
 }
 
 void CBlackLeopard::Render()
@@ -124,6 +126,7 @@ void CBlackLeopard::SetState(int state)
 		break;
 	case BLACK_LEOPARD_IDLE:
 		vx = 0;
+		nx = -1;
 		break;
 	case BLACK_LEOPARD_DESTROYED:
 		vx = 0;		

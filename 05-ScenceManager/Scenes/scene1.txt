@@ -2,14 +2,12 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba
 
-#BLACK_LEOPARD
-11	70	0	400
-
-#ZOMBIE
-10	50	110	410
-
 #MERMAN
-13	30	110	420
+13	100	303	420	
+
+#FIREBALL
+14	-100	-100	888
+
 #ITEM
 
 # GOODS				idTypeItem 
@@ -90,7 +88,7 @@
 1	-32	448	2
 
 #gate
-4	1376	336	2
+4	200	336	2
 # Simon
 0	20	100	1
 # board
