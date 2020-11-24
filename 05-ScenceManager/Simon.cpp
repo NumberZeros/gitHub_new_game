@@ -25,7 +25,10 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->x = x;
 	this->y = y;
 	simon_HP = 16;
-	simon_Score = 000000;
+	simon_Score = 123456;
+	simon_Mana = 98;
+	simon_Sub = 1;
+	simon_P = 0;
 }
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

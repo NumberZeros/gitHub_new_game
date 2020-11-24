@@ -20,6 +20,7 @@
 #include "Item.h"
 #include "TileMap.h"
 #include "HealthBar.h"
+#include "SubW.h"
 #include "Score.h"
 #include "Define.h"
 
@@ -39,6 +40,7 @@ public:
 	Timer* timer;
 	CBoard* board;
 	Score* score;
+	SubW* subw;
 	TileMap* tilemap;
 	vector<LPSPRITE> playerHP;
 	vector<LPSPRITE> enemyHP;

@@ -334,6 +334,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Score();
 		score = (Score*)obj;
 		break;
+	case OBJECT_TYPE_SUBW:
+		obj = new SubW();
+		subw = (SubW*)obj;
+		break;
 	case OBJECT_TYPE_TIMER:
 		if (!timer)
 		{
@@ -416,6 +420,10 @@ void CPlayScene::Update(DWORD dt)
 	if (timer == NULL) return;
 	timer->Update();
 	healthbar->hp = player->simon_HP;
+	score->score = player->simon_Score;
+	score->mana = player->simon_Mana;
+	score->point = player->simon_P;
+	subw->subw = player->simon_Sub;
 
 	//simon die reset scence
 	if (player->simon_HP < 1) {
@@ -464,6 +472,8 @@ void CPlayScene::Update(DWORD dt)
 	board->SetPosition(cx, 0);
 	healthbar->SetPosition(cx, 0);
 	timer->SetPosition(cx, 0);
+	score->SetPosition(cx, 0);
+	subw->SetPosition(cx, 0);
 }
 
 void CPlayScene::Render()
