@@ -39,7 +39,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
 	coEvents.clear();
 	// turn off collision when die 
 	if (state != SIMON_STATE_DIE)
@@ -139,6 +138,50 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					simon_HP = 16;
 					item->isHidden = true;
 					item->ResetBB();
+					number = 1;
+					
+				}
+				if (item->id = ITEM_ANI_BIGHEART)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 2;
+				}
+				if (item->id = ITEM_ANI_MEAT)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 3;
+				}
+				if (item->id = ITEM_ANI_SMALLHEART)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 4;
+				}
+				if (item->id = ITEM_ANI_BLUEMONEY)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 5;
+				}
+				if (item->id = ITEM_ANI_REDMONEY)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 6;
+				}
+				if (item->id = ITEM_ANI_WHITEMONEY)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 7;
+				}
+				if (item->id = ITEM_ANI_KNIFE)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 8;
 				}
 			} 
 			else if (dynamic_cast<Gate*>(e->obj))
@@ -289,60 +332,4 @@ void CSimon::Reset()
 	SetSpeed(0, 0);
 }
 
-void CSimon::SimonColliWithItems(vector<LPGAMEOBJECT>* listitems)
-{
-	int number;
-	float l_items, t_items, r_items, b_items, l_simon, t_simon, r_simon, b_simon;
-	GetBoundingBox(l_simon, t_simon, r_simon, b_simon);
-
-	for (UINT i = 0; i < listitems->size(); i++)
-	{
-		LPGAMEOBJECT e = listitems->at(i);
-		e->GetBoundingBox(l_items, t_items, r_items, b_items);
-		if (CGameObject::AABBCheck(l_simon, t_simon, r_simon, b_simon, l_items, t_items, r_items, b_items))
-		{
-			if (idItem == ID_ITEM_TYPE_BIGHEART && !e->isDone)
-			{
-				e->isDone = true;
-				number = 1;
-			}
-			else if (e->idItem == ID_ITEM_TYPE_KNIFE && !e->isDone)
-			{
-				e->isDone = true;
-				number = 2;
-			}
-			else if (e->idItem == ID_ITEM_TYPE_HOLYWATER && !e->isDone)
-			{
-				e->isDone = true;
-				number = 3;
-			}
-			else if (e->idItem == ID_ITEM_TYPE_MEAT && !e->isDone)
-			{
-				e->isDone = true;
-				number = 4;
-			}
-			else if (e->idItem == ID_ITEM_TYPE_SMALLHEART && !e->isDone)
-			{
-				e->isDone = true;
-				number = 5;
-			}
-			else if (e->idItem == ID_ITEM_TYPE_BLUEMONEY && !e->isDone)
-			{
-				e->isDone = true;
-				number = 6;
-			}
-			else if (e->idItem == ID_ITEM_TYPE_REDMONEY && !e->isDone)
-			{
-				e->isDone = true;
-				number = 7;
-			}
-			else if (e->idItem == ID_ITEM_TYPE_WHITEMONEY && !e->isDone)
-			{
-				e->isDone = true;
-				number = 8;
-			}
-		}
-	}
-	GetNumber();
-}
 
