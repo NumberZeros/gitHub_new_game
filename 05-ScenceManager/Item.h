@@ -20,7 +20,7 @@
 #define ITEM_ANI_BLUEMONEY									13
 #define ITEM_ANI_REDMONEY											14
 #define ITEM_ANI_WHITEMONEY									15
-#define ITEM_ANI_HOLYWATER											16
+#define ITEM_ANI_HOLYWATER											22
 
 
 #define ITEM_CHAIN_BBOX_WIDTH										32
@@ -66,6 +66,7 @@ class CItem : public CGameObject
 public:
 	int id;
 	int state;
+	bool isKnife = false;
 	bool isRedMoney = false;
 	bool isBlueMoney = false;
 	bool isSmallHeart = false;
