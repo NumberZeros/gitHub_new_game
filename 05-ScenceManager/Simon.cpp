@@ -129,60 +129,64 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
-				else if (item->id == ITEM_ANI_CHAIN) {
+				 if (item->id == ITEM_ANI_CHAIN) {
 					level += 1;
 					item->isHidden = true;
 					item->ResetBB();
+					if (level >= 3)
+						level = 3;
 				}
-				else if (item->id == ITEM_ANI_HOLYWATER) {
+				if (item->id == ITEM_ANI_HOLYWATER) {
 					simon_HP = 16;
 					item->isHidden = true;
 					item->ResetBB();
 					number = 1;
 					
 				}
-				if (item->id = ITEM_ANI_BIGHEART)
+				if (item->id == ITEM_ANI_BIGHEART)
 				{
 					item->isHidden = true;
 					item->ResetBB();
 					number = 2;
 				}
-				if (item->id = ITEM_ANI_MEAT)
+				if (item->id == ITEM_ANI_MEAT)
 				{
 					item->isHidden = true;
 					item->ResetBB();
 					number = 3;
 				}
-				if (item->id = ITEM_ANI_SMALLHEART)
+				if (item->id == ITEM_ANI_SMALLHEART)
 				{
 					item->isHidden = true;
 					item->ResetBB();
 					number = 4;
 				}
-				if (item->id = ITEM_ANI_BLUEMONEY)
+				if (item->id == ITEM_ANI_BLUEMONEY)
 				{
 					item->isHidden = true;
 					item->ResetBB();
 					number = 5;
 				}
-				if (item->id = ITEM_ANI_REDMONEY)
+				if (item->id == ITEM_ANI_REDMONEY)
 				{
 					item->isHidden = true;
 					item->ResetBB();
 					number = 6;
 				}
-				if (item->id = ITEM_ANI_WHITEMONEY)
+				if (item->id == ITEM_ANI_WHITEMONEY)
 				{
 					item->isHidden = true;
 					item->ResetBB();
 					number = 7;
 				}
-				if (item->id = ITEM_ANI_KNIFE)
+				if (item->id == ITEM_ANI_KNIFE)
 				{
 					item->isHidden = true;
 					item->ResetBB();
 					number = 8;
 				}
+
+				GetNumber();
 			} 
 			else if (dynamic_cast<Gate*>(e->obj))
 			{
