@@ -399,6 +399,8 @@
 21	82
 #holywater
 22	83	84
+#subweaponLoad
+30	80	81	82
 #EffectHit
 7	91
 #Board

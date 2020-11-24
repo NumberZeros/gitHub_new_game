@@ -16,7 +16,9 @@ public:
 	int actionAttack = 0;	// 0 right 1 left
 	int start_x;
 	int start_y;
-	int simon_HP = 8;
+	int simon_HP;
+	int simon_Score;
+	int simon_Mana,simon_P,simon_Sub;
 
 	DWORD timeImmortal;
 public:

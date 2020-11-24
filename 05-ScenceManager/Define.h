@@ -113,6 +113,8 @@
 #define OBJECT_TYPE_HEALTHBAR								16				
 #define OBJECT_TYPE_TIMER											17	
 #define OBJECT_TYPE_FIREBALL								18
+#define OBJECT_TYPE_SCORE									        19
+#define OBJECT_TYPE_SUBW									20
 
 #define OBJECT_TYPE_PORTAL											50
 //ITEM MAP ENTRANC

@@ -10,7 +10,6 @@
 #include "Brick.h"
 #include "Simon.h"
 #include "Goomba.h"
-
 #include "Weapon.h"
 #include "Axe.h"
 #include "Knife.h"
@@ -21,6 +20,8 @@
 #include "Item.h"
 #include "TileMap.h"
 #include "HealthBar.h"
+#include "SubW.h"
+#include "Score.h"
 #include "Define.h"
 
 class CPlayScene: public CScene
@@ -38,6 +39,8 @@ public:
 	HealthBar* healthbar;
 	Timer* timer;
 	CBoard* board;
+	Score* score;
+	SubW* subw;
 	TileMap* tilemap;
 	vector<LPSPRITE> playerHP;
 	vector<LPSPRITE> enemyHP;
@@ -70,6 +73,7 @@ public:
 
 	virtual void Load();
 	void LoadSimon(CSimon* prevSimon);
+	void LoadTimer(Timer* prevTimer);
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
@@ -87,7 +91,8 @@ class CPlayScenceKeyHandler : public CScenceKeyHandler
 public: 
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);
-	virtual void OnKeyUp(int KeyCode) {};
+	virtual void OnKeyUp(int KeyCode);
+	
 
 	void Run(int _nx);
 	void Jump();
