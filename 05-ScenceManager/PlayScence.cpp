@@ -416,7 +416,6 @@ void CPlayScene::Update(DWORD dt)
 		weapon->level = player->level;
 	}
 
-
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
 

@@ -128,6 +128,7 @@
 #define ID_ITEM_TYPE_BLUEMONEY								9
 #define ID_ITEM_TYPE_REDMONEY										10
 #define ID_ITEM_TYPE_WHITEMONEY								11
+#define ID_ITEM_TYPE_HOLYWATER										12
 
 
 

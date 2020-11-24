@@ -4,6 +4,7 @@
 class CSimon : public CGameObject
 {
 public:
+	int number;
 	int level;
 	int untouchable;
 	int height = 60;
@@ -33,6 +34,8 @@ public:
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
 	bool GetAttack() { return this->isAttack; };
+	int GetNumber() { return this->number; }
+	void SimonColliWithItems(vector<LPGAMEOBJECT>* listitems);
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

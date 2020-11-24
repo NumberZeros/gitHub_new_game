@@ -11,6 +11,7 @@
 #include "BlackLeopard.h"
 #include "HealthBar.h"
 #include "Weapon.h"
+#include "Item.h"
 
 CSimon::CSimon(float x, float y) : CGameObject()
 {
@@ -283,5 +284,62 @@ void CSimon::Reset()
 	SetState(SIMON_STATE_IDLE);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
+}
+
+void CSimon::SimonColliWithItems(vector<LPGAMEOBJECT>* listitems)
+{
+	int number;
+	float l_items, t_items, r_items, b_items, l_simon, t_simon, r_simon, b_simon;
+	GetBoundingBox(l_simon, t_simon, r_simon, b_simon);
+
+	for (UINT i = 0; i < listitems->size(); i++)
+	{
+		LPGAMEOBJECT e = listitems->at(i);
+		e->GetBoundingBox(l_items, t_items, r_items, b_items);
+		if (CGameObject::AABBCheck(l_simon, t_simon, r_simon, b_simon, l_items, t_items, r_items, b_items))
+		{
+			if (idItem == ID_ITEM_TYPE_BIGHEART && !e->isDone)
+			{
+				e->isDone = true;
+				number = 1;
+			}
+			else if (e->idItem == ID_ITEM_TYPE_KNIFE && !e->isDone)
+			{
+				e->isDone = true;
+				number = 2;
+			}
+			else if (e->idItem == ID_ITEM_TYPE_HOLYWATER && !e->isDone)
+			{
+				e->isDone = true;
+				number = 3;
+			}
+			else if (e->idItem == ID_ITEM_TYPE_MEAT && !e->isDone)
+			{
+				e->isDone = true;
+				number = 4;
+			}
+			else if (e->idItem == ID_ITEM_TYPE_SMALLHEART && !e->isDone)
+			{
+				e->isDone = true;
+				number = 5;
+			}
+			else if (e->idItem == ID_ITEM_TYPE_BLUEMONEY && !e->isDone)
+			{
+				e->isDone = true;
+				number = 6;
+			}
+			else if (e->idItem == ID_ITEM_TYPE_REDMONEY && !e->isDone)
+			{
+				e->isDone = true;
+				number = 7;
+			}
+			else if (e->idItem == ID_ITEM_TYPE_WHITEMONEY && !e->isDone)
+			{
+				e->isDone = true;
+				number = 8;
+			}
+		}
+	}
+	GetNumber();
 }
 
