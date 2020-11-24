@@ -113,6 +113,11 @@
 #define OBJECT_TYPE_HEALTHBAR								16				
 #define OBJECT_TYPE_TIMER											17	
 #define OBJECT_TYPE_FIREBALL								18
+<<<<<<< Updated upstream
+=======
+#define OBJECT_TYPE_SCORE									        19	
+#define OBJECT_TYPE_SUBWL									20
+>>>>>>> Stashed changes
 
 #define OBJECT_TYPE_PORTAL											50
 

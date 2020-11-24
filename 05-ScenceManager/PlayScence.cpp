@@ -12,6 +12,7 @@
 #include "Zombie.h"
 #include "Item.h"
 #include "Merman.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
@@ -338,6 +339,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new Score();
 		score = (Score*)obj;
 		break;
+	case OBJECT_TYPE_SUBWL:
+		obj = new SubWL();
+		swl = (SubWL*)obj;
+		break;
 	case OBJECT_TYPE_TIMER:
 		if (!timer) {
 			obj = new Timer();
@@ -417,7 +422,16 @@ void CPlayScene::Update(DWORD dt)
 
 
 	if (player == NULL) return;
+<<<<<<< Updated upstream
 
+=======
+	if (timer == NULL) return;
+	timer->Update();
+	healthbar->hp = player->simon_HP;
+	score->score = player->simon_Score;
+	score->mana = player->simon_Mana;
+	//score->Update();
+>>>>>>> Stashed changes
 
 	//simon die reset scence
 	if (player->simon_HP < 1) {
@@ -466,6 +480,9 @@ void CPlayScene::Update(DWORD dt)
 	board->SetPosition(cx, 0);
 	healthbar->SetPosition(cx, 0);
 	timer->SetPosition(cx, 0);
+	swl->SetPosition(cx, 0);
+	score->SetPosition(cx, 0);
+
 }
 
 void CPlayScene::Render()

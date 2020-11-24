@@ -98,7 +98,13 @@
 #timer
 17	300	13	17
 #score
+<<<<<<< Updated upstream
 18	110	13	17
+=======
+19	110	13	17
+#SubWeaponLoad
+20	300	33	30
+>>>>>>> Stashed changes
 
 #whip
 5	-100	-100	4

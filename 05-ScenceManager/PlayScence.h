@@ -21,6 +21,7 @@
 #include "TileMap.h"
 #include "HealthBar.h"
 #include "Score.h"
+#include "SubWL.h"
 #include "Define.h"
 
 class CPlayScene: public CScene
@@ -39,6 +40,7 @@ public:
 	Timer* timer;
 	CBoard* board;
 	Score* score;
+	SubWL* swl;
 	TileMap* tilemap;
 	vector<LPSPRITE> playerHP;
 	vector<LPSPRITE> enemyHP;
