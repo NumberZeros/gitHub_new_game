@@ -148,6 +148,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					item->isHidden = true;
 					item->ResetBB();
 					number = 2;
+					simon_Mana += 1;
 				}
 				if (item->id == ITEM_ANI_MEAT)
 				{
@@ -184,6 +185,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					item->isHidden = true;
 					item->ResetBB();
 					number = 8;
+					simon_Sub = 0;
 				}
 
 				GetNumber();
