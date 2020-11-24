@@ -22,14 +22,17 @@
 #include "HealthBar.h"
 #include "Score.h"
 #include "Define.h"
+#include "Boss.h"
 
 class CPlayScene: public CScene
 {
 public: 
-	CItem* item;
+	
 	CSimon *player;					// A play scene has to have player, right? 
+	Boss* boss;
+	
 	Gate* gate;
-
+	CItem* item;
 	CWeapon* weapon;
 	CAxe* axe;
 	CKnife* knife;

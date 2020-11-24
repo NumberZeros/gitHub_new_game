@@ -1,3 +1,7 @@
+#define SCREEN_WIDTH 530
+#define SCREEN_HEIGHT 500
+
+#define MAX_FRAME_RATE 120
 ///
 /// SIMON
 /// 
@@ -113,7 +117,7 @@
 #define OBJECT_TYPE_HEALTHBAR								16				
 #define OBJECT_TYPE_TIMER											17	
 #define OBJECT_TYPE_FIREBALL								18
-#define OBJECT_TYPE_SCORE									        19	
+#define OBJECT_TYPE_SCORE									        19
 
 #define OBJECT_TYPE_PORTAL											50
 
@@ -210,3 +214,12 @@
 // gate
 #define gate_box_width										32
 #define gate_box_height												50
+
+//Boss 
+
+#define BOX_WIDTH											96
+#define BOX_HEIGTH													46
+
+#define BOX_SLEEP											0
+#define BOX_ATTACK													1
+#define BOX_DIE												2

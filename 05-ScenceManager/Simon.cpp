@@ -191,7 +191,7 @@ void CSimon::Render()
 
 	}
 	int alpha = 255;
-	if (untouchable) alpha = 128;
+	if (isImmortal) alpha = 128;
 
 	animation_set->at(ani)->Render(nx, x, y, alpha);
 
@@ -231,7 +231,7 @@ void CSimon::SetState(int state)
 			simon_HP -= 1;
 			isImmortal = true;
 			timeImmortal = GetTickCount();
-			vy = -SIMON_JUMP_SPEED_Y;
+			vy = -0.2;
 			vx = 0;
 		}
 		else {

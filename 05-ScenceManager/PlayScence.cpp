@@ -360,6 +360,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			item->secondGood = secondGood;
 		}
 		break;
+	case OBJECT_TYPE_BOSS:
+		obj = new Boss();
+		boss = (Boss*)obj;
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -433,7 +437,12 @@ void CPlayScene::Update(DWORD dt)
 			ResetMap();
 			CGame::GetInstance()->SwitchScene(game->current_scene);
 		}
-		
+	}
+
+	if (boss) {
+		if (boss->x - player->x < 50) {
+			boss->SetState(BOX_ATTACK);
+		}
 	}
 	
 
@@ -540,53 +549,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		else
 			Hit();
 		break;
-	/*case DIK_C:
-		if (axe->axe_isAtk == 0)
-		{
-			Throw_Axe();
-		}
-		break;
-	case DIK_V:
-		if (knife->knife_isAtk == 0)
-		{
-			Throw_Knife();
-		}
-		break;
-	case DIK_B:
-		if (hlw->hlw_isAtk == 0)
-		{
-			Throw_Holywater();
-		}
-		break;*/
 	case DIK_A:
 		simon->Reset();
 		break;
 	}
-	
-	/*if (game->IsKeyDown(DIK_SPACE))
-	{
-		Jump();
-	}
-	if (game->IsKeyDown(DIK_X))
-	{
-		Hit();
-	}
-	if (game->IsKeyDown(DIK_UP) && game->IsKeyDown(DIK_X))
-	{
-		if (axe->axe_isAtk == 0)
-		{
-			Throw_Axe();
-		}
-	}
-	if (game->IsKeyDown(DIK_DOWN))
-	{
-		SitDown();
-	}
-	
-	if (game->IsKeyDown(DIK_A))
-	{
-		simon->Reset();
-	}*/
 }
 
 
