@@ -55,26 +55,6 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x = 500; vx = -vx;
 			this->nx = -1;
 		}
-		if (nx == -1)
-			distanceLimit = 85;
-		else
-			distanceLimit = 177;
-		if (x < simon->GetPositionX())
-		{
-			if (abs(simon->GetPositionX() - x <= distanceLimit))
-			{
-				nx = 1;
-				vx = BLACK_LEOPARD_RUNNING_SPEED_X;
-			}
-		}
-		else if (x > simon->GetPositionX())
-		{
-			if ((abs(simon->GetPositionX() - x) > distanceLimit))
-			{
-				nx = -1;
-				vx = - BLACK_LEOPARD_RUNNING_SPEED_X;
-			}
-		}
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
