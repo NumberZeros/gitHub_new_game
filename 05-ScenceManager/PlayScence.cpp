@@ -440,8 +440,14 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	if (boss) {
-		if (boss->x - player->x < 50) {
-			boss->SetState(BOX_ATTACK);
+		
+		if (boss->isAttack) {
+			boss->Update(player, dt);
+		}
+		else {
+			if (boss->x - player->x < 50) {
+				boss->SetState(BOX_ATTACK);
+			}
 		}
 	}
 	

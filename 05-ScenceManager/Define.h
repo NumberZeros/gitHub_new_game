@@ -223,3 +223,6 @@
 #define BOX_SLEEP											0
 #define BOX_ATTACK													1
 #define BOX_DIE												2
+
+#define BOX_RUN_FLOW_SIMON											0.5
+#define SPEED_BOX											0.05
