@@ -151,7 +151,7 @@
 
 #define BLACK_LEOPARD_IDLE									0  
 #define BLACK_LEOPARD_RUN											1
-#define BLACK_LEOPARD_ANI_JUMP								2
+#define BLACK_LEOPARD_JUMP								2
 #define BLACK_LEOPARD_DESTROYED										3
 
 #define BLACK_LEOPARD_RUNNING_SPEED_X						0.15f

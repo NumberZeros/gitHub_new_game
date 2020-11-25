@@ -27,8 +27,8 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->y = y;
 	simon_HP = 16;
 	simon_Score = 123456;
-	simon_Mana = 10;
-	simon_Sub = 1;
+	simon_Mana = 15;
+	simon_Sub = 2;
 	simon_P = 0;
 }
 
@@ -160,12 +160,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					item->isHidden = true;
 					item->ResetBB();
+					simon_Mana += 1;
 					number = 4;
 				}
 				if (item->id == ITEM_ANI_BLUEMONEY)
 				{
 					item->isHidden = true;
 					item->ResetBB();
+					simon_Mana += 1;
 					number = 5;
 				}
 				if (item->id == ITEM_ANI_REDMONEY)
@@ -179,6 +181,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					item->isHidden = true;
 					item->ResetBB();
 					number = 7;
+					simon_Score += 15;
 				}
 				if (item->id == ITEM_ANI_KNIFE)
 				{

@@ -325,7 +325,10 @@
 74	94	100	95	100
 #item boss
 75	96	100	97	100
-
+#item axe
+76	101	100
+#item borgme
+77	105	100
 #
 #====SubWeapon=======
 #Knife
@@ -401,7 +404,7 @@
 #holywater
 22	83	84
 #subweaponLoad
-30	80	81	82
+30	80	76	77
 #EffectHit
 7	91
 #Board

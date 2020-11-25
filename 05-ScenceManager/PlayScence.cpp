@@ -294,7 +294,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); 	break;
+	case OBJECT_TYPE_BLACK_LEOPARD: 
+		obj = new CBlackLeopard(); 
+		//blp = (CBlackLeopard*)obj;
+		break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN:
 		obj = new CMerman();
@@ -424,6 +427,7 @@ void CPlayScene::Update(DWORD dt)
 	score->mana = player->simon_Mana;
 	score->point = player->simon_P;
 	subw->subw = player->simon_Sub;
+	
 
 	//simon die reset scence
 	if (player->simon_HP < 1) {
@@ -543,9 +547,16 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_X:
 		if (game->IsKeyDown(DIK_UP))
 		{
-			if (axe->axe_isAtk == 0)
+			//if (axe->axe_isAtk == 0||simon->simon_Mana>0)
+			//{
+			//	Throw_Axe();
+			//	simon->simon_Mana -= 1;
+			//}
+			//break;
+			if (simon->simon_Mana > 0&&simon->simon_Sub==2)
 			{
 				Throw_Axe();
+				simon->simon_Mana -= 1;
 			}
 			break;
 		}
