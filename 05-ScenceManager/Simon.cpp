@@ -45,8 +45,15 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		state = SIMON_STATE_DIE;
 		
 
-	if ((isImmortal && isDone == true) || isAttack || simon_HP < 1)
+	if ((isImmortal && !isDone) || isAttack || simon_HP < 1)
+	{
 		dx = 0;
+		if (simon_HP < 1)
+			dy = 0;
+	}
+		
+
+
 	//jump
 	if (!isGrounded) {
 		if (GetTickCount() - action_time > SIMON_RESET_JUMP_TIME) {
@@ -74,16 +81,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (isImmortal) {
-		if (GetTickCount() - timeImmortal > 300) 
-		{
-			if(simon_HP > 1)
-				SetState(SIMON_STATE_IDLE);
+		if (GetTickCount() - timeImmortal > 500) 
 			isDone = true;
-		}
 		else 
 			vx = -SIMON_HURT_SPEED;
 			
-		if (GetTickCount() - timeImmortal > 1000)
+		if (GetTickCount() - timeImmortal > 2000)
 		{
 			isImmortal = false;
 			timeImmortal = 0;
@@ -136,16 +139,33 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					item->isHidden = true;
 					item->ResetBB();
 				}
-			} 
+			}
 			else if (dynamic_cast<Gate*>(e->obj))
 			{
 				Gate* gate = dynamic_cast<Gate*>(e->obj);
 				CGame* game = CGame::GetInstance();
-				CGame::GetInstance()->SwitchScene(game->current_scene +1);
+				CGame::GetInstance()->SwitchScene(game->current_scene + 1);
 
 			}
 			else if (dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
 				x += dx;
+			}
+			else if (dynamic_cast<Boss*>(e->obj)) 
+			{
+				Boss* item = dynamic_cast<Boss*>(e->obj);
+					if (e->nx != 0)
+						x += dx;
+					if (!isGrounded) {
+						if (ny < 0)
+							y += dy;
+						if (ny > 0) {
+							vy = -SIMON_JUMP_SPEED_Y;
+							y += dy;
+						}
+					}
+					else
+						dy = 0;
+
 			}
 		}
 	}
@@ -165,30 +185,30 @@ bool CSimon::CheckColli(float left_a, float top_a, float right_a, float bottom_a
 
 void CSimon::Render()
 {
-	int ani = -1;
+	int ani = 0;
 	if (state == SIMON_STATE_DIE)
 		ani = SIMON_ANI_DIE;
+	else if (isAttack) {
+		if (isSit)
+			ani = SIMON_ANI_SIT_HIT;
+		else
+			ani = SIMON_ANI_STAND_HIT;
+	}
 	else {
 		/// di chuyen 
+		
+		
 		if (state == SIMON_STATE_IDLE)
 		{
 			if (isSit && vx == 0)
 				ani = SIMON_ANI_SIT_DOWN;
 			else
 				ani = SIMON_ANI_IDLE;
-		} else
-			ani = SIMON_ANI_WALKING;
-
-		///tan cong
-		if (isAttack) {
-			if (isSit)
-				ani = SIMON_ANI_SIT_HIT;
-			else
-				ani = SIMON_ANI_STAND_HIT;
-		}
-		if (isImmortal && isDone == false)
+		} 
+		else if (isImmortal && !isDone)
 			ani = SIMON_ANI_HURT;
-
+		else
+			ani = SIMON_ANI_WALKING;
 	}
 	int alpha = 255;
 	if (isImmortal) alpha = 128;

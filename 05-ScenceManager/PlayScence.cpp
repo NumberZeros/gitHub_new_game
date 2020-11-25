@@ -508,12 +508,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
 	if (simon->GetState() == SIMON_STATE_DIE) return;
-		if (game->IsKeyDown(DIK_RIGHT)) Run(1);
-		else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
-		else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
-		else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
-		else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
-		else simon->SetState(SIMON_STATE_IDLE);
+
+	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
+	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
+	else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
+	else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
+	else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
+	else simon->SetState(SIMON_STATE_IDLE);
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
@@ -564,8 +565,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 void CPlayScenceKeyHandler::Run(int _nx) {
 	CSimon* simon = ((CPlayScene*)scence)->player;
-	simon->SetNX(_nx);
-	simon->SetState(SIMON_STATE_WALKING);
+	if (!simon->isDone) return;
+	else {
+		simon->SetNX(_nx);
+		simon->SetState(SIMON_STATE_WALKING);
+	}
+	
 }
 
 void CPlayScenceKeyHandler::Jump() {

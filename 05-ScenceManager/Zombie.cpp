@@ -89,13 +89,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				obj->GetBoundingBox(left, top, right, bottom);
 				if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
 					if (CheckColli(left, top, right, bottom))
-					{
 						simon->SetState(SIMON_STATE_HURT);
-						/*if (vx < 0)
-							simon->vx = -SIMON_HURT_SPEED;
-						else
-							simon->vx = SIMON_HURT_SPEED;*/
-					}
 				}
 			}
 		}
