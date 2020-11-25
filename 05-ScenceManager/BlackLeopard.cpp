@@ -1,5 +1,6 @@
 #include "BlackLeopard.h"
 #include "GameObject.h"
+#include "PlayScence.h"
 
 CBlackLeopard::CBlackLeopard()
 {
@@ -24,7 +25,6 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-
 	if (isHidden) {
 		if (GetTickCount() - action_time >= 1500)
 			ResetBB();
@@ -54,6 +54,26 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (vx > 0 && x > 500) {
 			x = 500; vx = -vx;
 			this->nx = -1;
+		}
+		if (nx == -1)
+			distanceLimit = 85;
+		else
+			distanceLimit = 177;
+		if (x < simon->GetPositionX())
+		{
+			if (abs(simon->GetPositionX() - x <= distanceLimit))
+			{
+				nx = 1;
+				vx = BLACK_LEOPARD_RUNNING_SPEED_X;
+			}
+		}
+		else if (x > simon->GetPositionX())
+		{
+			if ((abs(simon->GetPositionX() - x) > distanceLimit))
+			{
+				nx = -1;
+				vx = - BLACK_LEOPARD_RUNNING_SPEED_X;
+			}
 		}
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
