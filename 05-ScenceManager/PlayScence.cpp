@@ -427,6 +427,7 @@ void CPlayScene::Update(DWORD dt)
 	score->mana = player->simon_Mana;
 	score->point = player->simon_P;
 	subw->subw = player->simon_Sub;
+	score->stage = player->simon_stage;
 	
 
 	//simon die reset scence

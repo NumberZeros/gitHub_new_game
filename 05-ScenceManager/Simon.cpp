@@ -198,7 +198,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				Gate* gate = dynamic_cast<Gate*>(e->obj);
 				CGame* game = CGame::GetInstance();
 				CGame::GetInstance()->SwitchScene(game->current_scene +1);
-
+				simon_stage += 1;
 			}
 			else if (dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
 				x += dx;

@@ -8,7 +8,7 @@ void SubW::Render()
 {
 	//if (this->subw != NULL)
 	{
-		animation_set->at(subw)->Render(0, x + 310, y + 36);
+		animation_set->at(subw)->Render(0, x + 310, y + 33);
 	}
 
 	
