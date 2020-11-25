@@ -7,6 +7,10 @@
 class Score : public CGameObject
 {
 public:
+	int a[6];
+	int p[2];
+	int m[2];
+	int score, mana, point, stage=1;
 	virtual void Update();
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

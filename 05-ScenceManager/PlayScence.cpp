@@ -294,7 +294,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); 	break;
+	case OBJECT_TYPE_BLACK_LEOPARD: 
+		obj = new CBlackLeopard(); 
+		//blp = (CBlackLeopard*)obj;
+		break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN:
 		obj = new CMerman();
@@ -333,6 +336,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_SCORE:
 		obj = new Score();
 		score = (Score*)obj;
+		break;
+	case OBJECT_TYPE_SUBW:
+		obj = new SubW();
+		subw = (SubW*)obj;
 		break;
 	case OBJECT_TYPE_TIMER:
 		if (!timer)
@@ -420,6 +427,12 @@ void CPlayScene::Update(DWORD dt)
 	if (timer == NULL) return;
 	timer->Update();
 	healthbar->hp = player->simon_HP;
+	score->score = player->simon_Score;
+	score->mana = player->simon_Mana;
+	score->point = player->simon_P;
+	subw->subw = player->simon_Sub;
+	score->stage = player->simon_stage;
+	
 
 	//simon die reset scence
 	if (player->simon_HP < 1) {
@@ -466,7 +479,9 @@ void CPlayScene::Update(DWORD dt)
 			weapon->level = player->level;
 		}
 	}
+
 	
+
 
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
@@ -479,6 +494,8 @@ void CPlayScene::Update(DWORD dt)
 	board->SetPosition(cx, 0);
 	healthbar->SetPosition(cx, 0);
 	timer->SetPosition(cx, 0);
+	score->SetPosition(cx, 0);
+	subw->SetPosition(cx, 0);
 }
 
 void CPlayScene::Render()
@@ -547,9 +564,20 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_X:
 		if (game->IsKeyDown(DIK_UP))
 		{
-			if (axe->axe_isAtk == 0)
-			{
-				Throw_Axe();
+			//if (axe->axe_isAtk == 0||simon->simon_Mana>0)
+			//{
+			//	Throw_Axe();
+			//	simon->simon_Mana -= 1;
+			//}
+			//break;
+			if (simon->simon_Mana > 0) {
+				if (simon->simon_Sub == 0)
+					Throw_Knife();
+				else if (simon->simon_Sub == 1)
+					Throw_Holywater();
+				else if (simon->simon_Sub == 2)
+					Throw_Axe();
+				simon->simon_Mana -= 1;
 			}
 			break;
 		}

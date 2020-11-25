@@ -1,6 +1,14 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Simon , 1 = Ground 
+#CANDLE
+12	55	130	5	2	1
+12	190	130	5	2	1
+12	320	130	5	2	1
+12	470	130	5	2	1
+12	600	130	5	2	1
+12	725	130	5	2	1
+12	820	130	5	2	1
 
 # board
 8	110	0	8

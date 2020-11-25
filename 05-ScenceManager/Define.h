@@ -118,10 +118,10 @@
 #define OBJECT_TYPE_TIMER											17	
 #define OBJECT_TYPE_FIREBALL								18
 #define OBJECT_TYPE_SCORE									        19
+#define OBJECT_TYPE_SUBW									20
 
 #define OBJECT_TYPE_PORTAL											50
-
-//ITEM MAP ENTRANCE
+//ITEM MAP ENTRANC
 #define ID_ITEM_TYPE_GOODS									0
 #define ID_ITEM_TYPE_TORCH											1
 #define ID_ITEM_TYPE_CANDLE									2
@@ -129,6 +129,12 @@
 #define ID_ITEM_TYPE_BIGHEART										4
 #define ID_ITEM_TYPE_KNIFE									5
 #define ID_ITEM_TYPE_EFFECTFIRE										6
+#define ID_ITEM_TYPE_MEAT									7
+#define ID_ITEM_TYPE_SMALLHEART										8
+#define ID_ITEM_TYPE_BLUEMONEY								9
+#define ID_ITEM_TYPE_REDMONEY										10
+#define ID_ITEM_TYPE_WHITEMONEY								11
+#define ID_ITEM_TYPE_HOLYWATER										12
 
 
 
@@ -149,7 +155,7 @@
 
 #define BLACK_LEOPARD_IDLE									0  
 #define BLACK_LEOPARD_RUN											1
-#define BLACK_LEOPARD_ANI_JUMP								2
+#define BLACK_LEOPARD_JUMP								2
 #define BLACK_LEOPARD_DESTROYED										3
 
 #define BLACK_LEOPARD_RUNNING_SPEED_X						0.15f

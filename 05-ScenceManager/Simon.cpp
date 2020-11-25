@@ -11,6 +11,7 @@
 #include "BlackLeopard.h"
 #include "HealthBar.h"
 #include "Weapon.h"
+#include "Item.h"
 
 CSimon::CSimon(float x, float y) : CGameObject()
 {
@@ -25,7 +26,10 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->x = x;
 	this->y = y;
 	simon_HP = 16;
-	simon_Score = 000000;
+	simon_Score = 123456;
+	simon_Mana = 15;
+	simon_Sub = 2;
+	simon_P = 0;
 }
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -35,7 +39,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
 	coEvents.clear();
 	// turn off collision when die 
 	if (state != SIMON_STATE_DIE)
@@ -129,23 +132,76 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
-				else if (item->id == ITEM_ANI_CHAIN) {
+				if (item->id == ITEM_ANI_CHAIN) {
 					level += 1;
 					item->isHidden = true;
 					item->ResetBB();
+					if (level >= 3)
+						level = 3;
 				}
-				else if (item->id == ITEM_ANI_HOLYWATER) {
+				if (item->id == ITEM_ANI_HOLYWATER) {
 					simon_HP = 16;
 					item->isHidden = true;
 					item->ResetBB();
+					number = 1;
+					
 				}
-			}
+				if (item->id == ITEM_ANI_BIGHEART)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 2;
+					simon_Mana += 1;
+				}
+				if (item->id == ITEM_ANI_MEAT)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 3;
+				}
+				if (item->id == ITEM_ANI_SMALLHEART)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					simon_Mana += 1;
+					number = 4;
+				}
+				if (item->id == ITEM_ANI_BLUEMONEY)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					simon_Mana += 1;
+					number = 5;
+				}
+				if (item->id == ITEM_ANI_REDMONEY)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 6;
+				}
+				if (item->id == ITEM_ANI_WHITEMONEY)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 7;
+					simon_Score += 15;
+				}
+				if (item->id == ITEM_ANI_KNIFE)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 8;
+					simon_Sub = 0;
+				}
+
+				GetNumber();
+			} 
 			else if (dynamic_cast<Gate*>(e->obj))
 			{
 				Gate* gate = dynamic_cast<Gate*>(e->obj);
 				CGame* game = CGame::GetInstance();
-				CGame::GetInstance()->SwitchScene(game->current_scene + 1);
-
+				CGame::GetInstance()->SwitchScene(game->current_scene +1);
+				simon_stage += 1;
 			}
 			else if (dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
 				x += dx;
@@ -304,4 +360,5 @@ void CSimon::Reset()
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }
+
 

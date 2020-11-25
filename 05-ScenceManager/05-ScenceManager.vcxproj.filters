@@ -109,6 +109,7 @@
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="Boss.cpp">
+    <ClCompile Include="SubW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -204,6 +205,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Score.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubW.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
