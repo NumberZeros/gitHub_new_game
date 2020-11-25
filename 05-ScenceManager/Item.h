@@ -15,8 +15,8 @@
 #define ITEM_ANI_CANDLE										19
 #define ITEM_ANI_KNIFE										21
 #define ITEM_ANI_EFFECTFIRE											20
-#define ITEM_ANI_HOLYWATER									11
-#define ITEM_ANI_MEAT												13
+#define ITEM_ANI_HOLYWATER									22
+#define ITEM_ANI_MEAT												11
 
 
 #define ITEM_CHAIN_BBOX_WIDTH										32

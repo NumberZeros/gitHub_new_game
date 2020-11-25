@@ -12,6 +12,8 @@
 #include "Zombie.h"
 #include "Item.h"
 #include "Merman.h"
+#include "VampireBat.h"
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
@@ -297,6 +299,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN:
 		obj = new CMerman();
+		break;
+	case OBJECT_TYPE_VAMPIREBAT:
+		obj = new CVampireBat();
 		break;
 	case OBJECT_TYPE_WEAPON:
 		obj = new CWeapon();

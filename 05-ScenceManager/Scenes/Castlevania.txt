@@ -17,12 +17,18 @@
 20	textures\Piece.png	255	0	255
 21	textures\BlackLeopard.png	255	0	255
 22	textures\Zombie.png	255	0	255
+23	textures\VampireBat.png	255	0	255
 600	textures\Boss.png	255	0	255
 888	textures\FireBall.png	255	0	255
 999	textures\Fish.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+#VampireBat
+#Fly
+401	32	0	64	32	23	
+402	64	0	96	32	23	     
+403	96	0	128	32	23	
 #Zombie
 #walking
 310	0	0	32	64	22
@@ -38,13 +44,13 @@
 #jump
 305	192	0	256	32	21
 #MERMAN
-#idle
-500	0	0	32	64	999
 #walking
-501	32	0	60	64	999
+501	32	0	64	64	999
 502	64	0	96	64	999
 #attack
 503	0	0	32	64	999
+#Jump
+504	64	0	96	64	999
 # Simon
 # idle
 1	11	3	44	64	0
@@ -220,6 +226,9 @@
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+# ====VampireBat================
+#Flying
+400	401	100	402	200	403	100
 # ====ZOMBIE==================
 #walking
 260	310	100	311	100
@@ -244,12 +253,13 @@
 252	305	100
 
 # ==== MERMAN ==========
-#idle
-253	500	100
+
 #walking
-254	501	100	502	100
-#attack
-255	503	100
+253	501	100	502	100
+#attack 
+254	503	100
+#jump 
+255	504	100
 # ==== SIMON=========
 #idle
 0	1	100
@@ -372,6 +382,8 @@
 # id	ani1	ani2	ani3
 #
 [ANIMATION_SETS]
+#VampireBat	
+510	400	90
 #ZOMBIE
 410	260	90
 #TIME
@@ -379,7 +391,7 @@
 #BLACK_LEOPARD
 400	250	251	252	90
 #MERMAN
-420	253	254	255	
+420	253	254	255	90	
 # Simon
 1	0	1	2	3	4	5	6	7	8	9	10	11	12
 # GROUNDmap1
@@ -389,7 +401,7 @@
 #Whip
 4	40	41	42
 #GOODS
-5	60	61	62	63	64	65	66	67	68	200	201	69	70	71	72	73	74	75	55	56	90	80
+5	60	61	62	63	64	65	66	67	68	200	201	69	70	71	72	73	74	75	55	56	90	80	83
 #SubWeapon
 #knife
 6	80

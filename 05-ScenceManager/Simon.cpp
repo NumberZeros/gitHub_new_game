@@ -11,6 +11,8 @@
 #include "BlackLeopard.h"
 #include "HealthBar.h"
 #include "Weapon.h"
+#include "VampireBat.h"
+#include "Merman.h"
 
 CSimon::CSimon(float x, float y) : CGameObject()
 {
@@ -130,7 +132,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					item->isHidden = true;
 					item->ResetBB();
 				}
-				else if (item->id == ITEM_ANI_HOLYWATER) {
+				else if (item->id == ITEM_ANI_BIGHEART) {
+				/*	simon_HP += 1;
+					item->isHidden = true;
+					item->ResetBB();*/
+				}
+				else if (item->id == ITEM_ANI_MEAT) { // meat nha
 					simon_HP = 16;
 					item->isHidden = true;
 					item->ResetBB();
@@ -143,7 +150,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CGame::GetInstance()->SwitchScene(game->current_scene +1);
 
 			}
-			else if (dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
+			else if (dynamic_cast<CMerman*>(e->obj) || dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CVampireBat*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
 				x += dx;
 			}
 		}

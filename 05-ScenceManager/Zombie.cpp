@@ -30,7 +30,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (isHidden)
 	{
-		if (GetTickCount() - action_time >= 1500)
+		if (GetTickCount() - action_time >= 500)
 			ResetBB();
 	}
 
@@ -53,7 +53,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			this->nx = 1;
 		}
 
-		if (vx > 0 && x > SCREEN_WIDTH) {
+		if (vx > 0 && x > SCREEN_WIDTH - 30) {
 			x = SCREEN_WIDTH; vx = -vx;
 			this->nx = -1;
 		}
