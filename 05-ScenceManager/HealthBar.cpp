@@ -10,15 +10,19 @@ void HealthBar::Render()
 	//CSimon* simon = new CSimon();
 	for (int i = 0; i < hp; i++)
 	{
-		animation_set->at(0)->Render(0, x+110+10*i, y+33);
+		animation_set->at(0)->Render(0, x + 110 + 10 * i, y + 33);
 	}
 	for (int i = 0; i < 16-hp; i++)
 	{
-		animation_set->at(1)->Render(0,x+260 - 10 *i, y+33);
+		animation_set->at(1)->Render(0, x + 260 - 10 * i, y + 33);
 	}
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < hpboss; i++)
 	{
 		animation_set->at(2)->Render(0, x + 110 + 10 * i, y + 52);
+	}
+	for (int i = 0; i < 16-hpboss; i++)
+	{
+		animation_set->at(1)->Render(0, x + 260 - 10 * i, y + 52);
 	}
 	//animation_set->at(0)->Render(0, x+110, y+33);
 	RenderBoundingBox();
@@ -38,5 +42,5 @@ void HealthBar::GetBoundingBox(float& l, float& t, float& r, float& b)
 }
 HealthBar::HealthBar()
 {
-	//this->hp = _hp;
+	hpboss = 16;
 }
