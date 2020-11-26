@@ -129,10 +129,10 @@
 #define OBJECT_TYPE_FIREBALL								18
 #define OBJECT_TYPE_SCORE									        19
 #define OBJECT_TYPE_SUBW									20
-
+#define OBJECT_TYPE_VAMPIREBAT										21
 #define OBJECT_TYPE_INTRO_MAP								777
-
 #define OBJECT_TYPE_PORTAL											50
+
 //ITEM MAP ENTRANC
 #define ID_ITEM_TYPE_GOODS									0
 #define ID_ITEM_TYPE_TORCH											1
@@ -183,21 +183,18 @@
 /// MERMAN
 /// 
 
-#define MERMAN_JUMP_SPEED_Y											0.9f
+#define MERMAN_JUMP_SPEED_Y											0.4f
 #define MERMAN_WALKING_SPEED_X								0.13f
-#define MERMAN_GRAVITY												0.002f
-#define MERMAN_ATTACK_TIME									300
+#define MERMAN_GRAVITY												0.0009f
 
 #define MERMAN_BBOX_WIDTH											32
 #define MERMAN_BBOX_HEIGHT									64
 
-#define MERMAN_JUMP											1
-#define MERMAN_WALKING												2
-#define MERMAN_SHOOT_FIREBALL								3
+#define MERMAN_JUMP											2
+#define MERMAN_WALKING												0
+#define MERMAN_SHOOT_FIREBALL								1
+#define MERMAN_DEAD													3
 
-#define MERMAN_ANI_IDLE												0
-#define MERMAN_ANI_WALKING									1
-#define MERMAN_ANI_SHOOT_FIREBALL									2
 
 ///
 /// ITEM

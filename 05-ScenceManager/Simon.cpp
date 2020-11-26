@@ -12,6 +12,8 @@
 #include "HealthBar.h"
 #include "Weapon.h"
 #include "Item.h"
+#include "VampireBat.h"
+#include "Merman.h"
 
 CSimon::CSimon(float x, float y) : CGameObject()
 {
@@ -254,7 +256,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CGame::GetInstance()->SwitchScene(game->current_scene +1);
 				simon_stage += 1;
 			}
-			else if (dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
+			else if (dynamic_cast<CMerman*>(e->obj) || dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CVampireBat*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
 				x += dx;
 			}
 			else if (dynamic_cast<Boss*>(e->obj)) 

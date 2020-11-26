@@ -72,5 +72,192 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="05-ScenceManager.rc" />
+    <ClCompile Include="Brick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Simon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Axe.cpp">
+      <Filter>Header Files\Subweapon</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackLeopard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Merman.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Holywater.cpp">
+      <Filter>Header Files\Subweapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Knife.cpp">
+      <Filter>Header Files\Subweapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Number.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VampireBat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Brick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEventHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Simon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Axe.h">
+      <Filter>Header Files\Subweapon</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackLeopard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Merman.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Holywater.h">
+      <Filter>Header Files\Subweapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Knife.h">
+      <Filter>Header Files\Subweapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Number.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VampireBat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="05-ScenceManager.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
