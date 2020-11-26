@@ -22,6 +22,12 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
+	DebugOut(L"y %f \n", y);
+	if (y <= 90) {
+		vy = SPEED_BOX;
+		y+=dy;
+		
+	}
 
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
@@ -41,7 +47,7 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					e->SetState(SIMON_STATE_HURT);
 			}
 		}
-		if (dynamic_cast<CBrick*>(obj))
+		else if (dynamic_cast<CBrick*>(obj))
 		{
 			vx = 0;
 			vy = 0;
@@ -51,14 +57,15 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Boss::Update(CSimon* simon, DWORD dt)
 {
-	//DebugOut(L"time %d \n", GetTickCount() - action_time);
 	if (GetTickCount() - action_time > 6000) {
 		action_time = GetTickCount();
 		isDone = true;
 	}
-	else if (GetTickCount() - action_time > 3000) {
-		/*vx = vy = SPEED_BOX;
-		FlowSimon(simon->x, simon->y, dt);*/
+	else if (GetTickCount() - action_time > 4000) {
+		vx = vy = BOX_RUN_FLOW_SIMON;
+		FlowSimon(simon->x -100, simon->y - 200, dt);
+	}
+	else if (GetTickCount() - action_time > 2000) {
 		if (isDone)
 		{
 			vx = vy = BOX_RUN_FLOW_SIMON;
@@ -70,13 +77,7 @@ void Boss::Update(CSimon* simon, DWORD dt)
 	{
 		vx = vy = SPEED_BOX;
 		FlowSimon(simon->x, simon->y, dt);
-		/*if (isDone)
-		{
-			vx = vy = BOX_RUN_FLOW_SIMON;
-			FlowSimon(simon->x, simon->y, dt);
-		}*/
 	}
-	
 	 
 
 	/// <summary>
