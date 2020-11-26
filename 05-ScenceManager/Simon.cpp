@@ -69,7 +69,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isAttack) {
 		if (GetTickCount() - action_time > SIMON_ATTACK_TIME) {
 			isAttack = false;
-			isDone = true;
+			isDoneAttack = true;
 			action_time = 0;
 		}
 	}
@@ -345,7 +345,7 @@ void CSimon::attack()
 {
 	animation_set->at(SIMON_ANI_STAND_HIT)->ResetFrame();
 	action_time = GetTickCount();
-	isDone = false;
+	isDoneAttack = false;
 	isAttack = true;
 }
 

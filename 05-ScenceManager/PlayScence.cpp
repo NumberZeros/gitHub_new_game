@@ -565,7 +565,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		SitDown();
 		break;
 	case DIK_X:
-		if (simon->isDone)
+		if (simon->isDoneAttack)
 		{
 			if (game->IsKeyDown(DIK_UP))
 			{
