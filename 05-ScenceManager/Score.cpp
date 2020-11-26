@@ -46,7 +46,7 @@ void Score::Render()
 		animation_set->at(p[i])->Render(0, x + (1 - i) * 15+300+ 110, y+36+ 13);
 	}
 	animation_set->at(0)->Render(0, x +  360 + 110, y + 10);
-	animation_set->at(stage)->Render(0, x + 375 + 110, y + 13);
+	animation_set->at(stage)->Render(0, x + 375 + 110, y + 10);
 }
 
 void Score::GetBoundingBox(float& l, float& t, float& r, float& b)

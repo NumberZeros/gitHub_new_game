@@ -296,7 +296,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_BLACK_LEOPARD: 
 		obj = new CBlackLeopard(); 
-		//blp = (CBlackLeopard*)obj;
+		black = (CBlackLeopard*)obj;
 		break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN:
@@ -463,6 +463,13 @@ void CPlayScene::Update(DWORD dt)
 			if (boss->x - player->x < 50) {
 				boss->SetState(BOX_ATTACK);
 			}
+		}
+	}
+	if (black)
+	{
+		if (black->x - player->x < 150)
+		{
+			black->SetState(BLACK_LEOPARD_RUN);
 		}
 	}
 	

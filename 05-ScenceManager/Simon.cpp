@@ -26,7 +26,7 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->x = x;
 	this->y = y;
 	simon_HP = 16;
-	simon_Score = 10;
+	simon_Score = 0;
 	simon_Mana = 15;
 	simon_Sub = 2;
 	simon_P = 0;

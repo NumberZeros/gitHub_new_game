@@ -24,6 +24,7 @@
 #include "Score.h"
 #include "Define.h"
 #include "Boss.h"
+#include "BlackLeopard.h"
 
 class CPlayScene: public CScene
 {
@@ -31,7 +32,8 @@ public:
 	
 	CSimon *player;					// A play scene has to have player, right? 
 	Boss* boss;
-	
+	CBlackLeopard* black;
+
 	Gate* gate;
 	CItem* item;
 	CWeapon* weapon;
