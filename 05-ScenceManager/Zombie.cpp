@@ -29,6 +29,17 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
+	if (x > max) {
+		nx = -1;
+		vx = -ZOMBIE_WALKING_SPEED_X;
+	}
+	else if (x < min) {
+		nx = 1;
+		vx = ZOMBIE_WALKING_SPEED_X;
+	}
+
+
+
 	if (isHidden)
 	{
 		if (GetTickCount() - action_time >= 500)

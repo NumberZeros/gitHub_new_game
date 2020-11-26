@@ -1,19 +1,10 @@
 #include <iostream>
 #include <fstream>
+#include "Intro.h"
 
 #include "PlayScence.h"
-#include "Utils.h"
-#include "Textures.h"
-#include "Sprites.h"
-#include "Portal.h"
-#include "Gate.h"
-#include "Board.h"
 #include "BlackLeopard.h"
-#include "Zombie.h"
-#include "Item.h"
 #include "Merman.h"
-
-#include "Intro.h"
 #include "VampireBat.h"
 
 using namespace std;
@@ -319,6 +310,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int id_brick = 1;
 	int x_brick = 1;
 
+	float min, max;
+
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject* obj = NULL;
@@ -334,19 +327,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			obj = new CSimon(x, y);
 			player = (CSimon*)obj;
 			player->SetState(SIMON_STATE_WALKING);
-			player->nx = -1;
-			if (isintro)
+			
+			if (isintro) {
+				player->nx = -1;
 				player->isAutoMove = true;
+			}
 			DebugOut(L"[INFO] Player object created!\n");
 		}
 		else {
 			obj = player;
 			player->nx = 1;
-			 
 			player->isAutoMove = false;
 		}
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK:
 		
 		obj = new CBrick();
@@ -381,7 +374,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		break;
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
-	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
+	case OBJECT_TYPE_ZOMBIE:
+		min = atof(tokens[4].c_str());
+		max = atof(tokens[5].c_str());
+		obj = new CZombie();
+		zombie = (CZombie*)obj;
+		zombie->min = min;
+		zombie->max = max;
+		break;
 	case OBJECT_TYPE_MERMAN:
 		obj = new CMerman();
 		break;

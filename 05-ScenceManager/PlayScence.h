@@ -9,6 +9,7 @@
 
 #include "Brick.h"
 #include "Simon.h"
+#include "Zombie.h"
 #include "Goomba.h"
 #include "Weapon.h"
 #include "Axe.h"
@@ -31,7 +32,7 @@ public:
 	
 	CSimon *player;					// A play scene has to have player, right? 
 	Boss* boss;
-	
+	CZombie* zombie;
 	Gate* gate;
 
 	CBrick* brick;
