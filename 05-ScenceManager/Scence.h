@@ -22,13 +22,14 @@ public:
 	virtual void Render() = 0;
 	virtual void LoadSimon(CSimon* simon) =0;
 	virtual void LoadTimer(Timer* timer) = 0;
+	virtual void LoadIntro() = 0;
 };
 typedef CScene * LPSCENE;
 
 
 class CScenceKeyHandler : public CKeyEventHandler
 {
-protected: 
+public: 
 	CScene * scence; 
 
 public:

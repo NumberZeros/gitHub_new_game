@@ -15,8 +15,13 @@
 #define ITEM_ANI_CANDLE										19
 #define ITEM_ANI_KNIFE										21
 #define ITEM_ANI_EFFECTFIRE											20
-#define ITEM_ANI_HOLYWATER									11
-#define ITEM_ANI_MEAT												13
+#define ITEM_ANI_MEAT										11
+#define ITEM_ANI_SMALLHEART											12
+#define ITEM_ANI_BLUEMONEY									13
+#define ITEM_ANI_REDMONEY											14
+#define ITEM_ANI_WHITEMONEY									15
+#define ITEM_ANI_HOLYWATER											22
+#define ITEM_ANI_BRICK										23
 
 
 #define ITEM_CHAIN_BBOX_WIDTH										32
@@ -43,6 +48,21 @@
 #define ITEM_MEAT_BBOX_WIDTH								32
 #define ITEM_MEAT_BBOX_HEIGHT										26
 
+#define	ITEM_SMALLHEART_BBOX_WIDTH							16
+#define	ITEM_SMALLHEART_BBOX_HEIGHT									16
+
+#define ITEM_WHITEMONEY_BBOX_WIDTH							30
+#define ITEM_WHITEMONEY_BBOX_HEIGHT									30
+
+#define ITEM_BLUEMONEY_BBOX_WIDTH							30
+#define ITEM_BLUEMONEY_BBOX_HEIGHT									30
+
+#define ITEM_REDMONEY_BBOX_WIDTH							30
+#define ITEM_REDMONEY_BBOX_HEIGHT									30
+
+#define ITEM_BRICK_BBOX_WIDTH								32
+#define ITEM_BRICK_BBOX_HEIGHT										32
+
 #define	ITEM_SPEED_Y										0.2f
 
 class CItem : public CGameObject
@@ -50,6 +70,12 @@ class CItem : public CGameObject
 public:
 	int id;
 	int state;
+	bool isBrick = false;
+	bool isKnife = false;
+	bool isRedMoney = false;
+	bool isBlueMoney = false;
+	bool isSmallHeart = false;
+	bool isWhiteMoney = false;
 	bool isTorch = false;
 	bool isChain = false;
 	bool isCandle = false;

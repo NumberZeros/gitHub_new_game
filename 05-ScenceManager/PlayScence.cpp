@@ -12,6 +12,8 @@
 #include "Zombie.h"
 #include "Item.h"
 #include "Merman.h"
+
+#include "Intro.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
@@ -19,8 +21,49 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
 	key_handler = new CPlayScenceKeyHandler(this);
 }
 
+// load intro
+
+void CPlayScene::LoadIntro()
+{
+	isintro = true;
+	LoadObject();
+	LoadMapItro();
+}
+
+void CPlayScene::LoadMapItro()
+{
+	ifstream f;
+	f.open(sceneFilePath);
+
+	// current resource section flag
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;
+		if (line == "[SCENEOBJECT]") {
+			section = SCENE_SECTION_OBJECTS; continue;
+		}
+
+
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+
+		switch (section)
+		{
+		case SCENE_SECTION_OBJECTS: _ParseSection_SCENEOBJECT(line); break;
+		}
+	}
+	f.close();
+}
+
 void CPlayScene::Load()
 {
+	isIntro = false;
 	LoadObject();
 	LoadMap();
 }
@@ -44,10 +87,7 @@ void CPlayScene::Unload()
 				delete objects[i];
 				objects.erase(objects.begin() + i);
 			}
-			
-		}
-		
-			
+		}	
 	}
 	weapon = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
@@ -59,6 +99,7 @@ void CPlayScene::ResetMap() {
 
 	objects.clear();
 	player = NULL;
+	timer = NULL;
 	DebugOut(L"ResetMap! \n");
 }
 
@@ -270,8 +311,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float y = atof(tokens[2].c_str());
 
 	int ani_set_id = atoi(tokens[3].c_str());
-	int id = 0;
+	int id_item = 0;
 	int secondGood = 12;
+
+	int id_brick = 1;
+	int x_brick = 1;
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
@@ -279,20 +323,61 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
+	case OBJECT_TYPE_INTRO_MAP:
+		obj = new Intro();
+		break;
 	case OBJECT_TYPE_SIMON:
 		if (!player)
 		{
 			obj = new CSimon(x, y);
 			player = (CSimon*)obj;
 			player->SetState(SIMON_STATE_WALKING);
+			player->nx = -1;
+			if (isintro)
+				player->isAutoMove = true;
 			DebugOut(L"[INFO] Player object created!\n");
 		}
 		else {
 			obj = player;
+			player->nx = 1;
+			 
+			player->isAutoMove = false;
 		}
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	case OBJECT_TYPE_BRICK:
+		
+		obj = new CBrick();
+		brick = (CBrick*)obj;
+		if (!atof(tokens[4].c_str()) && !atof(tokens[5].c_str())) {
+			
+			break;
+		}
+		else {
+			id_brick = atof(tokens[4].c_str());
+			x_brick = atof(tokens[5].c_str());
+			
+			//brick = (CBrick*)obj;
+			if (id_brick == OBJECT_TYPE_BRICK_ULR) {  // 111
+				brick->type = BRICK_TYPE_ULR;
+				brick->brick_x = x_brick;			break;
+			}
+			else if (id_brick == OBJECT_TYPE_BRICK_URL) { // 112
+				brick->type = BRICK_TYPE_URL;
+				brick->brick_x = x_brick;			break;
+			}
+			else if (id_brick == OBJECT_TYPE_BRICK_DLR) { // 113
+				brick->type = BRICK_TYPE_DLR;
+				brick->brick_x = x_brick;			break;
+			}
+			else if (id_brick == OBJECT_TYPE_BRICK_DRL) { // 114
+				brick->type = BRICK_TYPE_DRL;
+				brick->brick_x = x_brick;			break;
+			}
+			else if (id_brick == 0) brick->type = 0;
+			break;
+		}
+		break;
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN:
@@ -329,31 +414,43 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new HealthBar();
 		healthbar = (HealthBar*)obj;
 		break;
+	case OBJECT_TYPE_SCORE:
+		obj = new Score();
+		score = (Score*)obj;
+		break;
+	case OBJECT_TYPE_SUBW:
+		obj = new SubW();
+		subw = (SubW*)obj;
+		break;
 	case OBJECT_TYPE_TIMER:
-		if (!timer) {
+		if (!timer)
+		{
 			obj = new Timer();
 			timer = (Timer*)obj;
 		}
 		else {
 			obj = timer;
 		}
-		
 		break;
 	case OBJECT_TYPE_ITEM:
-		id = atof(tokens[4].c_str());
+		id_item = atof(tokens[4].c_str());
 		secondGood = atof(tokens[5].c_str());
 		obj = new CItem();
 		item = (CItem*)obj;
-		if (id == ID_ITEM_TYPE_TORCH) { // 1
+		if (id_item == ID_ITEM_TYPE_TORCH) { // 1
 			item->SetID(ITEM_ANI_TORCH);
 			item->SetState(ITEM_STATE_SHOW);
 			item->secondGood = secondGood;
 		}
-		else if (id == ID_ITEM_TYPE_CANDLE) {
+		else if (id_item == ID_ITEM_TYPE_CANDLE) {
 			item->SetID(ITEM_ANI_CANDLE);
 			item->SetState(ITEM_STATE_SHOW);
 			item->secondGood = secondGood;
 		}
+		break;
+	case OBJECT_TYPE_BOSS:
+		obj = new Boss();
+		boss = (Boss*)obj;
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -406,9 +503,26 @@ void CPlayScene::Update(DWORD dt)
 		objects[i]->Update(dt, &coObjects);
 	}
 
-
 	if (player == NULL) return;
+	if (timer == NULL) return;
+	if (boss != NULL) {
+		healthbar->hpboss = boss->boss_HP;
+	}
 
+	//Map intro 
+	/*if (isIntro) {
+		player->x += player->dx;
+	}*/
+	timer->Update();
+	healthbar->hp = player->simon_HP;
+	score->score = player->simon_Score;
+	score->mana = player->simon_Mana;
+	score->point = player->simon_P;
+	subw->subw = player->simon_Sub;
+	score->stage = player->simon_stage;
+	if (boss != NULL)
+		healthbar->hpboss = boss->boss_HP;
+	
 
 	//simon die reset scence
 	if (player->simon_HP < 1) {
@@ -418,6 +532,30 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
+	if (timer->timeremain < 1)
+	{
+		player->SetState(SIMON_STATE_DIE);
+		if (GetTickCount() - player->action_time > 3000) 
+		{
+			ResetMap();
+			CGame::GetInstance()->SwitchScene(game->current_scene);
+		}
+	}
+
+	if (boss) {
+		
+		if (boss->isAttack) {
+			boss->Update(player, dt);
+		}
+		else {
+			if (boss->x - player->x < 50) {
+				boss->SetState(BOX_ATTACK);
+			}
+		}
+	}
+	
+
+	//// nhung ham lien quan vi tri nam o duoi nhung ham lien quan trang thai nam o tren
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
@@ -431,10 +569,7 @@ void CPlayScene::Update(DWORD dt)
 			weapon->level = player->level;
 		}
 	}
-	//healthbar->Update(player);
-	timer->Update();
-	healthbar->hp = player->simon_HP;
-	
+
 
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
@@ -442,19 +577,20 @@ void CPlayScene::Update(DWORD dt)
 	float lenghtMap = (float)(tilemap->getwidthmap() - (game->GetScreenWidth() / 2));
 	// fix bug camera 
 	if (cx < 0) cx = 0.0f;
-	if (player->x > lenghtMap) return;
-
-											// khi chuyen man da bi lôi nen tam comment 
+	if (player->x > lenghtMap) return;										// khi chuyen man da bi lï¿½i nen tam comment 
 	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 	board->SetPosition(cx, 0);
 	healthbar->SetPosition(cx, 0);
 	timer->SetPosition(cx, 0);
+	score->SetPosition(cx, 0);
+	subw->SetPosition(cx, 0);
 }
 
 void CPlayScene::Render()
 {
 	CGame* game = CGame::GetInstance();
-	tilemap->Draw();
+	if(tilemap)
+		tilemap->Draw();
 	for (int i = 0; i < objects.size(); i++) 
 		objects[i]->Render();
 }
@@ -477,13 +613,61 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
-	if (simon->GetState() == SIMON_STATE_DIE) return;
-		if (game->IsKeyDown(DIK_RIGHT)) Run(1);
-		else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
-		else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
-		else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
-		else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
-		else simon->SetState(SIMON_STATE_IDLE);
+	if (simon->GetState() == SIMON_STATE_DIE || simon->isAutoMove) return;
+
+	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
+	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
+
+	else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
+	else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
+	else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
+	else if (game->IsKeyDown(DIK_UP))
+	{
+		if (simon->simon_stair_type == BRICK_TYPE_ULR)
+		{
+
+			//AutoWalk(simon->xbr);
+			simon->SetState(SIMON_STATE_STAIR_UP);
+			simon->nx = 1;
+			DebugOut(L"simon x: %f \n", simon->x);
+		}
+		if (simon->simon_stair_type == BRICK_TYPE_URL)
+		{
+
+			//AutoWalk(simon->xbr);
+			simon->SetState(SIMON_STATE_STAIR_UP);
+			simon->nx = -1;
+			DebugOut(L"simon x: %f \n", simon->x);
+		}
+	}
+	else if (game->IsKeyDown(DIK_DOWN))
+	{
+		if (simon->simon_stair_type == BRICK_TYPE_DLR)
+		{
+
+			AutoWalk(simon->xbr);
+			simon->SetState(SIMON_STATE_STAIR_DOWN);
+			simon->nx = 1;
+			DebugOut(L"simon x: %f \n", simon->x);
+		}
+		if (simon->simon_stair_type == BRICK_TYPE_DRL)
+		{
+
+			AutoWalk(simon->xbr);
+			simon->SetState(SIMON_STATE_STAIR_DOWN);
+			simon->nx = -1;
+			DebugOut(L"simon x: %f \n", simon->x);
+		}
+	}
+	else
+	{
+		if (simon->isStairUp || simon->isStairDown)
+		{
+			simon->isStairDown = false;
+			simon->isStairUp = false;
+		}
+		simon->SetState(SIMON_STATE_IDLE);
+	}
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
@@ -491,9 +675,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	CGame* game = CGame::GetInstance();
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	if (game->IsKeyRelease(DIK_DOWN))
-	{
 		SitDown();
-	}
 }
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
@@ -504,90 +686,80 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	CKnife* knife = ((CPlayScene*)scence)->knife;
 	CHlw* hlw = ((CPlayScene*)scence)->hlw;
 	CPlayScene* playscene = ((CPlayScene*)scence);
-
+	CBrick* brick = ((CPlayScene*)scence)->brick;
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
 		Jump();
 		break;
-	case DIK_DOWN:
+	/*case DIK_DOWN:
 		SitDown();
-		break;
-	case DIK_X:
-		if (game->IsKeyDown(DIK_UP))
-		{
-			if (axe->axe_isAtk == 0)
-			{
-				Throw_Axe();
-			}
-			break;
-		}
-		else
-			Hit();
-		break;
-	/*case DIK_C:
-		if (axe->axe_isAtk == 0)
-		{
-			Throw_Axe();
-		}
-		break;
-	case DIK_V:
-		if (knife->knife_isAtk == 0)
-		{
-			Throw_Knife();
-		}
-		break;
-	case DIK_B:
-		if (hlw->hlw_isAtk == 0)
-		{
-			Throw_Holywater();
-		}
 		break;*/
+	case DIK_X:
+		if (simon->isDoneAttack)
+		{
+			if (game->IsKeyDown(DIK_UP))
+			{
+				//if (axe->axe_isAtk == 0||simon->simon_Mana>0)
+				//{
+				//	Throw_Axe();
+				//	simon->simon_Mana -= 1;
+				//}
+				//break;
+				if (simon->simon_Mana > 0) {
+					if (simon->simon_Sub == 0)
+						Throw_Knife();
+					else if (simon->simon_Sub == 1)
+						Throw_Holywater();
+					else if (simon->simon_Sub == 2)
+						Throw_Axe();
+					simon->simon_Mana -= 1;
+				}
+				break;
+			}
+			else
+				Hit();
+		}
+		break;
 	case DIK_A:
 		simon->Reset();
 		break;
 	}
-	
-	/*if (game->IsKeyDown(DIK_SPACE))
-	{
-		Jump();
-	}
-	if (game->IsKeyDown(DIK_X))
-	{
-		Hit();
-	}
-	if (game->IsKeyDown(DIK_UP) && game->IsKeyDown(DIK_X))
-	{
-		if (axe->axe_isAtk == 0)
-		{
-			Throw_Axe();
-		}
-	}
-	if (game->IsKeyDown(DIK_DOWN))
-	{
-		SitDown();
-	}
-	
-	if (game->IsKeyDown(DIK_A))
-	{
-		simon->Reset();
-	}*/
 }
 
 
 void CPlayScenceKeyHandler::Run(int _nx) {
 	CSimon* simon = ((CPlayScene*)scence)->player;
-	simon->SetNX(_nx);
-	simon->SetState(SIMON_STATE_WALKING);
+	if (simon->isDone) {
+		simon->SetNX(_nx);
+		simon->SetState(SIMON_STATE_WALKING);
+	}
+		
+	
 }
 
+void CPlayScenceKeyHandler::AutoWalk(int des) {
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	if (des - simon->x != 0)
+	{
+		if (des - simon->x > 0)
+		{
+			Run(1);
+		}
+		else if (des - simon->x < 0)
+		{
+			Run(-1);
+		}
+	}
+	else simon->SetState(SIMON_STATE_IDLE);
+}
 void CPlayScenceKeyHandler::Jump() {
 	CSimon* simon = ((CPlayScene*)scence)->player;
-	DebugOut(L"isGrounded %d \n", simon->isGrounded);
 	if (simon->isGrounded) {
 		simon->SetState(SIMON_STATE_JUMP);
 	}
 }
+
 
 void CPlayScenceKeyHandler::SitDown() {
 	CSimon* simon = ((CPlayScene*)scence)->player;

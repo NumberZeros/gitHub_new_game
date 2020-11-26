@@ -12,6 +12,7 @@ public:
 	int hp;
 	int hplost;
 	int hpboss;
+	int hpbossLost;
 	virtual void Update(CSimon*simon);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

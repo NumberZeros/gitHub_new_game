@@ -15,27 +15,14 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
-#include "Utils.h"
 #include "Game.h"
 #include "GameObject.h"
-#include "Textures.h"
-//#include "Player.h"
-
-#include "Simon.h"
-#include "Brick.h"
-#include "Goomba.h"
-#include "Player.h"
-
 #include "PlayScence.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"SAMPLE 05 - SCENCE MANAGER"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0,0,0)//255, 255, 200)
-#define SCREEN_WIDTH 530
-#define SCREEN_HEIGHT 500
-
-#define MAX_FRAME_RATE 120
 
 //
 
@@ -190,8 +177,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game->Load(L"Scenes\\world.txt");
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
-	//cplayer = new Player(game, scene);
-	//cplayer->Init();
 	Run();
 
 	return 0;

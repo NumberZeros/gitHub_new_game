@@ -145,6 +145,30 @@ void CItem::CheckSize()
 		this->width = ITEM_MEAT_BBOX_WIDTH;
 		this->height = ITEM_MEAT_BBOX_HEIGHT;
 		break;
+	case ITEM_ANI_SMALLHEART:
+		this->width = ITEM_SMALLHEART_BBOX_WIDTH;
+		this->height = ITEM_SMALLHEART_BBOX_HEIGHT;
+		break;
+	case ITEM_ANI_BLUEMONEY:
+		this->width = ITEM_BLUEMONEY_BBOX_WIDTH;
+		this->height = ITEM_BLUEMONEY_BBOX_HEIGHT;
+		break;
+	case ITEM_ANI_REDMONEY:
+		this->width = ITEM_REDMONEY_BBOX_WIDTH;
+		this->height = ITEM_REDMONEY_BBOX_HEIGHT;
+		break;
+	case ITEM_ANI_WHITEMONEY:
+		this->width = ITEM_WHITEMONEY_BBOX_WIDTH;
+		this->height = ITEM_WHITEMONEY_BBOX_HEIGHT;
+		break;
+	case ITEM_ANI_KNIFE:
+		this->width = ITEM_KNIFE_BBOX_WIDTH;
+		this->height = ITEM_KNIFE_BBOX_HEIGHT;
+		break;
+	case ITEM_ANI_BRICK:
+		this->width = ITEM_BRICK_BBOX_WIDTH;
+		this->height = ITEM_BRICK_BBOX_HEIGHT;
+		break;
 	default:
 		break;
 	}
@@ -195,6 +219,54 @@ void CItem::SetState(int state)
 			this->isFire = false;
 			this->isHidden = false;
 		}
+		if (id == ITEM_ANI_SMALLHEART)
+		{
+			ani = GetAnimation();
+			this->isSmallHeart = true;
+			this->isCandle = false;
+			this->isFire = false;
+			this->isHidden = false;
+		}
+		if (id == ITEM_ANI_BLUEMONEY)
+		{
+			ani = GetAnimation();
+			this->isBlueMoney = true;
+			this->isCandle = false;
+			this->isFire = false;
+			this->isHidden = false;
+		}
+		if (id == ITEM_ANI_REDMONEY)
+		{
+			ani = GetAnimation();
+			this->isRedMoney = true;
+			this->isCandle = false;
+			this->isFire = false;
+			this->isHidden = false;
+		}
+		if (id == ITEM_ANI_WHITEMONEY)
+		{
+			ani = GetAnimation();
+			this->isWhiteMoney = true;
+			this->isCandle = false;
+			this->isFire = false;
+			this->isHidden = false;
+		}
+		if (id == ITEM_ANI_KNIFE)
+		{
+			ani = GetAnimation();
+			this->isKnife = true;
+			this->isCandle = false;
+			this->isFire = false;
+			this->isHidden = false;
+		}
+		if (id == ITEM_ANI_BRICK)
+		{
+			ani = GetAnimation();
+			this->isBrick = true;
+			this->isCandle = false;
+			this->isFire = false;
+			this->isHidden = false;
+		}
 		else
 		{
 			vy += speedy * dt;
@@ -236,6 +308,24 @@ int CItem::GetAnimation()
 		break;
 	case ITEM_ANI_MEAT:
 		ani = ITEM_ANI_MEAT;
+		break;
+	case ITEM_ANI_SMALLHEART:
+		ani = ITEM_ANI_SMALLHEART;
+		break;
+	case ITEM_ANI_BLUEMONEY:
+		ani = ITEM_ANI_BLUEMONEY;
+		break;
+	case ITEM_ANI_REDMONEY:
+		ani = ITEM_ANI_REDMONEY;
+		break;
+	case ITEM_ANI_WHITEMONEY:
+		ani = ITEM_ANI_WHITEMONEY;
+		break;
+	case ITEM_ANI_KNIFE:
+		ani = ITEM_ANI_KNIFE;
+		break;
+	case ITEM_ANI_BRICK:
+		ani = ITEM_ANI_BRICK;
 		break;
 	default:
 		ani = ITEM_STATE_HIDDEN;

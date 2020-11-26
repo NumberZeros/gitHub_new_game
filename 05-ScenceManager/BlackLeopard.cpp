@@ -1,8 +1,10 @@
 #include "BlackLeopard.h"
+#include "GameObject.h"
+#include "PlayScence.h"
 
 CBlackLeopard::CBlackLeopard()
 {
-	SetState(BLACK_LEOPARD_RUN);
+	SetState(BLACK_LEOPARD_JUMP);
 	height = BLACK_LEOPARD_BBOX_HEIGHT;
 	width = BLACK_LEOPARD_BBOX_WIDTH;
 }
@@ -23,7 +25,6 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-
 	if (isHidden) {
 		if (GetTickCount() - action_time >= 1500)
 			ResetBB();
@@ -45,15 +46,20 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += dx;
 		y += min_ty * dy + ny * 0.1f;
 
-		if (vx < 0 && x < 0) {
-			x = 0; vx = -vx;
-			this->nx = 1;
-		}
+			if (vx < 0 && x < 0) {
+				x = 0; vx = -vx;
+				this->nx = 1;
+				state = BLACK_LEOPARD_RUN;
+			}
 
-		if (vx > 0 && x > 500) {
-			x = 500; vx = -vx;
-			this->nx = -1;
-		}
+			else if (vx > 0 && x > 500) {
+				x = 500; vx = -vx;
+				this->nx = -1;
+				state = BLACK_LEOPARD_RUN;
+			}
+		
+
+		
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
@@ -92,7 +98,8 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
-	
+
+
 }
 
 void CBlackLeopard::Render()
@@ -124,9 +131,13 @@ void CBlackLeopard::SetState(int state)
 		break;
 	case BLACK_LEOPARD_IDLE:
 		vx = 0;
+		nx = -1;
 		break;
 	case BLACK_LEOPARD_DESTROYED:
-		vx = 0;		
+		vx = 0;
+	case BLACK_LEOPARD_JUMP:
+		vx = BLACK_LEOPARD_RUNNING_SPEED_X;
+		vy = BLACK_LEOPARD_GRAVITY * BLACK_LEOPARD_RUNNING_SPEED_Y;
 	}
 }
 

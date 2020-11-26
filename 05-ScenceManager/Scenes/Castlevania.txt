@@ -18,11 +18,14 @@
 21	textures\BlackLeopard.png	255	0	255
 22	textures\Zombie.png	255	0	255
 600	textures\Boss.png	255	0	255
+777	textures\intro.png	255	0	255
 888	textures\FireBall.png	255	0	255
 999	textures\Fish.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+#intro
+777	0	0	512	448	777
 #Zombie
 #walking
 310	0	0	32	64	22
@@ -118,6 +121,7 @@
 84	256	0	286	28	4
 85	0	32	30	60	4
 86	30	32	62	64	4
+400	0	0	0	0	4
 #Itemdoubletriple
 200	94	32	122	60	4
 201	164	32	192	60	4
@@ -221,6 +225,8 @@
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 # ====ZOMBIE==================
+#MapIntro 
+777	777	100
 #walking
 260	310	100	311	100
 #===Time====
@@ -302,6 +308,7 @@
 64	84	100
 65	85	100
 66	86	100
+666	400	100
 #WaterBottle
 67	87	100
 #Cross
@@ -325,6 +332,10 @@
 74	94	100	95	100
 #item boss
 75	96	100	97	100
+#item axe
+76	101	100
+#item borgme
+77	105	100
 #
 #====SubWeapon=======
 #Knife
@@ -372,6 +383,8 @@
 # id	ani1	ani2	ani3
 #
 [ANIMATION_SETS]
+#MapIntro
+777	777
 #ZOMBIE
 410	260	90
 #TIME
@@ -388,8 +401,8 @@
 23	51
 #Whip
 4	40	41	42
-#GOODS
-5	60	61	62	63	64	65	66	67	68	200	201	69	70	71	72	73	74	75	55	56	90	80
+#GOODS 
+5	60 	61	62	63	64	65	66	67	68	200	201	69	70	71	72	73	74	75	55	56	90	80	83	98
 #SubWeapon
 #knife
 6	80
@@ -399,6 +412,8 @@
 21	82
 #holywater
 22	83	84
+#subweaponLoad
+30	62	63	64	65	66	666
 #EffectHit
 7	91
 #Board
