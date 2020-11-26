@@ -534,8 +534,6 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	
-
 
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
