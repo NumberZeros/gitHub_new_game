@@ -22,12 +22,15 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-	DebugOut(L"y %f \n", y);
 	if (y <= 90) {
 		vy = SPEED_BOX;
 		y+=dy;
 		
 	}
+	/*else if (y >= 300) {
+		vy = -SPEED_BOX;
+		y += dy;
+	}*/
 
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
@@ -49,8 +52,14 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else if (dynamic_cast<CBrick*>(obj))
 		{
-			vx = 0;
-			vy = 0;
+			CBrick* e = dynamic_cast<CBrick*>(obj);
+
+			float left, top, right, bottom;
+			e->GetBoundingBox(left, top, right, bottom);
+			if (CheckColli(left, top, right, bottom))
+			{
+				vy = 0;
+			}
 		}
 	}
 }

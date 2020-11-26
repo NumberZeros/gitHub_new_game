@@ -425,6 +425,9 @@ void CPlayScene::Update(DWORD dt)
 
 	if (player == NULL) return;
 	if (timer == NULL) return;
+	if (boss != NULL) {
+		healthbar->hpboss = boss->boss_HP;
+	}
 	timer->Update();
 	healthbar->hp = player->simon_HP;
 	score->score = player->simon_Score;

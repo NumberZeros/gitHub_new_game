@@ -9,7 +9,7 @@ public:
 	int height;
 	int width;
 	bool isAttack;
-	int boss_HP = 16;
+	int boss_HP = 3;
 	int bossZone;
 public:
 
