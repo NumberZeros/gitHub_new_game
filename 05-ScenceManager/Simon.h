@@ -19,7 +19,12 @@ public:
 
 	DWORD timeImmortal;
 public:
-	
+	virtual void AutoWalk(int des);
+
+	int simon_stair_type = 0;
+	int xbr = 0;
+	bool isStairUp = false;
+	bool isStairDown = false;
 	CSimon();
 	virtual void SitDown();
 	virtual void attack();
@@ -29,6 +34,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 	virtual void Render();
+	
 	void SetNX(int _nx) { nx = _nx; }
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }

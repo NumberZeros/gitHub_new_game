@@ -2,6 +2,7 @@
 /// SIMON
 /// 
 #define SIMON_WALKING_SPEED											0.15f
+#define SIMON_STAIR_SPEED			0.22f
 #define SIMON_JUMP_SPEED_Y									0.5f
 #define SIMON_JUMP_DEFLECT_SPEED									0.2f
 #define SIMON_GRAVITY										0.002f
@@ -37,6 +38,7 @@
 #define SIMON_ANI_STAIR_UP_HIT								9
 #define SIMON_ANI_STAIR_DOWN_HIT									10
 #define SIMON_ANI_HURT										11
+
 #define SIMON_ANI_DIE												12
 #define SIMON_ANI_WHIP_LV1									13
 #define SIMON_ANI_WHIP_LV2											14
@@ -83,7 +85,15 @@
 #define SCENE_SECTION_LOADMAP										7
 
 #define OBJECT_TYPE_SIMON									0
+
 #define OBJECT_TYPE_BRICK											1
+
+#define OBJECT_TYPE_BRICK_ULR										111
+#define OBJECT_TYPE_BRICK_URL										112
+#define OBJECT_TYPE_BRICK_DLR										113
+#define OBJECT_TYPE_BRICK_DRL										114
+
+
 #define OBJECT_TYPE_GOOMBA									2
 #define OBJECT_TYPE_KOOPAS											3
 #define OBJECT_TYPE_GATE									4
@@ -102,6 +112,12 @@
 #define OBJECT_TYPE_TIMER											17	
 
 #define OBJECT_TYPE_PORTAL											50
+
+#define OBJECT_TYPE_STAIR_ULR								111
+#define OBJECT_TYPE_STAIR_URL										112
+#define OBJECT_TYPE_STAIR_DLR								113
+#define OBJECT_TYPE_STAIR_DRL										114
+
 
 //ITEM MAP ENTRANCE
 #define ID_ITEM_TYPE_GOODS									0

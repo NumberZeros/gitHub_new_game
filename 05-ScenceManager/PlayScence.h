@@ -30,6 +30,8 @@ public:
 	CSimon *player;					// A play scene has to have player, right? 
 	Gate* gate;
 
+	CBrick* brick;
+
 	CWeapon* weapon;
 	CAxe* axe;
 	CKnife* knife;
@@ -86,9 +88,9 @@ public:
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
-	
 
 	void Run(int _nx);
+	void AutoWalk(int des);
 	void Jump();
 	void Hit();
 	void Throw_Axe();

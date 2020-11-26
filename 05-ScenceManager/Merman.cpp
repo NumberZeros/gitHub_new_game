@@ -1,6 +1,8 @@
 #include "Merman.h"
 #include "PlayScence.h"
 
+
+
 void CMerman::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -79,6 +81,23 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 
 			}
+			if (dynamic_cast<CHlw*>(obj))
+			{
+				CHlw* e = dynamic_cast<CHlw*>(obj);
+
+				float left, top, right, bottom;
+				e->GetBoundingBox(left, top, right, bottom);
+				if (CheckColli(left, top, right, bottom))
+				{
+					e->SetState(HLW_STATE_COLLIDE);
+					e->speedy = 0;
+					e->nx = 0;
+
+					this->isHidden = true;
+					ResetBB();
+				}
+
+			}
 		}
 	}
 }
@@ -123,7 +142,6 @@ void CMerman::SetState(int state)
 		break;
 	}
 }
-
 bool CMerman::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
 	float l, t, r, b;
 	CMerman::GetBoundingBox(l, t, r, b);

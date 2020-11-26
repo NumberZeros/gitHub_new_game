@@ -253,8 +253,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float y = atof(tokens[2].c_str());
 
 	int ani_set_id = atoi(tokens[3].c_str());
-	int id = 0;
+	int id_item = 0;
 	int secondGood = 12;
+
+	int id_brick = 1;
+	int x_brick = 1;
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
@@ -275,7 +278,40 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	case OBJECT_TYPE_BRICK:
+		//id_brick = atof(tokens[4].c_str());
+		
+		if (!atof(tokens[4].c_str()) && !atof(tokens[5].c_str())) {
+			obj = new CBrick();
+			brick = (CBrick*)obj;
+		}
+		else {
+			id_brick = atof(tokens[4].c_str());
+			x_brick = atof(tokens[5].c_str());
+			obj = new CBrick();
+			brick = (CBrick*)obj;
+
+			//brick = (CBrick*)obj;
+			if (id_brick == OBJECT_TYPE_BRICK_ULR) { // 111
+				brick->type = BRICK_TYPE_ULR;
+				brick->brick_x = x_brick;
+			}
+			else if (id_brick == OBJECT_TYPE_BRICK_URL) { // 112
+				brick->type = BRICK_TYPE_URL;
+				brick->brick_x = x_brick;
+			}
+			else if (id_brick == OBJECT_TYPE_BRICK_DLR) { // 113
+				brick->type = BRICK_TYPE_DLR;
+				brick->brick_x = x_brick;
+			}
+			else if (id_brick == OBJECT_TYPE_BRICK_DRL) { // 114
+				brick->type = BRICK_TYPE_DRL;
+				brick->brick_x = x_brick;
+			}
+			else if (id_brick == 0) brick->type = 0;
+			
+		}
+		break;
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN:
@@ -318,16 +354,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		timer = (Timer*)obj;
 		break;
 	case OBJECT_TYPE_ITEM:
-		id = atof(tokens[4].c_str());
+		id_item = atof(tokens[4].c_str());
 		secondGood = atof(tokens[5].c_str());
 		obj = new CItem();
 		item = (CItem*)obj;
-		if (id == ID_ITEM_TYPE_TORCH) { // 1
+		if (id_item == ID_ITEM_TYPE_TORCH) { // 1
 			item->SetID(ITEM_ANI_TORCH);
 			item->SetState(ITEM_STATE_SHOW);
 			item->secondGood = secondGood;
 		}
-		else if (id == ID_ITEM_TYPE_CANDLE) {
+		else if (id_item == ID_ITEM_TYPE_CANDLE) {
 			item->SetID(ITEM_ANI_CANDLE);
 			item->SetState(ITEM_STATE_SHOW);
 			item->secondGood = secondGood;
@@ -444,22 +480,65 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
 	if (simon->GetState() == SIMON_STATE_DIE) return;
-		if (game->IsKeyDown(DIK_RIGHT)) Run(1);
-		else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
-		else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
-		else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
-		else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
-		else simon->SetState(SIMON_STATE_IDLE);
+
+	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
+	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
+
+	else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
+	else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
+	else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
+	else if (game->IsKeyDown(DIK_UP))
+	{
+		if (simon->simon_stair_type == BRICK_TYPE_ULR)
+		{
+
+			//AutoWalk(simon->xbr);
+			simon->SetState(SIMON_STATE_STAIR_UP);
+			simon->nx = 1;
+			DebugOut(L"simon x: %f \n", simon->x);
+		}
+		if (simon->simon_stair_type == BRICK_TYPE_URL)
+		{
+
+			//AutoWalk(simon->xbr);
+			simon->SetState(SIMON_STATE_STAIR_UP);
+			simon->nx = -1;
+			DebugOut(L"simon x: %f \n", simon->x);
+		}
+	}
+	else if (game->IsKeyDown(DIK_DOWN))
+	{
+		if (simon->simon_stair_type == BRICK_TYPE_DLR)
+		{
+
+			AutoWalk(simon->xbr);
+			simon->SetState(SIMON_STATE_STAIR_DOWN);
+			simon->nx = 1;
+			DebugOut(L"simon x: %f \n", simon->x);
+		}
+		if (simon->simon_stair_type == BRICK_TYPE_DRL)
+		{
+
+			AutoWalk(simon->xbr);
+			simon->SetState(SIMON_STATE_STAIR_DOWN);
+			simon->nx = -1;
+			DebugOut(L"simon x: %f \n", simon->x);
+		}
+	}
+	else
+	{
+		if (simon->isStairUp || simon->isStairDown)
+		{
+			simon->isStairDown = false;
+			simon->isStairUp = false;
+		}
+		simon->SetState(SIMON_STATE_IDLE);
+	}
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
-	CGame* game = CGame::GetInstance();
-	CSimon* simon = ((CPlayScene*)scence)->player;
-	if (game->IsKeyRelease(DIK_DOWN))
-	{
-		SitDown();
-	}
+	
 }
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
@@ -470,50 +549,95 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	CKnife* knife = ((CPlayScene*)scence)->knife;
 	CHlw* hlw = ((CPlayScene*)scence)->hlw;
 	CPlayScene* playscene = ((CPlayScene*)scence);
-
+	CBrick* brick = ((CPlayScene*)scence)->brick;
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
 		Jump();
 		break;
-	case DIK_DOWN:
+	/*case DIK_DOWN:
 		SitDown();
-		break;
+		break;*/
 	case DIK_X:
 		if (game->IsKeyDown(DIK_UP))
 		{
-			if (axe->axe_isAtk == 0)
+			if (hlw->hlw_isAtk == 0)
 			{
-				Throw_Axe();
+				Throw_Holywater();
 			}
 			break;
 		}
 		else
 			Hit();
 		break;
-	/*case DIK_C:
-		if (axe->axe_isAtk == 0)
-		{
-			Throw_Axe();
-		}
-		break;
-	case DIK_V:
-		if (knife->knife_isAtk == 0)
-		{
-			Throw_Knife();
-		}
-		break;
-	case DIK_B:
-		if (hlw->hlw_isAtk == 0)
-		{
-			Throw_Holywater();
-		}
-		break;*/
+	//case DIK_UP:
+	//	if (simon->simon_stair_type == BRICK_TYPE_ULR)
+	//	{
+	//		//simon->AutoWalk(simon->xbr);
+	//		AutoWalk(simon->xbr);
+	//		simon->nx = 1;
+	//		break;
+	//	}
+	//	if (simon->simon_stair_type == BRICK_TYPE_DRL)
+	//	{
+	//		//DebugOut(L"brick type: %f \n", brick->type_brick);
+	//		//simon->AutoWalk(simon->xbr);
+	//		AutoWalk(simon->xbr);
+	//		simon->nx = -1;
+	//		break;
+	//	}
+	//	break;
+	//case DIK_DOWN:
+	//	if (simon->simon_stair_type == BRICK_TYPE_DLR)
+	//	{
+	//		//simon->AutoWalk(simon->xbr);
+	//		AutoWalk(simon->xbr);
+	//		simon->nx = 1;
+	//		break;
+	//	}
+	//	if (simon->simon_stair_type == BRICK_TYPE_DRL)
+	//	{
+	//		//simon->AutoWalk(simon->xbr);
+	//		AutoWalk(simon->xbr);
+	//		simon->nx = -1;
+	//		break;
+	//	}
+	//		break;
 	case DIK_A:
 		simon->Reset();
 		break;
 	}
-	
+	//if (game->IsKeyDown(DIK_UP))
+	//{
+	//	if (simon->simon_stair_type == BRICK_TYPE_ULR)
+	//	{
+	//		//simon->AutoWalk(simon->xbr);
+	//		AutoWalk(simon->xbr);
+	//		simon->nx = 1;
+	//	}
+	//	if (simon->simon_stair_type == BRICK_TYPE_URL)
+	//	{
+	//		//DebugOut(L"brick type: %f \n", brick->type_brick);
+	//		//simon->AutoWalk(simon->xbr);
+	//		AutoWalk(simon->xbr);
+	//		simon->nx = -1;
+	//	}
+	//}
+	//else if (game->IsKeyDown(DIK_DOWN))
+	//{
+	//	if (simon->simon_stair_type == BRICK_TYPE_DLR)
+	//	{
+	//		//simon->AutoWalk(simon->xbr);
+	//		AutoWalk(simon->xbr);
+	//		simon->nx = 1;
+	//	}
+	//	if (simon->simon_stair_type == BRICK_TYPE_DRL)
+	//	{
+	//		//simon->AutoWalk(simon->xbr);
+	//		AutoWalk(simon->xbr);
+	//		simon->nx = -1;
+	//	}
+	//}
 	/*if (game->IsKeyDown(DIK_SPACE))
 	{
 		Jump();
@@ -547,6 +671,21 @@ void CPlayScenceKeyHandler::Run(int _nx) {
 	simon->SetState(SIMON_STATE_WALKING);
 }
 
+void CPlayScenceKeyHandler::AutoWalk(int des) {
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	if (des - simon->x != 0)
+	{
+		if (des - simon->x > 0)
+		{
+			Run(1);
+		}
+		else if (des - simon->x < 0)
+		{
+			Run(-1);
+		}
+	}
+	else simon->SetState(SIMON_STATE_IDLE);
+}
 void CPlayScenceKeyHandler::Jump() {
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	DebugOut(L"isGrounded %d \n", simon->isGrounded);
@@ -554,6 +693,7 @@ void CPlayScenceKeyHandler::Jump() {
 		simon->SetState(SIMON_STATE_JUMP);
 	}
 }
+
 
 void CPlayScenceKeyHandler::SitDown() {
 	CSimon* simon = ((CPlayScene*)scence)->player;

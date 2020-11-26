@@ -1,6 +1,6 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Simon , 1 = Ground 
+# type: 0 = Simon , 1 = Ground, 111 = Brick_stair_up_leftto, 112 = brick_stair_up_rightto, 113 = brick_stair_down_leftto, 114 = brick_stair_down_rightto
 
 # Brick
 1	0	400	24

@@ -82,6 +82,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (CheckColli(left, top, right, bottom))
 					die();
 			}
+			
 			if (dynamic_cast<CSimon*>(obj)) {
 				CSimon* simon = dynamic_cast<CSimon*>(obj);
 				float left, top, right, bottom;
@@ -131,7 +132,6 @@ void CZombie::die()
 	action_time = GetTickCount();
 	this->state = ZOMBIE_DEAD;
 	vx = 0;
-
 }
 bool CZombie::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
 	float l, t, r, b;
