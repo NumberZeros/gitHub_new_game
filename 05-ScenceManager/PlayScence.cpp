@@ -333,12 +333,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			player = (CSimon*)obj;
 			player->SetState(SIMON_STATE_WALKING);
 			player->nx = -1;
-			player->isAutoMove = true;
+			if (isintro)
+				player->isAutoMove = true;
 			DebugOut(L"[INFO] Player object created!\n");
 		}
 		else {
 			obj = player;
 			player->nx = 1;
+			 
 			player->isAutoMove = false;
 		}
 		break;
@@ -378,11 +380,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		break;
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_BLACK_LEOPARD: 
-		obj = new CBlackLeopard(); 
-		//blp = (CBlackLeopard*)obj;
-		break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN:
 		obj = new CMerman();

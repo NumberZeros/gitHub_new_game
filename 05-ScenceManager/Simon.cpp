@@ -90,24 +90,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += 0.216f * nx;
 		y -= 0.216f;
 	}
-	else
-	{
-		x = x;
-		y = y;
-		vy = vx = 0;
-	}
+
 	if (isStairDown)
 	{
 		vy = 0;
 		x += 0.216f * nx;
 		y += 0.216f;
 	}
-	else
-	{
-		x = x;
-		y = y;
-		vy = vx = 0;
-	}
+
 	//attact
 	if (isAttack) {
 		if (GetTickCount() - action_time > SIMON_ATTACK_TIME) {
