@@ -432,6 +432,8 @@ void CPlayScene::Update(DWORD dt)
 	score->point = player->simon_P;
 	subw->subw = player->simon_Sub;
 	score->stage = player->simon_stage;
+	if (boss != NULL)
+		healthbar->hpboss = boss->boss_HP;
 	
 
 	//simon die reset scence

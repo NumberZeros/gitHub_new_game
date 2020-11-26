@@ -17,7 +17,7 @@ public:
 	int start_x;
 	int start_y;
 	int simon_HP;
-	int simon_Score;
+	int simon_Score=10;
 	int simon_Mana,simon_P,simon_Sub,simon_stage=1;
 
 	DWORD timeImmortal;
