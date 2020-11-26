@@ -12,6 +12,8 @@
 #include "Zombie.h"
 #include "Item.h"
 #include "Merman.h"
+
+#include "Intro.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
@@ -19,8 +21,49 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
 	key_handler = new CPlayScenceKeyHandler(this);
 }
 
+// load intro
+
+void CPlayScene::LoadIntro()
+{
+	isintro = true;
+	LoadObject();
+	LoadMapItro();
+}
+
+void CPlayScene::LoadMapItro()
+{
+	ifstream f;
+	f.open(sceneFilePath);
+
+	// current resource section flag
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;
+		if (line == "[SCENEOBJECT]") {
+			section = SCENE_SECTION_OBJECTS; continue;
+		}
+
+
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+
+		switch (section)
+		{
+		case SCENE_SECTION_OBJECTS: _ParseSection_SCENEOBJECT(line); break;
+		}
+	}
+	f.close();
+}
+
 void CPlayScene::Load()
 {
+	isIntro = false;
 	LoadObject();
 	LoadMap();
 }
@@ -44,10 +87,7 @@ void CPlayScene::Unload()
 				delete objects[i];
 				objects.erase(objects.begin() + i);
 			}
-			
-		}
-		
-			
+		}	
 	}
 	weapon = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
@@ -280,16 +320,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
+	case OBJECT_TYPE_INTRO_MAP:
+		obj = new Intro();
+		break;
 	case OBJECT_TYPE_SIMON:
 		if (!player)
 		{
 			obj = new CSimon(x, y);
 			player = (CSimon*)obj;
 			player->SetState(SIMON_STATE_WALKING);
+			player->nx = -1;
+			player->isAutoMove = true;
 			DebugOut(L"[INFO] Player object created!\n");
 		}
 		else {
 			obj = player;
+			player->nx = 1;
+			player->isAutoMove = false;
 		}
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
@@ -422,12 +469,16 @@ void CPlayScene::Update(DWORD dt)
 		objects[i]->Update(dt, &coObjects);
 	}
 
-
 	if (player == NULL) return;
 	if (timer == NULL) return;
 	if (boss != NULL) {
 		healthbar->hpboss = boss->boss_HP;
 	}
+
+	//Map intro 
+	/*if (isIntro) {
+		player->x += player->dx;
+	}*/
 	timer->Update();
 	healthbar->hp = player->simon_HP;
 	score->score = player->simon_Score;
@@ -504,7 +555,8 @@ void CPlayScene::Update(DWORD dt)
 void CPlayScene::Render()
 {
 	CGame* game = CGame::GetInstance();
-	tilemap->Draw();
+	if(tilemap)
+		tilemap->Draw();
 	for (int i = 0; i < objects.size(); i++) 
 		objects[i]->Render();
 }

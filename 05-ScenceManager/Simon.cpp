@@ -44,6 +44,27 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
+
+	if (isAutoMove) {						// chuyen xy ly cho map intro
+		state = SIMON_STATE_WALKING;
+		vx = -0.05;
+		x += vx*dt;
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<Gate*>(obj)) {
+				Gate* gate = dynamic_cast<Gate*>(obj);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
+				if (CheckColli(left, top, right, bottom))
+				{
+					CGame* game = CGame::GetInstance();
+					CGame::GetInstance()->SwitchScene(game->current_scene + 1);
+				}
+			}
+		}
+	}
+
 	if (simon_HP < 1)
 		state = SIMON_STATE_DIE;
 		
@@ -55,8 +76,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			dy = 0;
 	}
 		
-
-
 	//jump
 	if (!isGrounded) {
 		if (GetTickCount() - action_time > SIMON_RESET_JUMP_TIME) {

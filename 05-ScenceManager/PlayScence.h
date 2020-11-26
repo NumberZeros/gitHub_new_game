@@ -52,6 +52,7 @@ public:
 	float distanceLimit;
 	int idstage;
 	int current_scene;
+	bool isIntro = false;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -74,6 +75,8 @@ public:
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
 
+	void LoadIntro();
+	void LoadMapItro();
 	virtual void Load();
 	void LoadSimon(CSimon* prevSimon);
 	void LoadTimer(Timer* prevTimer);

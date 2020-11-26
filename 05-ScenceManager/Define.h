@@ -120,6 +120,8 @@
 #define OBJECT_TYPE_SCORE									        19
 #define OBJECT_TYPE_SUBW									20
 
+#define OBJECT_TYPE_INTRO_MAP								777
+
 #define OBJECT_TYPE_PORTAL											50
 //ITEM MAP ENTRANC
 #define ID_ITEM_TYPE_GOODS									0

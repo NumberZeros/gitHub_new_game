@@ -133,6 +133,7 @@
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="Holywater.cpp" />
+    <ClCompile Include="Intro.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Knife.cpp" />
     <ClCompile Include="Koopas.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="Holywater.h" />
+    <ClInclude Include="Intro.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Knife.h" />
     <ClInclude Include="Koopas.h" />

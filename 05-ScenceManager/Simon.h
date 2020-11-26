@@ -20,6 +20,7 @@ public:
 	int simon_Score;
 	int simon_Mana,simon_P,simon_Sub,simon_stage=1;
 	bool isDoneAttack = true;
+	bool isAutoMove = false;
 
 	DWORD timeImmortal;
 public:
