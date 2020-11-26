@@ -58,6 +58,7 @@ public:
 	float vy;
 
 	int nx;	 
+	int idItem;
 
 	int state;
 

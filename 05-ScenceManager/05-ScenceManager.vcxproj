@@ -128,9 +128,12 @@
     <ClCompile Include="Axe.cpp" />
     <ClCompile Include="BlackLeopard.cpp" />
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Boss.h" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="Holywater.cpp" />
+    <ClCompile Include="Intro.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Knife.cpp" />
     <ClCompile Include="Koopas.cpp" />
@@ -138,6 +141,8 @@
     <ClCompile Include="Merman.cpp" />
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="Score.cpp" />
+    <ClCompile Include="SubW.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -162,6 +167,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="Holywater.h" />
+    <ClInclude Include="Intro.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Knife.h" />
     <ClInclude Include="Koopas.h" />
@@ -170,6 +176,8 @@
     <ClInclude Include="Number.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Score.h" />
+    <ClInclude Include="SubW.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Utils.h" />

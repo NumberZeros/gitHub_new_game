@@ -3,6 +3,7 @@ start	3
 #scene list
 
 [SCENES]
+0	Scenes\MapIntro.txt
 1	Scenes\Map1full.txt
 2	Scenes\Map2full.txt
 3	Scenes\Map3full.txt

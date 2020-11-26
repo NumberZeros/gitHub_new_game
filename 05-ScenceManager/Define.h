@@ -1,3 +1,7 @@
+#define SCREEN_WIDTH 530
+#define SCREEN_HEIGHT 500
+
+#define MAX_FRAME_RATE 120
 ///
 /// SIMON
 /// 
@@ -70,6 +74,18 @@
 #define WEAPON_WIDHT_ANI_3											75;
 
 ///
+/// FIRE BALL
+/// 
+
+#define FIREBALL_STATE_HIDDEN								0
+#define FIREBALL_STATE_ATTACK										1
+
+#define FIREBALL_ANI_ATTACK									0
+
+#define FIREBALL_BBOX_WIDTH									10
+#define FIREBALL_BBOX_HEIGHT										12
+
+///
 /// PLAY SCENE
 /// 
 
@@ -110,16 +126,14 @@
 #define OBJECT_TYPE_STAIR											14
 #define OBJECT_TYPE_HEALTHBAR								16				
 #define OBJECT_TYPE_TIMER											17	
+#define OBJECT_TYPE_FIREBALL								18
+#define OBJECT_TYPE_SCORE									        19
+#define OBJECT_TYPE_SUBW									20
+
+#define OBJECT_TYPE_INTRO_MAP								777
 
 #define OBJECT_TYPE_PORTAL											50
-
-#define OBJECT_TYPE_STAIR_ULR								111
-#define OBJECT_TYPE_STAIR_URL										112
-#define OBJECT_TYPE_STAIR_DLR								113
-#define OBJECT_TYPE_STAIR_DRL										114
-
-
-//ITEM MAP ENTRANCE
+//ITEM MAP ENTRANC
 #define ID_ITEM_TYPE_GOODS									0
 #define ID_ITEM_TYPE_TORCH											1
 #define ID_ITEM_TYPE_CANDLE									2
@@ -127,6 +141,12 @@
 #define ID_ITEM_TYPE_BIGHEART										4
 #define ID_ITEM_TYPE_KNIFE									5
 #define ID_ITEM_TYPE_EFFECTFIRE										6
+#define ID_ITEM_TYPE_MEAT									7
+#define ID_ITEM_TYPE_SMALLHEART										8
+#define ID_ITEM_TYPE_BLUEMONEY								9
+#define ID_ITEM_TYPE_REDMONEY										10
+#define ID_ITEM_TYPE_WHITEMONEY								11
+#define ID_ITEM_TYPE_HOLYWATER										12
 
 
 
@@ -147,7 +167,7 @@
 
 #define BLACK_LEOPARD_IDLE									0  
 #define BLACK_LEOPARD_RUN											1
-#define BLACK_LEOPARD_ANI_JUMP								2
+#define BLACK_LEOPARD_JUMP								2
 #define BLACK_LEOPARD_DESTROYED										3
 
 #define BLACK_LEOPARD_RUNNING_SPEED_X						0.15f
@@ -165,6 +185,7 @@
 #define MERMAN_JUMP_SPEED_Y											0.9f
 #define MERMAN_WALKING_SPEED_X								0.13f
 #define MERMAN_GRAVITY												0.002f
+#define MERMAN_ATTACK_TIME									300
 
 #define MERMAN_BBOX_WIDTH											32
 #define MERMAN_BBOX_HEIGHT									64
@@ -211,3 +232,15 @@
 // gate
 #define gate_box_width										32
 #define gate_box_height												50
+
+//Boss 
+
+#define BOX_WIDTH											96
+#define BOX_HEIGTH													46
+
+#define BOX_SLEEP											0
+#define BOX_ATTACK													1
+#define BOX_DIE												2
+
+#define BOX_RUN_FLOW_SIMON											0.5
+#define SPEED_BOX											0.05

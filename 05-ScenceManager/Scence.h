@@ -3,6 +3,7 @@
 #include <d3dx9.h>
 #include "KeyEventHandler.h"
 #include "Simon.h"
+#include "Timer.h"
 
 class CScene
 {
@@ -20,13 +21,15 @@ public:
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
 	virtual void LoadSimon(CSimon* simon) =0;
+	virtual void LoadTimer(Timer* timer) = 0;
+	virtual void LoadIntro() = 0;
 };
 typedef CScene * LPSCENE;
 
 
 class CScenceKeyHandler : public CKeyEventHandler
 {
-protected: 
+public: 
 	CScene * scence; 
 
 public:

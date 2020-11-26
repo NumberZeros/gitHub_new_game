@@ -2,24 +2,23 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba
 
-#BLACK_LEOPARD
-11	70	0	400
-
-#ZOMBIE
-10	50	110	410
-
 #MERMAN
-13	30	110	420
+13	100	303	420	
+
+#FIREBALL
+18	-100	-100	888
+
 #ITEM
 
 # GOODS				idTypeItem 
 
 # TORCH 			
-12	160	303	5	1	0
-12	450	303	5	1	1
-12	675	303	5	1	11
-12	960	303	5	1	13
-12	1218	303	5	1	0
+12	160	303	5	1	21
+12	450	303	5	1	0
+12	675	303	5	1	0
+12	960	303	5	1	1
+12	1218	303	5	1	21
+
 
 # BRICK 
 # --- platform (hint: I created the list using Excel!) ----
@@ -91,7 +90,7 @@
 
 
 #gate
-4	1376	336	2
+4	1500	336	2
 # Simon
 0	20	100	1
 # board
@@ -100,6 +99,10 @@
 16	110	33	9
 #timer
 17	300	13	17
+#score
+19	110	13	17
+#subwl
+20	310	36	30
 
 #whip
 5	-100	-100	4

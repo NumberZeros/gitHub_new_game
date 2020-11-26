@@ -10,7 +10,6 @@
 #include "Brick.h"
 #include "Simon.h"
 #include "Goomba.h"
-
 #include "Weapon.h"
 #include "Axe.h"
 #include "Knife.h"
@@ -21,17 +20,23 @@
 #include "Item.h"
 #include "TileMap.h"
 #include "HealthBar.h"
+#include "SubW.h"
+#include "Score.h"
 #include "Define.h"
+#include "Boss.h"
 
 class CPlayScene: public CScene
 {
 public: 
-	CItem* item;
+	
 	CSimon *player;					// A play scene has to have player, right? 
+	Boss* boss;
+	
 	Gate* gate;
 
 	CBrick* brick;
 
+	CItem* item;
 	CWeapon* weapon;
 	CAxe* axe;
 	CKnife* knife;
@@ -40,14 +45,17 @@ public:
 	HealthBar* healthbar;
 	Timer* timer;
 	CBoard* board;
+	Score* score;
+	SubW* subw;
 	TileMap* tilemap;
 	vector<LPSPRITE> playerHP;
 	vector<LPSPRITE> enemyHP;
 	vector<LPSPRITE> loseHP;
 
-
+	float distanceLimit;
 	int idstage;
 	int current_scene;
+	bool isIntro = false;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -70,11 +78,16 @@ public:
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
 
+	void LoadIntro();
+	void LoadMapItro();
 	virtual void Load();
 	void LoadSimon(CSimon* prevSimon);
+	void LoadTimer(Timer* prevTimer);
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+
+	void ResetMap();
 
 	void LoadMap();
 	void LoadObject();

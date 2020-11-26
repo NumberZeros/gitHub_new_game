@@ -11,6 +11,7 @@
 #include "BlackLeopard.h"
 #include "HealthBar.h"
 #include "Weapon.h"
+#include "Item.h"
 
 CSimon::CSimon(float x, float y) : CGameObject()
 {
@@ -25,7 +26,10 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->x = x;
 	this->y = y;
 	simon_HP = 16;
-	untouchable = 0;
+	simon_Score = 123456;
+	simon_Mana = 15;
+	simon_Sub = 2;
+	simon_P = 0;
 }
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -36,16 +40,44 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
 	coEvents.clear();
-
 	// turn off collision when die 
-	if (state != SIMON_ANI_DIE)
+	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
-	if ((isImmortal && isDone == true) || isAttack)
-		dx = 0;
 
+	if (isAutoMove) {						// chuyen xy ly cho map intro
+		state = SIMON_STATE_WALKING;
+		vx = -0.05;
+		x += vx*dt;
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<Gate*>(obj)) {
+				Gate* gate = dynamic_cast<Gate*>(obj);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
+				if (CheckColli(left, top, right, bottom))
+				{
+					CGame* game = CGame::GetInstance();
+					CGame::GetInstance()->SwitchScene(game->current_scene + 1);
+				}
+			}
+		}
+	}
+
+	if (simon_HP < 1)
+		state = SIMON_STATE_DIE;
+		
+
+	if ((isImmortal && !isDone) || isAttack || simon_HP < 1)
+	{
+		dx = 0;
+		if (simon_HP < 1)
+			dy = 0;
+	}
+		
+	//jump
 	if (!isGrounded) {
 		if (GetTickCount() - action_time > SIMON_RESET_JUMP_TIME) {
 			action_time = 0;
@@ -80,7 +112,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isAttack) {
 		if (GetTickCount() - action_time > SIMON_ATTACK_TIME) {
 			isAttack = false;
-			isDone = true;
+			isDoneAttack = true;
 			action_time = 0;
 		}
 	}
@@ -95,15 +127,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (isImmortal) {
-		if (GetTickCount() - timeImmortal > 300) 
-		{
-			SetState(SIMON_STATE_IDLE);
+		if (GetTickCount() - timeImmortal > 500) 
 			isDone = true;
-		}
 		else 
 			vx = -SIMON_HURT_SPEED;
 			
-		if (GetTickCount() - timeImmortal > 1000)
+		if (GetTickCount() - timeImmortal > 2000)
 		{
 			isImmortal = false;
 			timeImmortal = 0;
@@ -146,16 +175,69 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
-				else if (item->id == ITEM_ANI_CHAIN) {
+				if (item->id == ITEM_ANI_CHAIN) {
 					level += 1;
 					item->isHidden = true;
 					item->ResetBB();
+					if (level >= 3)
+						level = 3;
 				}
-				else if (item->id == ITEM_ANI_HOLYWATER) {
+				if (item->id == ITEM_ANI_HOLYWATER) {
 					simon_HP = 16;
 					item->isHidden = true;
 					item->ResetBB();
+					number = 1;
+					
 				}
+				if (item->id == ITEM_ANI_BIGHEART)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 2;
+					simon_Mana += 1;
+				}
+				if (item->id == ITEM_ANI_MEAT)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 3;
+				}
+				if (item->id == ITEM_ANI_SMALLHEART)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					simon_Mana += 1;
+					number = 4;
+				}
+				if (item->id == ITEM_ANI_BLUEMONEY)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					simon_Mana += 1;
+					number = 5;
+				}
+				if (item->id == ITEM_ANI_REDMONEY)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 6;
+				}
+				if (item->id == ITEM_ANI_WHITEMONEY)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 7;
+					simon_Score += 15;
+				}
+				if (item->id == ITEM_ANI_KNIFE)
+				{
+					item->isHidden = true;
+					item->ResetBB();
+					number = 8;
+					simon_Sub = 0;
+				}
+
+				GetNumber();
 			} 
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
@@ -177,10 +259,27 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				Gate* gate = dynamic_cast<Gate*>(e->obj);
 				CGame* game = CGame::GetInstance();
 				CGame::GetInstance()->SwitchScene(game->current_scene +1);
-
+				simon_stage += 1;
 			}
 			else if (dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
 				x += dx;
+			}
+			else if (dynamic_cast<Boss*>(e->obj)) 
+			{
+				Boss* item = dynamic_cast<Boss*>(e->obj);
+					if (e->nx != 0)
+						x += dx;
+					if (!isGrounded) {
+						if (ny < 0)
+							y += dy;
+						if (ny > 0) {
+							vy = -SIMON_JUMP_SPEED_Y;
+							y += dy;
+						}
+					}
+					else
+						dy = 0;
+
 			}
 		}
 	}
@@ -217,9 +316,15 @@ void CSimon::AutoWalk(int des)
 
 void CSimon::Render()
 {
-	int ani = -1;
-	if (state == SIMON_ANI_DIE)
+	int ani = 0;
+	if (state == SIMON_STATE_DIE)
 		ani = SIMON_ANI_DIE;
+	else if (isAttack) {
+		if (isSit)
+			ani = SIMON_ANI_SIT_HIT;
+		else
+			ani = SIMON_ANI_STAND_HIT;
+	}
 	else {
 		// di chuyen 
 		if (state == SIMON_STATE_IDLE)
@@ -228,29 +333,18 @@ void CSimon::Render()
 				ani = SIMON_ANI_SIT_DOWN;
 			else
 				ani = SIMON_ANI_IDLE;
-		} else
-			ani = SIMON_ANI_WALKING;
-
-		if (isAttack) {
-			if (isSit)
-				ani = SIMON_ANI_SIT_HIT;
-			else
-				ani = SIMON_ANI_STAND_HIT;
 		}
-		if (isStairUp)
-		{
+		else if (isStairUp)
 			ani = SIMON_ANI_STAIR_UP;
-		}
-		if (isStairDown)
-		{
+		else if (isStairDown)
 			ani = SIMON_ANI_STAIR_DOWN;
-		}
-		if (isImmortal && isDone == false)
+		else if (isImmortal && !isDone)
 			ani = SIMON_ANI_HURT;
-
+		else
+			ani = SIMON_ANI_WALKING;
 	}
 	int alpha = 255;
-	if (untouchable) alpha = 128;
+	if (isImmortal) alpha = 128;
 
 	animation_set->at(ani)->Render(nx, x, y, alpha);
 
@@ -285,12 +379,19 @@ void CSimon::SetState(int state)
 		SitDown();
 		break;
 	case SIMON_STATE_HURT:
-		isDone = false;
-		simon_HP -= 1;
-		isImmortal = true;
-		timeImmortal = GetTickCount();
-		vy = -SIMON_JUMP_SPEED_Y;
-		vx = 0;
+		if (simon_HP > 0) {
+			isDone = false;
+			simon_HP -= 1;
+			isImmortal = true;
+			timeImmortal = GetTickCount();
+			vy = -0.2;
+			vx = 0;
+		}
+		else {
+			dx = 0;
+			dy = 0;
+			simon_HP = 0;
+		}
 		break;
 	case SIMON_STATE_STAIR_UP:
 		isStairUp = true;
@@ -299,6 +400,7 @@ void CSimon::SetState(int state)
 		isStairDown = true;
 		break;
 	case SIMON_ANI_DIE:
+		action_time = GetTickCount();
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
 	}
@@ -326,7 +428,7 @@ void CSimon::attack()
 {
 	animation_set->at(SIMON_ANI_STAND_HIT)->ResetFrame();
 	action_time = GetTickCount();
-	isDone = false;
+	isDoneAttack = false;
 	isAttack = true;
 }
 
@@ -343,4 +445,5 @@ void CSimon::Reset()
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }
+
 
