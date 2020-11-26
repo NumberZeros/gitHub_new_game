@@ -1,6 +1,6 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba
+# type: 0 = Mario , 1 = Brick, 2	0	0 = Goomba
 
 #MERMAN
 13	100	303	420	
@@ -88,9 +88,8 @@
 1	-32	416	2	0	0
 1	-32	448	2	0	0
 
-
 #gate
-4	1500	336	2
+4	1500	336	2	0	0
 # Simon
 0	20	100	1
 # board

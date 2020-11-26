@@ -1,6 +1,6 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Simon , 1 = Ground, 111 = Brick_stair_up_leftto, 112 = brick_stair_up_rightto, 113 = brick_stair_down_leftto, 114 = brick_stair_down_rightto
+# type: 0 = Simon , 1 = Ground 
 
 # Brick
 1	0	400	24	0	0
@@ -33,8 +33,8 @@
 1	928	400	24	0	0
 1	960	400	24	0	0
 1	992	400	24	0	0
-				
-# brick other				
+
+# brick other
 1	832	208	24	0	0
 1	864	208	24	0	0
 1	896	208	24	0	0
@@ -65,8 +65,8 @@
 1	608	304	24	0	0
 1	608	336	24	0	0
 1	608	368	24	0	0
-					
-#brick y> 0					
+
+#brick y> 0
 1	0	208	24	0	0
 1	32	208	24	0	0
 1	64	208	24	0	0
@@ -78,8 +78,8 @@
 1	288	272	24	0	0
 1	320	272	24	0	0
 1	352	272	24	0	0
-					
-#stop map					
+
+#stop map
 1	-32	0	24	0	0
 1	-32	32	24	0	0
 1	-32	64	24	0	0
@@ -110,10 +110,10 @@
 1	1024	384	24	0	0
 1	1024	416	24	0	0
 1	1024	448	24	0	0
-					
-#STAIR					
-1	96	400	27	0	0
-1	736	400	27	0	0
+
+#STAIR
+1	96	400	27
+1	736	400	27
 
 #CANDLE
 12	170	150	5	2	1
