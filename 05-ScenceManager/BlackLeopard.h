@@ -10,6 +10,7 @@ class CBlackLeopard : public CGameObject
 	void die();
 	DWORD action_time;
 public:
+	float distance;
 	CBlackLeopard();
 	virtual void SetState(int state);
 	bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);

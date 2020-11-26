@@ -105,6 +105,10 @@
     <ClCompile Include="Score.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
     <ClCompile Include="SubW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

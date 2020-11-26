@@ -1,3 +1,7 @@
+#define SCREEN_WIDTH 530
+#define SCREEN_HEIGHT 500
+
+#define MAX_FRAME_RATE 120
 ///
 /// SIMON
 /// 
@@ -151,7 +155,7 @@
 
 #define BLACK_LEOPARD_IDLE									0  
 #define BLACK_LEOPARD_RUN											1
-#define BLACK_LEOPARD_ANI_JUMP								2
+#define BLACK_LEOPARD_JUMP								2
 #define BLACK_LEOPARD_DESTROYED										3
 
 #define BLACK_LEOPARD_RUNNING_SPEED_X						0.15f
@@ -216,3 +220,15 @@
 // gate
 #define gate_box_width										32
 #define gate_box_height												50
+
+//Boss 
+
+#define BOX_WIDTH											96
+#define BOX_HEIGTH													46
+
+#define BOX_SLEEP											0
+#define BOX_ATTACK													1
+#define BOX_DIE												2
+
+#define BOX_RUN_FLOW_SIMON											0.5
+#define SPEED_BOX											0.05

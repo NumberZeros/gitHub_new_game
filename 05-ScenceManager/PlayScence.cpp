@@ -294,7 +294,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); 	break;
+	case OBJECT_TYPE_BLACK_LEOPARD: 
+		obj = new CBlackLeopard(); 
+		//blp = (CBlackLeopard*)obj;
+		break;
 	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
 	case OBJECT_TYPE_MERMAN:
 		obj = new CMerman();
@@ -364,6 +367,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			item->secondGood = secondGood;
 		}
 		break;
+	case OBJECT_TYPE_BOSS:
+		obj = new Boss();
+		boss = (Boss*)obj;
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -418,12 +425,17 @@ void CPlayScene::Update(DWORD dt)
 
 	if (player == NULL) return;
 	if (timer == NULL) return;
+	if (boss != NULL) {
+		healthbar->hpboss = boss->boss_HP;
+	}
 	timer->Update();
 	healthbar->hp = player->simon_HP;
 	score->score = player->simon_Score;
 	score->mana = player->simon_Mana;
 	score->point = player->simon_P;
 	subw->subw = player->simon_Sub;
+	score->stage = player->simon_stage;
+	
 
 	//simon die reset scence
 	if (player->simon_HP < 1) {
@@ -441,7 +453,18 @@ void CPlayScene::Update(DWORD dt)
 			ResetMap();
 			CGame::GetInstance()->SwitchScene(game->current_scene);
 		}
+	}
+
+	if (boss) {
 		
+		if (boss->isAttack) {
+			boss->Update(player, dt);
+		}
+		else {
+			if (boss->x - player->x < 50) {
+				boss->SetState(BOX_ATTACK);
+			}
+		}
 	}
 	
 
@@ -503,12 +526,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
 	if (simon->GetState() == SIMON_STATE_DIE) return;
-		if (game->IsKeyDown(DIK_RIGHT)) Run(1);
-		else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
-		else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
-		else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
-		else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
-		else simon->SetState(SIMON_STATE_IDLE);
+
+	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
+	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
+	else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
+	else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
+	else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
+	else simon->SetState(SIMON_STATE_IDLE);
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
@@ -541,69 +565,41 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_X:
 		if (game->IsKeyDown(DIK_UP))
 		{
-			if (axe->axe_isAtk == 0)
-			{
-				Throw_Axe();
+			//if (axe->axe_isAtk == 0||simon->simon_Mana>0)
+			//{
+			//	Throw_Axe();
+			//	simon->simon_Mana -= 1;
+			//}
+			//break;
+			if (simon->simon_Mana > 0) {
+				if (simon->simon_Sub == 0)
+					Throw_Knife();
+				else if (simon->simon_Sub == 1)
+					Throw_Holywater();
+				else if (simon->simon_Sub == 2)
+					Throw_Axe();
+				simon->simon_Mana -= 1;
 			}
 			break;
 		}
 		else
 			Hit();
 		break;
-	/*case DIK_C:
-		if (axe->axe_isAtk == 0)
-		{
-			Throw_Axe();
-		}
-		break;
-	case DIK_V:
-		if (knife->knife_isAtk == 0)
-		{
-			Throw_Knife();
-		}
-		break;
-	case DIK_B:
-		if (hlw->hlw_isAtk == 0)
-		{
-			Throw_Holywater();
-		}
-		break;*/
 	case DIK_A:
 		simon->Reset();
 		break;
 	}
-	
-	/*if (game->IsKeyDown(DIK_SPACE))
-	{
-		Jump();
-	}
-	if (game->IsKeyDown(DIK_X))
-	{
-		Hit();
-	}
-	if (game->IsKeyDown(DIK_UP) && game->IsKeyDown(DIK_X))
-	{
-		if (axe->axe_isAtk == 0)
-		{
-			Throw_Axe();
-		}
-	}
-	if (game->IsKeyDown(DIK_DOWN))
-	{
-		SitDown();
-	}
-	
-	if (game->IsKeyDown(DIK_A))
-	{
-		simon->Reset();
-	}*/
 }
 
 
 void CPlayScenceKeyHandler::Run(int _nx) {
 	CSimon* simon = ((CPlayScene*)scence)->player;
-	simon->SetNX(_nx);
-	simon->SetState(SIMON_STATE_WALKING);
+	if (!simon->isDone) return;
+	else {
+		simon->SetNX(_nx);
+		simon->SetState(SIMON_STATE_WALKING);
+	}
+	
 }
 
 void CPlayScenceKeyHandler::Jump() {
