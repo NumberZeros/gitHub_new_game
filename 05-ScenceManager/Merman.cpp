@@ -1,12 +1,15 @@
 #include "Merman.h"
 #include "PlayScence.h"*
+#include "Axe.h"
 CMerman::CMerman() {
-	isHidden = false;
-	SetState(MERMAN_WALKING);
+	srand(time(NULL));
+	nx = rand() % (1 - (-1) + 1) -1;
+	isHidden = false;	
 	height = MERMAN_BBOX_HEIGHT;
 	width = MERMAN_BBOX_WIDTH;
-	Jump();
+	SetState(MERMAN_JUMP);	
 }
+
 
 void CMerman::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -18,38 +21,38 @@ void CMerman::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
-	DWORD now = GetTickCount();
+	CAxe* knife = new CAxe();
 	CGameObject::Update(dt, coObjects);
-	if (now == 0)
-	{
-		this->x = x;
-		this->y = 500;
-		vy -= MERMAN_GRAVITY * dt;
-	}
-
-	//fall down
-	
+	//fall down	
 	vy += MERMAN_GRAVITY * dt;
-	//this->SetState(MERMAN_JUMP);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
+	srand(time(NULL));
+	int res = rand() % (7000 - 2500 + 1) + 2500;
 	coEvents.clear();
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
+	if (GetTickCount() - action_time > 1200) {
+		SetState(MERMAN_WALKING);
+	}
+	if (GetTickCount() - action_time > res) {
+		this->SetState(MERMAN_SHOOT_FIREBALL);
+		knife->UpdatePosionWithSimon(this->GetPositionX(), this->GetPositionY(), this->nx);
+		knife->speedy = AXE_SPEED_Y;
+		knife->SetState(AXE_STATE_ATTACK);
+	}
 	if (isHidden)
 	{
 		if (GetTickCount() - action_time >= 500)
 			ResetBB();
 	}
+	
 	if (coEvents.size() == 0)
 	{
 		x += dx;
 		y += dy;
 	}
-
 
 	if (vx < 0 && x < 0) {
 		x = 0; vx = -vx;
@@ -136,7 +139,26 @@ void CMerman::SetState(int state)
 		break;
 	case MERMAN_DEAD:
 		vx = 0;
+		break;
+	case MERMAN_JUMP:
+		action_time = GetTickCount();
+		vx = 0;
+		vy -= MERMAN_JUMP_SPEED_Y;
+		break;
+	case MERMAN_SHOOT_FIREBALL:
+		action_time = GetTickCount();
+		vx = vy = 0;
+		attack();
+		default:
+			break;
 	}
+}
+void CMerman::attack()
+{
+	animation_set->at(MERMAN_SHOOT_FIREBALL)->ResetFrame();
+	action_time = GetTickCount();
+	isDone = false;
+	isAttack = true;
 }
 void CMerman::die()
 {
@@ -147,10 +169,7 @@ void CMerman::die()
 
 }
 
-void CMerman::Jump()
-{
 
-}
 bool CMerman::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
 	float l, t, r, b;
 	CMerman::GetBoundingBox(l, t, r, b);

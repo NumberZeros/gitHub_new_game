@@ -6,10 +6,11 @@ class CMerman: public CGameObject
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();	
 public:
+	bool isAttack = false;
 	bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 	CMerman();
 	virtual void SetState(int state);
 	void die();
-	void Jump();
+	void attack();
 };
 

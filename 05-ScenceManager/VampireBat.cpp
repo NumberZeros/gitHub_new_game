@@ -22,7 +22,7 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 	//vy += VAMPIREBAT_GRAVITY * dt;
-	this->y = -sin(this->x * 0.03) * 41.3 +270;
+	this->y = -sin(this->x * 0.03) * 41.3 +290;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
