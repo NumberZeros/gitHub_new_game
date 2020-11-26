@@ -165,6 +165,10 @@ void CItem::CheckSize()
 		this->width = ITEM_KNIFE_BBOX_WIDTH;
 		this->height = ITEM_KNIFE_BBOX_HEIGHT;
 		break;
+	case ITEM_ANI_BRICK:
+		this->width = ITEM_BRICK_BBOX_WIDTH;
+		this->height = ITEM_BRICK_BBOX_HEIGHT;
+		break;
 	default:
 		break;
 	}
@@ -255,6 +259,14 @@ void CItem::SetState(int state)
 			this->isFire = false;
 			this->isHidden = false;
 		}
+		if (id == ITEM_ANI_BRICK)
+		{
+			ani = GetAnimation();
+			this->isBrick = true;
+			this->isCandle = false;
+			this->isFire = false;
+			this->isHidden = false;
+		}
 		else
 		{
 			vy += speedy * dt;
@@ -311,6 +323,9 @@ int CItem::GetAnimation()
 		break;
 	case ITEM_ANI_KNIFE:
 		ani = ITEM_ANI_KNIFE;
+		break;
+	case ITEM_ANI_BRICK:
+		ani = ITEM_ANI_BRICK;
 		break;
 	default:
 		ani = ITEM_STATE_HIDDEN;

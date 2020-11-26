@@ -12,7 +12,7 @@ void Score::Render()
 	//animation_set->at(3)->Render(0, x + 55, y );
 	//animation_set->at(4)->Render(0, x + 70, y );
 	//animation_set->at(5)->Render(0, x + 85, y );
-	for (int i = 0; i < 6; i++)
+	/*for (int i = 0; i < 6; i++)
 	{
 		if (score >= 10)
 		{
@@ -21,12 +21,18 @@ void Score::Render()
 		}
 		else
 			a[i] = score;
-	}
+	}*/
 
 	m[1] = mana / 10;
 	m[0] = mana % 10;
 	p[1] = point / 10;
 	p[0] = point % 10;
+	a[5] = score / 100000;
+	a[4] = (score% 100000) / 10000;
+	a[3] = (score%10000) / 1000;
+	a[2] = (score%1000) / 100;
+	a[1] = (score%100) / 10;
+	a[0] = (score % 10) % 10;
 	for (int i = 5; i >= 0; i--)
 	{
 		animation_set->at(a[i])->Render(0, x +(5-i)* 15+ 110, y+ 13);

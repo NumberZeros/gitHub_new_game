@@ -1,5 +1,6 @@
 #include "BlackLeopard.h"
 #include "GameObject.h"
+#include "PlayScence.h"
 
 CBlackLeopard::CBlackLeopard()
 {
@@ -24,7 +25,6 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-
 	if (isHidden) {
 		if (GetTickCount() - action_time >= 1500)
 			ResetBB();

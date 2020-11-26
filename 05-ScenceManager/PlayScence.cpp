@@ -520,6 +520,8 @@ void CPlayScene::Update(DWORD dt)
 	score->point = player->simon_P;
 	subw->subw = player->simon_Sub;
 	score->stage = player->simon_stage;
+	if (boss != NULL)
+		healthbar->hpboss = boss->boss_HP;
 	
 
 	//simon die reset scence
@@ -568,8 +570,6 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	
-
 
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
@@ -613,7 +613,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
-	if (simon->GetState() == SIMON_STATE_DIE) return;
+	if (simon->GetState() == SIMON_STATE_DIE || simon->isAutoMove) return;
 
 	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
 	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
@@ -672,7 +672,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
-	
+	CGame* game = CGame::GetInstance();
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	if (game->IsKeyRelease(DIK_DOWN))
+		SitDown();
 }
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
@@ -727,11 +730,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 void CPlayScenceKeyHandler::Run(int _nx) {
 	CSimon* simon = ((CPlayScene*)scence)->player;
-	if (!simon->isDone) return;
-	else {
+	if (simon->isDone) {
 		simon->SetNX(_nx);
 		simon->SetState(SIMON_STATE_WALKING);
 	}
+		
 	
 }
 
@@ -752,7 +755,6 @@ void CPlayScenceKeyHandler::AutoWalk(int des) {
 }
 void CPlayScenceKeyHandler::Jump() {
 	CSimon* simon = ((CPlayScene*)scence)->player;
-	DebugOut(L"isGrounded %d \n", simon->isGrounded);
 	if (simon->isGrounded) {
 		simon->SetState(SIMON_STATE_JUMP);
 	}
