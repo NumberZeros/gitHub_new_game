@@ -565,27 +565,30 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		SitDown();
 		break;
 	case DIK_X:
-		if (game->IsKeyDown(DIK_UP))
+		if (simon->isDone)
 		{
-			//if (axe->axe_isAtk == 0||simon->simon_Mana>0)
-			//{
-			//	Throw_Axe();
-			//	simon->simon_Mana -= 1;
-			//}
-			//break;
-			if (simon->simon_Mana > 0) {
-				if (simon->simon_Sub == 0)
-					Throw_Knife();
-				else if (simon->simon_Sub == 1)
-					Throw_Holywater();
-				else if (simon->simon_Sub == 2)
-					Throw_Axe();
-				simon->simon_Mana -= 1;
+			if (game->IsKeyDown(DIK_UP))
+			{
+				//if (axe->axe_isAtk == 0||simon->simon_Mana>0)
+				//{
+				//	Throw_Axe();
+				//	simon->simon_Mana -= 1;
+				//}
+				//break;
+				if (simon->simon_Mana > 0) {
+					if (simon->simon_Sub == 0)
+						Throw_Knife();
+					else if (simon->simon_Sub == 1)
+						Throw_Holywater();
+					else if (simon->simon_Sub == 2)
+						Throw_Axe();
+					simon->simon_Mana -= 1;
+				}
+				break;
 			}
-			break;
+			else
+				Hit();
 		}
-		else
-			Hit();
 		break;
 	case DIK_A:
 		simon->Reset();

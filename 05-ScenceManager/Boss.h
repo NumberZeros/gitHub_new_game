@@ -21,6 +21,7 @@ public:
 	virtual void Render();
 	void SetState(int state);
 	void FlowSimon(float x,float y, DWORD dt);
+	void die();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
