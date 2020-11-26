@@ -431,8 +431,8 @@ void CGame::SwitchScene(int scene_id)
 	if (prevSimon) s->LoadSimon(prevSimon);							// chuyen player sang man tiep theo ma khong xoa di
 	if (prevTimer) s->LoadTimer(prevTimer);
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
-	//if (current_scene == 0)
-	//	s->LoadIntro();
-	//else 
-	s->Load();
+	if (current_scene == 0)
+		s->LoadIntro();
+	else 
+		s->Load();
 }
