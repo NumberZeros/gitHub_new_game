@@ -614,42 +614,53 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
 	if (simon->GetState() == SIMON_STATE_DIE || simon->isAutoMove) return;
-//	if (simon->isOnStair) return;
-	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
-	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
+	//if (simon->GetState() == SIMON_STATE_STAIR_UP || simon->GetState() == SIMON_STATE_STAIR_DOWN) return;
+
+	if (game->IsKeyDown(DIK_RIGHT))
+	{
+		if (simon->isOnStair) return;
+		else  Run(1);
+	}
+
+	else if (game->IsKeyDown(DIK_LEFT))
+	{
+		if (simon->isOnStair) return;
+		else  Run(-1);
+	}
 	else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
 	else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
 	else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
 	else if (game->IsKeyDown(DIK_UP))
 	{
-		
-		
+		simon->isOnStair = true;
+
 		if (simon->simon_stair_type == BRICK_TYPE_ULR)
 		{
 			simon->isStairUp = true;
-			simon->isOnStair = true;
 			simon->isStairDown = false;
+			//DebugOut(L"istairdown = %d \n", simon->isStairDown);
+			//DebugOut(L"istairup = %d \n", simon->isStairUp);
 			simon->SetState(SIMON_STATE_STAIR_UP);
 			simon->nx = 1;
 		}
 		else if (simon->simon_stair_type == BRICK_TYPE_URL)
 		{
 			simon->isStairUp = true;
-			simon->isOnStair = true;
 			simon->isStairDown = false;
+	
 			simon->SetState(SIMON_STATE_STAIR_UP);
 			simon->nx = -1;
 		}
 		if (simon->isStairDown == true || simon->simon_stair_type == 113)
 		{
-			DebugOut(L"nx: %d \n", simon->nx);
+			//DebugOut(L"nx: %d \n", simon->nx);
 			simon->isStairUp = true;
 			simon->isStairDown = false; simon->nx = -1;
 			simon->SetState(SIMON_STATE_STAIR_UP);
 		}
 		if (simon->isStairDown == true || simon->simon_stair_type == 114)
 		{
-			DebugOut(L"nx: %d \n", simon->nx);
+			//DebugOut(L"nx: %d \n", simon->nx);
 			simon->isStairUp = true;
 			simon->isStairDown = false; simon->nx = 1;
 			simon->SetState(SIMON_STATE_STAIR_UP);
@@ -657,21 +668,21 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		
+		simon->isOnStair = true;
 
 		if (simon->simon_stair_type == BRICK_TYPE_DLR)
 		{
 			simon->isStairDown = true;
-			simon->isOnStair = true;
 			simon->isStairUp = false;
+			
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 			simon->nx = 1;
 		}
 		else if (simon->simon_stair_type == BRICK_TYPE_DRL)
 		{
 			simon->isStairDown = true;
-			simon->isOnStair = true;
 			simon->isStairUp = false;
+			
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 			simon->nx = -1;
 		}
@@ -679,7 +690,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		{
 			simon->isStairUp = false;
 			simon->isStairDown = true; simon->nx = -1;
-			DebugOut(L"nx: %d \n", simon->nx);
+			//DebugOut(L"nx: %d \n", simon->nx);
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 		}
 		if (simon->isStairUp == true || simon->simon_stair_type == 112)
@@ -687,7 +698,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			
 			simon->isStairUp = false;
 			simon->isStairDown = true; simon->nx = 1;
-			DebugOut(L"nx: %d \n", simon->nx);
+			//DebugOut(L"nx: %d \n", simon->nx);
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 		}
 	}
@@ -724,6 +735,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
+		if (simon->isOnStair)
+			return;
+		else 
 		Jump();
 		break;
 	/*case DIK_DOWN:

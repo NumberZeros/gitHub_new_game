@@ -90,29 +90,22 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += 0.616f * nx;
 		y -= 0.616f;
 	}
-	else
+	else if (!isStairUp)
 	{
 		if (isOnStair)
-		{
-			vx = 0; vy = 0;;
-		}
+			SetState(SIMON_STATE_IDLE);
 	}
-	
-
 	if (isStairDown)
 	{
 		vy = 0;
 		x += 0.616f * nx;
 		y += 0.616f;
 	}
-	else
+	else if (!isStairDown)
 	{
 		if (isOnStair)
-		{
-			vx = 0; vy = 0;;
-		}
+		SetState(SIMON_STATE_IDLE);
 	}
-
 	//attact
 	if (isAttack) {
 		if (GetTickCount() - action_time > SIMON_ATTACK_TIME) {
@@ -250,33 +243,22 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-				
-				if (e->ny <= 0)
+				float left, top, right, bottom;
+				brick->GetBoundingBox(left, top, right, bottom);
+				if (CheckColli(left, top, right, bottom))
 				{
-					if (isOnStair)
-					{
-						if (e->nx != 0)
-						{
-							simon_stair_type = brick->type;
+					DebugOut(L"aaaaa");
+					isStairDown = false;
+					isStairUp = false;
+					isOnStair = false;
 
-							if (brick->type != 0 && brick->brick_x != 0)
-							{
-								xbr = brick->brick_x;
-							}
-							SetState(SIMON_STATE_IDLE);
-							DebugOut(L"type: %d \n", brick->type);
-						}
-						
-					}
-					else if (brick->type != 0)
-					{
-						simon_stair_type = brick->type;
-
-						if (brick->type != 0 && brick->brick_x != 0)
-						{
-							xbr = brick->brick_x;
-						}
-					}
+					SetState(SIMON_STATE_IDLE);
+					//vy += SIMON_GRAVITY * dt;
+				}
+				if (e->ny != 0)
+				{
+					simon_stair_type = brick->type;
+					xbr = brick->brick_x;
 				}
 			}
 			else if (dynamic_cast<Gate*>(e->obj))
@@ -401,9 +383,9 @@ void CSimon::SetState(int state)
 			vx = 0;
 			break;
 		}
-
 		else
 		{
+			//vy += SIMON_GRAVITY * dt;
 			isOnStair = false;
 			vx = 0;
 			break;
@@ -479,6 +461,7 @@ void CSimon::ResetAnimation() {
 		animation_set->at(i)->ResetFrame();
 	}
 }
+
 void CSimon::Reset()
 {
 	SetState(SIMON_STATE_IDLE);
@@ -489,5 +472,3 @@ void CSimon::Reset()
 	SetSpeed(0, 0);
 	isOnStair = false;
 }
-
-
