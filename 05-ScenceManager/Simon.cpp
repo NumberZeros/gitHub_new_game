@@ -87,8 +87,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isStairUp)
 	{
 		vy = 0;
-		x += 0.516f * nx;
-		y -= 0.516f;
+		x += 0.616f * nx;
+		y -= 0.616f;
 	}
 	else
 	{
@@ -102,8 +102,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isStairDown)
 	{
 		vy = 0;
-		x += 0.516f * nx;
-		y += 0.516f;
+		x += 0.616f * nx;
+		y += 0.616f;
 	}
 	else
 	{
@@ -401,6 +401,7 @@ void CSimon::SetState(int state)
 			vx = 0;
 			break;
 		}
+
 		else
 		{
 			isOnStair = false;
@@ -432,9 +433,11 @@ void CSimon::SetState(int state)
 		break;
 	case SIMON_STATE_STAIR_UP:
 		isStairUp = true;
+		isStairDown = false;
 		isOnStair = true;
 		break;
 	case SIMON_STATE_STAIR_DOWN:
+		isStairUp = false;
 		isStairDown = true;
 		isOnStair = true;
 		break;
@@ -481,6 +484,7 @@ void CSimon::Reset()
 	SetState(SIMON_STATE_IDLE);
 	isStairDown = false;
 	isStairUp = false;
+	simon_stair_type = 0;
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 	isOnStair = false;

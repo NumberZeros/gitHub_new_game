@@ -622,49 +622,76 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
 	else if (game->IsKeyDown(DIK_UP))
 	{
-
+		
+		
 		if (simon->simon_stair_type == BRICK_TYPE_ULR)
 		{
-			simon->isOnStair = true;
 			simon->isStairUp = true;
+			simon->isOnStair = true;
 			simon->isStairDown = false;
 			simon->SetState(SIMON_STATE_STAIR_UP);
 			simon->nx = 1;
-			DebugOut(L"simon x: %f \n", simon->x);
 		}
-		if (simon->simon_stair_type == BRICK_TYPE_URL)
+		else if (simon->simon_stair_type == BRICK_TYPE_URL)
 		{
-			simon->isOnStair = true;
-
 			simon->isStairUp = true;
+			simon->isOnStair = true;
 			simon->isStairDown = false;
 			simon->SetState(SIMON_STATE_STAIR_UP);
 			simon->nx = -1;
-			DebugOut(L"simon x: %f \n", simon->x);
+		}
+		if (simon->isStairDown == true || simon->simon_stair_type == 113)
+		{
+			DebugOut(L"nx: %d \n", simon->nx);
+			simon->isStairUp = true;
+			simon->isStairDown = false; simon->nx = -1;
+			simon->SetState(SIMON_STATE_STAIR_UP);
+		}
+		if (simon->isStairDown == true || simon->simon_stair_type == 114)
+		{
+			DebugOut(L"nx: %d \n", simon->nx);
+			simon->isStairUp = true;
+			simon->isStairDown = false; simon->nx = 1;
+			simon->SetState(SIMON_STATE_STAIR_UP);
 		}
 	}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
+		
+
 		if (simon->simon_stair_type == BRICK_TYPE_DLR)
 		{
+			simon->isStairDown = true;
 			simon->isOnStair = true;
 			simon->isStairUp = false;
-			simon->isStairDown = true;
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 			simon->nx = 1;
-			DebugOut(L"simon x: %f \n", simon->x);
 		}
-		if (simon->simon_stair_type == BRICK_TYPE_DRL)
+		else if (simon->simon_stair_type == BRICK_TYPE_DRL)
 		{
-			simon->isOnStair = true;
-
-			simon->isStairUp = false;
 			simon->isStairDown = true;
+			simon->isOnStair = true;
+			simon->isStairUp = false;
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 			simon->nx = -1;
-			DebugOut(L"simon x: %f \n", simon->x);
+		}
+		if (simon->isStairUp == true || simon->simon_stair_type == 111)
+		{
+			simon->isStairUp = false;
+			simon->isStairDown = true; simon->nx = -1;
+			DebugOut(L"nx: %d \n", simon->nx);
+			simon->SetState(SIMON_STATE_STAIR_DOWN);
+		}
+		if (simon->isStairUp == true || simon->simon_stair_type == 112)
+		{
+			
+			simon->isStairUp = false;
+			simon->isStairDown = true; simon->nx = 1;
+			DebugOut(L"nx: %d \n", simon->nx);
+			simon->SetState(SIMON_STATE_STAIR_DOWN);
 		}
 	}
+
 	else if (simon->isOnStair == true)
 	{
 		simon->isStairUp = false;
