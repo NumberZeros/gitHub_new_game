@@ -87,15 +87,30 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isStairUp)
 	{
 		vy = 0;
-		x += 0.216f * nx;
-		y -= 0.216f;
+		x += 0.516f * nx;
+		y -= 0.516f;
 	}
+	else
+	{
+		if (isOnStair)
+		{
+			vx = 0; vy = 0;;
+		}
+	}
+	
 
 	if (isStairDown)
 	{
 		vy = 0;
-		x += 0.216f * nx;
-		y += 0.216f;
+		x += 0.516f * nx;
+		y += 0.516f;
+	}
+	else
+	{
+		if (isOnStair)
+		{
+			vx = 0; vy = 0;;
+		}
 	}
 
 	//attact
@@ -235,18 +250,35 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-				if (e->ny != 0)
+				
+				if (e->ny <= 0)
 				{
-					
-					simon_stair_type = brick->type;
-
-					if (brick->type != 0 && brick->brick_x != 0)
+					if (isOnStair)
 					{
-						xbr = brick->brick_x;
+						if (e->nx != 0)
+						{
+							simon_stair_type = brick->type;
+
+							if (brick->type != 0 && brick->brick_x != 0)
+							{
+								xbr = brick->brick_x;
+							}
+							SetState(SIMON_STATE_IDLE);
+							DebugOut(L"type: %d \n", brick->type);
+						}
+						
+					}
+					else if (brick->type != 0)
+					{
+						simon_stair_type = brick->type;
+
+						if (brick->type != 0 && brick->brick_x != 0)
+						{
+							xbr = brick->brick_x;
+						}
 					}
 				}
 			}
-		
 			else if (dynamic_cast<Gate*>(e->obj))
 			{
 				Gate* gate = dynamic_cast<Gate*>(e->obj);
@@ -318,6 +350,10 @@ void CSimon::Render()
 		else
 			ani = SIMON_ANI_STAND_HIT;
 	}
+	else if (isStairUp)
+		ani = SIMON_ANI_STAIR_UP;
+	else if (isStairDown)
+		ani = SIMON_ANI_STAIR_DOWN;
 	else {
 		// di chuyen 
 		if (state == SIMON_STATE_IDLE)
@@ -327,10 +363,7 @@ void CSimon::Render()
 			else
 				ani = SIMON_ANI_IDLE;
 		}
-		else if (isStairUp)
-			ani = SIMON_ANI_STAIR_UP;
-		else if (isStairDown)
-			ani = SIMON_ANI_STAIR_DOWN;
+		
 		else if (isImmortal && !isDone)
 			ani = SIMON_ANI_HURT;
 		else
@@ -362,8 +395,19 @@ void CSimon::SetState(int state)
 		vy = -SIMON_JUMP_SPEED_Y;
 		break;
 	case SIMON_STATE_IDLE:
-		vx = 0;
-		break;
+		if (isOnStair == true)
+		{
+			vy = 0;
+			vx = 0;
+			break;
+		}
+		else
+		{
+			isOnStair = false;
+			vx = 0;
+			break;
+		}
+		
 	case SIMON_STATE_HIT:
 		vx = 0;
 		attack();
@@ -388,9 +432,11 @@ void CSimon::SetState(int state)
 		break;
 	case SIMON_STATE_STAIR_UP:
 		isStairUp = true;
+		isOnStair = true;
 		break;
 	case SIMON_STATE_STAIR_DOWN:
 		isStairDown = true;
+		isOnStair = true;
 		break;
 	case SIMON_ANI_DIE:
 		action_time = GetTickCount();
@@ -437,6 +483,7 @@ void CSimon::Reset()
 	isStairUp = false;
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
+	isOnStair = false;
 }
 
 

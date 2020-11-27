@@ -614,27 +614,30 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
 	if (simon->GetState() == SIMON_STATE_DIE || simon->isAutoMove) return;
-
+//	if (simon->isOnStair) return;
 	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
 	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
-
 	else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
 	else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
 	else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
 	else if (game->IsKeyDown(DIK_UP))
 	{
+
 		if (simon->simon_stair_type == BRICK_TYPE_ULR)
 		{
-
-			//AutoWalk(simon->xbr);
+			simon->isOnStair = true;
+			simon->isStairUp = true;
+			simon->isStairDown = false;
 			simon->SetState(SIMON_STATE_STAIR_UP);
 			simon->nx = 1;
 			DebugOut(L"simon x: %f \n", simon->x);
 		}
 		if (simon->simon_stair_type == BRICK_TYPE_URL)
 		{
+			simon->isOnStair = true;
 
-			//AutoWalk(simon->xbr);
+			simon->isStairUp = true;
+			simon->isStairDown = false;
 			simon->SetState(SIMON_STATE_STAIR_UP);
 			simon->nx = -1;
 			DebugOut(L"simon x: %f \n", simon->x);
@@ -644,28 +647,32 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	{
 		if (simon->simon_stair_type == BRICK_TYPE_DLR)
 		{
-
-			AutoWalk(simon->xbr);
+			simon->isOnStair = true;
+			simon->isStairUp = false;
+			simon->isStairDown = true;
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 			simon->nx = 1;
 			DebugOut(L"simon x: %f \n", simon->x);
 		}
 		if (simon->simon_stair_type == BRICK_TYPE_DRL)
 		{
+			simon->isOnStair = true;
 
-			AutoWalk(simon->xbr);
+			simon->isStairUp = false;
+			simon->isStairDown = true;
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 			simon->nx = -1;
 			DebugOut(L"simon x: %f \n", simon->x);
 		}
 	}
-	else
+	else if (simon->isOnStair == true)
 	{
-		if (simon->isStairUp || simon->isStairDown)
-		{
-			simon->isStairDown = false;
-			simon->isStairUp = false;
-		}
+		simon->isStairUp = false;
+		simon->isStairDown = false;
+		simon->SetState(SIMON_STATE_IDLE);
+	}
+	else 
+	{
 		simon->SetState(SIMON_STATE_IDLE);
 	}
 }
@@ -730,12 +737,24 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 void CPlayScenceKeyHandler::Run(int _nx) {
 	CSimon* simon = ((CPlayScene*)scence)->player;
-	if (simon->isDone) {
+	if (simon->isDone) 
+	{
 		simon->SetNX(_nx);
 		simon->SetState(SIMON_STATE_WALKING);
 	}
-		
-	
+}
+
+void CPlayScenceKeyHandler::StairUp()
+{
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	simon->SetState(SIMON_STATE_STAIR_UP);
+
+}
+void CPlayScenceKeyHandler::StairDown()
+{
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	simon->SetState(SIMON_STATE_STAIR_DOWN);
+
 }
 
 void CPlayScenceKeyHandler::AutoWalk(int des) {

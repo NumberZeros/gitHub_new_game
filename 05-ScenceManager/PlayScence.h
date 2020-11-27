@@ -103,6 +103,8 @@ public:
 
 	void Run(int _nx);
 	void AutoWalk(int des);
+	void StairUp();
+	void StairDown();
 	void Jump();
 	void Hit();
 	void Throw_Axe();
