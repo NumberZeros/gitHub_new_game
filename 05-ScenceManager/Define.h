@@ -29,6 +29,7 @@
 #define SIMON_STATE_STAIR_DOWN_HIT							9
 #define SIMON_STATE_HURT											10
 #define SIMON_STATE_DIE										11
+#define SIMON_STATE_STAIR_IDLE										12
 
 #define SIMON_ANI_IDLE												0
 #define SIMON_ANI_WALKING									1
