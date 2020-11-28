@@ -45,9 +45,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
-	DebugOut(L"simon st type: %d \t", simon_stair_type);
-
+	//DebugOut(L"simon st type: %d \t", simon_stair_type);
 	DebugOut(L"istdown: %d \t", isStairDown);
+	DebugOut(L"istUP: %d \t", isStairUp);
+
 
 	if (isAutoMove) {						// chuyen xy ly cho map intro
 		state = SIMON_STATE_WALKING;
@@ -96,7 +97,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else if (!isStairUp)
 	{
 		if (isOnStair)
-			SetState(SIMON_STATE_IDLE);
+			SetState(SIMON_STATE_STAIR_UP_IDLE);
 	}
 	if (isStairDown)
 	{
@@ -107,7 +108,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else if (!isStairDown)
 	{
 		if (isOnStair)
-		SetState(SIMON_STATE_IDLE);
+		SetState(SIMON_STATE_STAIR_DOWN_IDLE);
 	}
 	//attact
 	if (isAttack) {
@@ -340,6 +341,10 @@ void CSimon::Render()
 		ani = SIMON_ANI_STAIR_UP;
 	else if (isStairDown)
 		ani = SIMON_ANI_STAIR_DOWN;
+	else if (state == SIMON_STATE_STAIR_DOWN_IDLE)
+		ani = SIMON_ANI_STAIR_DOWN_IDLE;
+	else if (state == SIMON_STATE_STAIR_UP_IDLE)
+		ani = SIMON_ANI_STAIR_UP_IDLE;
 	else {
 		// di chuyen 
 		if (state == SIMON_STATE_IDLE)
@@ -394,7 +399,6 @@ void CSimon::SetState(int state)
 			vx = 0;
 			break;
 		}
-		
 	case SIMON_STATE_HIT:
 		vx = 0;
 		attack();
@@ -427,6 +431,20 @@ void CSimon::SetState(int state)
 		isStairDown = true;
 		isOnStair = true;
 		break;
+	case SIMON_STATE_STAIR_DOWN_IDLE:
+		if (isOnStair == true)
+		{
+			vy = 0;
+			vx = 0;
+			break;
+		}
+	case SIMON_STATE_STAIR_UP_IDLE:
+		if (isOnStair == true)
+		{
+			vy = 0;
+			vx = 0;
+			break;
+		}
 	case SIMON_ANI_DIE:
 		action_time = GetTickCount();
 		vy = -SIMON_DIE_DEFLECT_SPEED;

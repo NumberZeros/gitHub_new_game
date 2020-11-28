@@ -694,7 +694,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 			simon->nx = -1;
 		}
-		else if (simon->simon_stair_type == BRICK_TYPE_ULR || simon->simon_stair_type == BRICK_TYPE_URL)
+		if (simon->simon_stair_type == BRICK_TYPE_ULR || simon->simon_stair_type == BRICK_TYPE_URL)
 		{
 			simon->isOnStair = false;
 			simon->isStairUp = false;
@@ -719,9 +719,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 	else if (simon->isOnStair == true)
 	{
+		//if (simon->isS)
 		simon->isStairUp = false;
 		simon->isStairDown = false;
-		simon->SetState(SIMON_STATE_IDLE);
+		//simon->SetState(SIMON_STATE_IDLE);
 	}
 	else 
 	{

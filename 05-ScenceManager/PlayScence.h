@@ -38,7 +38,7 @@ public:
 
 	CItem* item;
 	CWeapon* weapon;
-	CAxe* axe;
+	CAxe* axe; 
 	CKnife* knife;
 	CHlw* hlw;
 
