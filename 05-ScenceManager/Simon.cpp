@@ -45,6 +45,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
+	DebugOut(L"simon st type: %d \t", simon_stair_type);
+
+	DebugOut(L"istdown: %d \t", isStairDown);
 
 	if (isAutoMove) {						// chuyen xy ly cho map intro
 		state = SIMON_STATE_WALKING;
@@ -87,8 +90,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isStairUp)
 	{
 		vy = 0;
-		x += 0.616f * nx;
-		y -= 0.616f;
+		x += 0.916f * nx;
+		y -= 0.916f;
 	}
 	else if (!isStairUp)
 	{
@@ -98,8 +101,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isStairDown)
 	{
 		vy = 0;
-		x += 0.616f * nx;
-		y += 0.616f;
+		x += 0.916f * nx;
+		y += 0.916f;
 	}
 	else if (!isStairDown)
 	{
@@ -244,21 +247,22 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 				float left, top, right, bottom;
-				brick->GetBoundingBox(left, top, right, bottom);
-				if (CheckColli(left, top, right, bottom))
+				//brick->GetBoundingBox(left, top, right, bottom);
+				if (e->ny!=0)
 				{
-					DebugOut(L"aaaaa");
-					isStairDown = false;
-					isStairUp = false;
-					isOnStair = false;
-
-					SetState(SIMON_STATE_IDLE);
-					//vy += SIMON_GRAVITY * dt;
-				}
-				if (e->ny != 0)
-				{
+/*					if (isOnStair)
+					{
+						DebugOut(L"aaaaa");
+						isStairDown = false;
+						isStairUp = false;
+						isOnStair = false;
+						SetState(SIMON_STATE_IDLE);
+					}
+					else {
+						
+						xbr = brick->brick_x;
+					}	*/			
 					simon_stair_type = brick->type;
-					xbr = brick->brick_x;
 				}
 			}
 			else if (dynamic_cast<Gate*>(e->obj))
@@ -385,7 +389,7 @@ void CSimon::SetState(int state)
 		}
 		else
 		{
-			//vy += SIMON_GRAVITY * dt;
+			vy += SIMON_GRAVITY * dt;
 			isOnStair = false;
 			vx = 0;
 			break;
