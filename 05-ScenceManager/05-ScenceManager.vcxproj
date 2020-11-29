@@ -131,6 +131,7 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Boss.h" />
     <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="Holywater.cpp" />
     <ClCompile Include="Intro.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="Fireball.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="Holywater.h" />
     <ClInclude Include="Intro.h" />

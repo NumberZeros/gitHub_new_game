@@ -4,7 +4,6 @@
 
 #include "PlayScence.h"
 #include "BlackLeopard.h"
-#include "Merman.h"
 #include "VampireBat.h"
 
 using namespace std;
@@ -306,6 +305,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int ani_set_id = atoi(tokens[3].c_str());
 	int id_item = 0;
 	int secondGood = 12;
+	int id_fireball = 14;
+	int fireball = 4;
 
 	int id_brick = 1;
 	int x_brick = 1;
@@ -382,8 +383,32 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		zombie->min = min;
 		zombie->max = max;
 		break;
-	case OBJECT_TYPE_MERMAN:
+	case OBJECT_TYPE_MERMAN:		
+		srand(time(NULL));
 		obj = new CMerman();
+		merman = (CMerman*)obj;
+		merman->SetState(MERMAN_JUMP);
+		merman->nx = rand() % (1 - (-1) + 1) - 1;
+		break;
+	case OBJECT_TYPE_FB:
+		obj = new CFB();
+		this->fb = (CFB*)obj;
+		break;
+	case OBJECT_TYPE_ITEM:
+		id_item = atof(tokens[4].c_str());
+		secondGood = atof(tokens[5].c_str());
+		obj = new CItem();
+		item = (CItem*)obj;
+		if (id_item == ID_ITEM_TYPE_TORCH) { // 1
+			item->SetID(ITEM_ANI_TORCH);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
+		}
+		else if (id_item == ID_ITEM_TYPE_CANDLE) {
+			item->SetID(ITEM_ANI_CANDLE);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
+		}
 		break;
 	case OBJECT_TYPE_VAMPIREBAT:
 		obj = new CVampireBat();
@@ -437,22 +462,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			obj = timer;
 		}
 		break;
-	case OBJECT_TYPE_ITEM:
-		id_item = atof(tokens[4].c_str());
-		secondGood = atof(tokens[5].c_str());
-		obj = new CItem();
-		item = (CItem*)obj;
-		if (id_item == ID_ITEM_TYPE_TORCH) { // 1
-			item->SetID(ITEM_ANI_TORCH);
-			item->SetState(ITEM_STATE_SHOW);
-			item->secondGood = secondGood;
-		}
-		else if (id_item == ID_ITEM_TYPE_CANDLE) {
-			item->SetID(ITEM_ANI_CANDLE);
-			item->SetState(ITEM_STATE_SHOW);
-			item->secondGood = secondGood;
-		}
-		break;
+
 	case OBJECT_TYPE_BOSS:
 		obj = new Boss();
 		boss = (Boss*)obj;
@@ -498,6 +508,7 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 	vector<LPGAMEOBJECT> coObjects;
 	CGame* game = CGame::GetInstance();
+
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
@@ -789,6 +800,8 @@ void CPlayScenceKeyHandler::Throw_Axe() {
 	axe->speedy = AXE_SPEED_Y;
 	axe->SetState(AXE_STATE_ATTACK);
 }
+
+
 void CPlayScenceKeyHandler::Throw_Knife()
 {
 	CSimon* simon = ((CPlayScene*)scence)->player;

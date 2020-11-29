@@ -1,5 +1,5 @@
 #include "BlackLeopard.h"
-#include "GameObject.h"
+#include <time.h>
 #include "PlayScence.h"
 
 CBlackLeopard::CBlackLeopard()

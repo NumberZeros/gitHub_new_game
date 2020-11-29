@@ -34,6 +34,8 @@
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Zombie.cpp" />
     <ClCompile Include="Intro.cpp" />
+    <ClCompile Include="VampireBat.cpp" />
+    <ClCompile Include="Fireball.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
@@ -69,6 +71,8 @@
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Zombie.h" />
     <ClInclude Include="Intro.h" />
+    <ClInclude Include="VampireBat.h" />
+    <ClInclude Include="Fireball.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="05-ScenceManager.rc" />
@@ -154,9 +158,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VampireBat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -249,9 +250,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VampireBat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
