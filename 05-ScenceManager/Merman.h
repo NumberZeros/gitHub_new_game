@@ -8,6 +8,7 @@ class CMerman: public CGameObject
 	CAxe* fb = new CAxe();
 public:
 	bool isHidden = false;
+	bool isAttack = false;
 public:
 	CItem* item = new CItem();
 	bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);

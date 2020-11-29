@@ -7,10 +7,10 @@
 
 CFB::CFB() {
 	this->SetState(FB_STATE_HIDDEN);
-	x = -100;
-	y = -100;
-	isHidden = false;
-	level = 1;
+	//x = -100;
+	//y = -100;
+	//isHidden = true;
+	//level = 1;
 }
 
 void CFB::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -32,7 +32,7 @@ void CFB::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			x += dx;
 			y -= speedy * dt;
-			speedy -= 0.019;
+			//speedy -= 0.019;
 		}
 	}
 }

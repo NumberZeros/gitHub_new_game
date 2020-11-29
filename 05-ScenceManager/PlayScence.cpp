@@ -85,6 +85,8 @@ void CPlayScene::Unload()
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
+
+
 void CPlayScene::ResetMap() {
 	for (int i = 0; i < objects.size(); i++) 
 		delete objects[i];
@@ -463,10 +465,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		break;
 
-	case OBJECT_TYPE_BOSS:
-		obj = new Boss();
-		boss = (Boss*)obj;
-		break;
+	//case OBJECT_TYPE_BOSS:
+	//	obj = new Boss();
+	//	boss = (Boss*)obj;
+	//	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -556,20 +558,31 @@ void CPlayScene::Update(DWORD dt)
 			ResetMap();
 			CGame::GetInstance()->SwitchScene(game->current_scene);
 		}
+
 	}
 
-	if (boss) {
-		
-		if (boss->isAttack) {
-			boss->Update(player, dt);
+	//if (boss) {
+	//	
+
+
+	//		boss->Update(player, dt);
+	//	}
+	//	else {
+	//		if (boss->x - player->x < 50) {
+	//			boss->SetState(BOX_ATTACK);
+	//		}
+	//	}
+	//}
+	if (merman)
+	{
+		if (merman->isAttack)
+		{
+			fb->UpdatePosionWithSimon(merman->x, merman->y, 1);
+			fb->SetState(FB_STATE_ATTACK);
+			fb->speedy = AXE_SPEED_Y;
 		}
-		else {
-			if (boss->x - player->x < 50) {
-				boss->SetState(BOX_ATTACK);
-			}
-		}
+
 	}
-	
 
 	//// nhung ham lien quan vi tri nam o duoi nhung ham lien quan trang thai nam o tren
 	float cx, cy;
@@ -781,6 +794,8 @@ void CPlayScenceKeyHandler::SitDown() {
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	simon->SetState(SIMON_STATE_SIT_DOWN);
 }
+
+
 
 void CPlayScenceKeyHandler::Hit() {
 	CSimon* simon = ((CPlayScene*)scence)->player;

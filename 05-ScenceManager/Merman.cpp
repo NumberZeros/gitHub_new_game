@@ -184,7 +184,8 @@ void CMerman::SetState(int state)
 		
 		action_time = GetTickCount();
 		vx = vy = 0;
-		attack();
+		//attack();
+		isAttack = true;
 		break;
 	default:
 			break;
