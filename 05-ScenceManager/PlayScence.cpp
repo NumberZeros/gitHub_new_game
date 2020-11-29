@@ -759,12 +759,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		{
 			if (game->IsKeyDown(DIK_UP))
 			{
-				//if (axe->axe_isAtk == 0||simon->simon_Mana>0)
-				//{
-				//	Throw_Axe();
-				//	simon->simon_Mana -= 1;
-				//}
-				//break;
+				if (axe->axe_isAtk != 0 || simon->simon_Mana < 0) return;
 				if (simon->simon_Mana > 0) {
 					if (simon->simon_Sub == 0)
 						Throw_Knife();
