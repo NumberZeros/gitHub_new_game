@@ -56,6 +56,10 @@ void CPlayScene::LoadMapItro()
 
 void CPlayScene::Load()
 {
+	CGame* game = CGame::GetInstance();
+	DebugOut(L"test current %d \n", game->current_scene);
+	if (game->current_scene == 4)
+		player->StartMap4();
 	isIntro = false;
 	LoadObject();
 	LoadMap();
@@ -310,7 +314,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int id_brick = 1;
 	int x_brick = 1;
 	float lenghtStair = 0.0f;
-
 	float min, max;
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
@@ -616,17 +619,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 	if (simon->GetState() == SIMON_STATE_DIE || simon->isAutoMove) return;
 
-	if (game->IsKeyDown(DIK_RIGHT))
-	{
-		if (simon->isOnStair) return;
-		else  Run(1);
-	}
-
-	else if (game->IsKeyDown(DIK_LEFT))
-	{
-		if (simon->isOnStair) return;
-		else  Run(-1);
-	}
+	if (game->IsKeyDown(DIK_RIGHT)) {
+		if (!simon->isOnStair) 
+			Run(1);
+	}		
+	else if (game->IsKeyDown(DIK_LEFT)) {
+		if (!simon->isOnStair)
+			Run(-1);
+	}	
 	else if (game->IsKeyDown(DIK_UP))
 	{
 		if (simon->simon_stair_type == 0) return;
@@ -666,7 +666,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			simon->nx = -1;
 		else if (simon->simon_stair_type == BRICK_TYPE_URL && simon->isOnStair == true)
 			simon->nx = 1;
-
 		if (simon->startStair == 0)
 			simon->startStair = simon->x;
 
@@ -686,8 +685,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			}
 		}
 	}
-
-	else if (simon->isOnStair == true)
+	else if (simon->isOnStair)
 	{
 		simon->isStairUp = false;
 		simon->isStairDown = false;

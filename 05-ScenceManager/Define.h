@@ -234,7 +234,7 @@
 
 // gate
 #define gate_box_width										32
-#define gate_box_height												50
+#define gate_box_height												32
 
 //Boss 
 

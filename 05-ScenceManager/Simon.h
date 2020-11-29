@@ -47,6 +47,7 @@ public:
 	bool GetAttack() { return this->isAttack; };
 	int GetNumber() { return this->number; }
 	void ResetStair();
+	void StartMap4();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
