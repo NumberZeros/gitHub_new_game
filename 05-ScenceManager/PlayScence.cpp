@@ -640,8 +640,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			simon->nx = -1;
 		if(simon->startStair == 0)
 			simon->startStair = simon->x;
-		DebugOut(L"simon->startStair %f \n", simon->startStair);
-		DebugOut(L"expre %f \n", simon->startStair - simon->x);
 		if (simon->startStair != simon->x) {
 			if (simon->nx < 0) {
 				if (simon->startStair - simon->x > simon->lenghtStair)
