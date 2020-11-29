@@ -1,23 +1,209 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Header Files\Subweapon">
-      <UniqueIdentifier>{6c2c6124-e399-4efe-8757-84c764ae4fb1}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="Animations.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Gate.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Intro.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Simon.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SubW.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Axe.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Holywater.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Knife.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackLeopard.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopas.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Merman.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Board</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Board</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Board</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>Board</Filter>
+    </ClCompile>
+    <ClCompile Include="Number.cpp">
+      <Filter>Board</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.h">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Scence.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="VampireBat.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayScence.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animations.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Gate.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Intro.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEventHandler.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Scence.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Simon.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SubW.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Axe.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Holywater.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Knife.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackLeopard.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopas.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Number.h">
+      <Filter>Board</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Board</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>Board</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Board</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>Board</Filter>
+    </ClInclude>
+    <ClInclude Include="Merman.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="VampireBat.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScence.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="05-ScenceManager.rc" />
     <ClCompile Include="Brick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -100,16 +286,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss.cpp">
-    <ClCompile Include="SubW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -204,16 +380,27 @@
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SubW.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="05-ScenceManager.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{da52bdba-076f-45be-bde4-c5de5412fbe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{136f2106-a7de-42a2-9cd2-3cbb97300820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon">
+      <UniqueIdentifier>{7b7c30d7-d748-4dd2-90dc-51a02f51bbc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies">
+      <UniqueIdentifier>{0a4d75ed-f9a2-4f0b-a1b2-4bc7dbce1e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Board">
+      <UniqueIdentifier>{9b045915-bcc6-4ab3-b514-df8f5a2e0eda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

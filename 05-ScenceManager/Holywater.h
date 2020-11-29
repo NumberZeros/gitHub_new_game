@@ -45,5 +45,5 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	int GetAnimation();
 	void GetPositionForSimon();
-
+	bool CHlw::CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 };

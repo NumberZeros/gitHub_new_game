@@ -6,6 +6,7 @@
 /// SIMON
 /// 
 #define SIMON_WALKING_SPEED											0.15f
+#define SIMON_STAIR_SPEED			0.22f
 #define SIMON_JUMP_SPEED_Y									0.5f
 #define SIMON_JUMP_DEFLECT_SPEED									0.2f
 #define SIMON_GRAVITY										0.002f
@@ -28,6 +29,8 @@
 #define SIMON_STATE_STAIR_DOWN_HIT							9
 #define SIMON_STATE_HURT											10
 #define SIMON_STATE_DIE										11
+#define SIMON_STATE_STAIR_UP_IDLE									13
+#define SIMON_STATE_STAIR_DOWN_IDLE							14
 
 #define SIMON_ANI_IDLE												0
 #define SIMON_ANI_WALKING									1
@@ -41,6 +44,10 @@
 #define SIMON_ANI_STAIR_UP_HIT								9
 #define SIMON_ANI_STAIR_DOWN_HIT									10
 #define SIMON_ANI_HURT										11
+#define SIMON_ANI_STAIR_UP_IDLE										13
+#define SIMON_ANI_STAIR_DOWN_IDLE							14
+
+
 #define SIMON_ANI_DIE												12
 #define SIMON_ANI_WHIP_LV1									13
 #define SIMON_ANI_WHIP_LV2											14
@@ -99,7 +106,15 @@
 #define SCENE_SECTION_LOADMAP										7
 
 #define OBJECT_TYPE_SIMON									0
+
 #define OBJECT_TYPE_BRICK											1
+
+#define OBJECT_TYPE_BRICK_ULR										111
+#define OBJECT_TYPE_BRICK_URL										112
+#define OBJECT_TYPE_BRICK_DLR										113
+#define OBJECT_TYPE_BRICK_DRL										114
+
+
 #define OBJECT_TYPE_GOOMBA									2
 #define OBJECT_TYPE_KOOPAS											3
 #define OBJECT_TYPE_GATE									4
@@ -119,8 +134,10 @@
 #define OBJECT_TYPE_FIREBALL								18
 #define OBJECT_TYPE_SCORE									        19
 #define OBJECT_TYPE_SUBW									20
-
+#define OBJECT_TYPE_VAMPIREBAT										21
+#define OBJECT_TYPE_INTRO_MAP								777
 #define OBJECT_TYPE_PORTAL											50
+
 //ITEM MAP ENTRANC
 #define ID_ITEM_TYPE_GOODS									0
 #define ID_ITEM_TYPE_TORCH											1
@@ -135,6 +152,7 @@
 #define ID_ITEM_TYPE_REDMONEY										10
 #define ID_ITEM_TYPE_WHITEMONEY								11
 #define ID_ITEM_TYPE_HOLYWATER										12
+#define ID_ITEM_TYPE_BRICK									13
 
 
 
@@ -170,21 +188,18 @@
 /// MERMAN
 /// 
 
-#define MERMAN_JUMP_SPEED_Y											0.9f
+#define MERMAN_JUMP_SPEED_Y											0.4f
 #define MERMAN_WALKING_SPEED_X								0.13f
-#define MERMAN_GRAVITY												0.002f
-#define MERMAN_ATTACK_TIME									300
+#define MERMAN_GRAVITY												0.0009f
 
 #define MERMAN_BBOX_WIDTH											32
 #define MERMAN_BBOX_HEIGHT									64
 
-#define MERMAN_JUMP											1
-#define MERMAN_WALKING												2
-#define MERMAN_SHOOT_FIREBALL								3
+#define MERMAN_JUMP											2
+#define MERMAN_WALKING												0
+#define MERMAN_SHOOT_FIREBALL								1
+#define MERMAN_DEAD													3
 
-#define MERMAN_ANI_IDLE												0
-#define MERMAN_ANI_WALKING									1
-#define MERMAN_ANI_SHOOT_FIREBALL									2
 
 ///
 /// ITEM

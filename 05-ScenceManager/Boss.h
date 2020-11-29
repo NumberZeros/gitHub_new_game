@@ -9,7 +9,7 @@ public:
 	int height;
 	int width;
 	bool isAttack;
-	int boss_HP = 8;
+	int boss_HP = 3;
 	int bossZone;
 public:
 
@@ -21,6 +21,7 @@ public:
 	virtual void Render();
 	void SetState(int state);
 	void FlowSimon(float x,float y, DWORD dt);
+	void die();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

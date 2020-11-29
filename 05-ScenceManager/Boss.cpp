@@ -1,3 +1,4 @@
+
 #include "PlayScence.h"
 
 Boss::Boss()
@@ -22,11 +23,23 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-	DebugOut(L"y %f \n", y);
-	if (y <= 90) {
+	if (boss_HP < 1 && !isDie)
+		SetState(BOX_DIE);
+
+	if (y <= 90)		////vi tri bien 
+	{
 		vy = SPEED_BOX;
 		y+=dy;
 		
+	}
+	if (x > 1200)		//// vi tri bien
+		vx = -SPEED_BOX;
+
+	if (isDie) {
+		vx = vy = 0;
+		boss_HP = 0;
+		if (GetTickCount() - action_time > 1500)
+			ResetBB();
 	}
 
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -49,8 +62,36 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else if (dynamic_cast<CBrick*>(obj))
 		{
-			vx = 0;
-			vy = 0;
+			CBrick* e = dynamic_cast<CBrick*>(obj);
+
+			float left, top, right, bottom;
+			e->GetBoundingBox(left, top, right, bottom);
+			if (CheckColli(left, top, right, bottom))
+			{
+				vy = 0;
+				vx = 0;
+			}
+		}
+		if (dynamic_cast<CWeapon*>(obj))
+		{
+			CWeapon* e = dynamic_cast<CWeapon*>(obj);
+
+			float left, top, right, bottom;
+			e->GetBoundingBox(left, top, right, bottom);
+
+			if (e->frame == 2) {
+				if (CheckColli(left, top, right, bottom))
+					boss_HP -= 1;
+			}
+		}
+		if (dynamic_cast<CAxe*>(obj))
+		{
+			CAxe* e = dynamic_cast<CAxe*>(obj);
+
+			float left, top, right, bottom;
+			e->GetBoundingBox(left, top, right, bottom);
+			if (CheckColli(left, top, right, bottom))
+				boss_HP -= 1;
 		}
 	}
 }
@@ -115,7 +156,6 @@ void Boss::SetState(int state)
 			isDone = true;
 			break;
 		case BOX_DIE:
-			isAttack = false;
 			action_time = GetTickCount();
 			isDie = true;
 			break;
@@ -140,6 +180,12 @@ void Boss::FlowSimon(float simonX, float simonY, DWORD dt)
 		else
 			y += dy;
 	}
+	
+}
+
+void Boss::die()
+{
+	/*SetState(BOX_DIE);*/
 	
 }
 

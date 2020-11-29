@@ -1,7 +1,8 @@
 
 #include "PlayScence.h"
 #include "BlackLeopard.h"
-
+#include "GameObject.h"
+#include "PlayScence.h"
 
 CBlackLeopard::CBlackLeopard()
 {

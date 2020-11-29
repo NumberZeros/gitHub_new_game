@@ -177,8 +177,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game->Load(L"Scenes\\world.txt");
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
-	//cplayer = new Player(game, scene);
-	//cplayer->Init();
 	Run();
 
 	return 0;

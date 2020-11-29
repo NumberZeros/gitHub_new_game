@@ -9,6 +9,7 @@
 
 #include "Brick.h"
 #include "Simon.h"
+#include "Zombie.h"
 #include "Goomba.h"
 #include "Weapon.h"
 #include "Axe.h"
@@ -34,10 +35,14 @@ public:
 	Boss* boss;
 	CBlackLeopard* black;
 
+	CZombie* zombie;
 	Gate* gate;
+
+	CBrick* brick;
+
 	CItem* item;
 	CWeapon* weapon;
-	CAxe* axe;
+	CAxe* axe; 
 	CKnife* knife;
 	CHlw* hlw;
 
@@ -51,9 +56,9 @@ public:
 	vector<LPSPRITE> enemyHP;
 	vector<LPSPRITE> loseHP;
 
-	float distanceLimit;
 	int idstage;
 	int current_scene;
+	bool isIntro = false;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -76,6 +81,8 @@ public:
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
 
+	void LoadIntro();
+	void LoadMapItro();
 	virtual void Load();
 	void LoadSimon(CSimon* prevSimon);
 	void LoadTimer(Timer* prevTimer);
@@ -97,9 +104,11 @@ public:
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
-	
 
 	void Run(int _nx);
+	void AutoWalk(int des);
+	void StairUp();
+	void StairDown();
 	void Jump();
 	void Hit();
 	void Throw_Axe();
