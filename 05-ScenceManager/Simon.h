@@ -21,7 +21,7 @@ public:
 	int simon_Mana,simon_P,simon_Sub,simon_stage=1;
 	bool isDoneAttack = true;
 	bool isAutoMove = false;
-
+	bool isOnStair = false;
 	DWORD timeImmortal;
 public:
 	virtual void AutoWalk(int des);

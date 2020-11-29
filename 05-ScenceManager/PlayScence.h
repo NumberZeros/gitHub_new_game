@@ -39,7 +39,7 @@ public:
 
 	CItem* item;
 	CWeapon* weapon;
-	CAxe* axe;
+	CAxe* axe; 
 	CKnife* knife;
 	CHlw* hlw;
 
@@ -104,6 +104,8 @@ public:
 
 	void Run(int _nx);
 	void AutoWalk(int des);
+	void StairUp();
+	void StairDown();
 	void Jump();
 	void Hit();
 	void Throw_Axe();
