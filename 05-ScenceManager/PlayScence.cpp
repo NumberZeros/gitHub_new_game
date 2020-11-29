@@ -368,7 +368,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			brick->type = 0;
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_BLACK_LEOPARD: 
 		obj = new CBlackLeopard(); 
 		black = (CBlackLeopard*)obj;
@@ -452,10 +451,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			item->secondGood = secondGood;
 		}
 		break;
-	case OBJECT_TYPE_BOSS:
-		obj = new Boss();
-		boss = (Boss*)obj;
-		break;
+	//case OBJECT_TYPE_BOSS:
+	//	obj = new Boss();
+	//	boss = (Boss*)obj;
+	//	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -555,24 +554,24 @@ void CPlayScene::Update(DWORD dt)
 		}
 	};
 
-	if (boss) {
-		
-		if (boss->isAttack) {
-			boss->Update(player, dt);
-		}
-		else {
-			if (boss->x - player->x < 50) {
-				boss->SetState(BOX_ATTACK);
-			}
-		}
-	}
-	if (black)
+	//if (boss) {
+	//	
+	//	if (boss->isAttack) {
+	//		boss->Update(player, dt);
+	//	}
+	//	else {
+	//		if (boss->x - player->x < 50) {
+	//			boss->SetState(BOX_ATTACK);
+	//		}
+	//	}
+	//}
+	/*if (black)
 	{
-		if (black->x - player->x < 150)
+		if (black->x - player->x < 1)
 		{
 			black->SetState(BLACK_LEOPARD_RUN);
 		}
-	}
+	}*/
 
 	if (player->isEndGame)
 	{
