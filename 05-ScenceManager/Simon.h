@@ -13,6 +13,7 @@ public:
 	bool isAttack;
 	bool isGrounded;
 	bool isImmortal = false;
+	bool isEndGame = false;
 	int actionAttack = 0;	// 0 right 1 left
 	int start_x;
 	int start_y;

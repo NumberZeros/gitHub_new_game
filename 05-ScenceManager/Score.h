@@ -7,6 +7,7 @@
 class Score : public CGameObject
 {
 public:
+	DWORD action_time_score = GetTickCount();
 	int a[6];
 	int p[2];
 	int m[2];

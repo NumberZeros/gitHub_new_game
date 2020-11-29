@@ -2,6 +2,12 @@
 
 void Score::Update()
 {
+	if (GetTickCount() - action_time_score > 50)
+	{
+		//	DebugOut(L"time: %d \f", GetTickCount() - action_time);
+		score += 1;
+		action_time_score = GetTickCount();
+	}
 }
 
 void Score::Render()

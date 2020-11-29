@@ -472,6 +472,30 @@ void CPlayScene::Update(DWORD dt)
 			black->SetState(BLACK_LEOPARD_RUN);
 		}
 	}
+
+	if (player->isEndGame)
+	{
+		timer->isStop = true;
+		if (timer->timeremain != 1)
+		{
+			if (GetTickCount() - score->action_time_score > 50)
+			{
+				//	DebugOut(L"time: %d \f", GetTickCount() - action_time);
+				player->simon_Score += 1;
+				score->action_time_score = GetTickCount();
+			}
+		}
+		if (player->simon_Mana > 0)
+		{
+			if (GetTickCount() - score->action_time_score > 50)
+			{
+				//	DebugOut(L"time: %d \f", GetTickCount() - action_time);
+				player->simon_Score += 1;
+				player->simon_Mana -= 1;
+				score->action_time_score = GetTickCount();
+			}
+		}
+	}
 	
 
 	//// nhung ham lien quan vi tri nam o duoi nhung ham lien quan trang thai nam o tren
