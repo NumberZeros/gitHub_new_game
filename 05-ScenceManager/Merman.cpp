@@ -45,7 +45,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (GetTickCount() - action_time > 1300) {
 		SetState(MERMAN_WALKING);
 	}
-	if (GetTickCount() - action_time > res) {
+	if (GetTickCount() - action_time > 3500) {
 		this->SetState(MERMAN_SHOOT_FIREBALL);		
 	}
 	if (isHidden)

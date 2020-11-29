@@ -3,10 +3,11 @@
 #include "Utils.h"
 #include "Textures.h"
 #include "Game.h"
-
-
+#include "Simon.h"
+#include "PlayScence.h"
 CFB::CFB() {
 	this->SetState(FB_STATE_HIDDEN);
+	
 	//x = -100;
 	//y = -100;
 	//isHidden = true;
@@ -16,30 +17,64 @@ CFB::CFB() {
 void CFB::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+	int distance = 0;
 	//DebugOut(L"isHidden  %d\n", this->isHidden);
 	//DebugOut(L"action_time UPDATE %d\n", this->action_time);
 	//nếu đang hiện 
 	if (!isHidden) {
-		if (GetTickCount() - action_time > FB_ATTACK_TIME || this->y > 400)
+		if (GetTickCount() - action_time > fb_atk_time || this->y > 400)
 		{
 			isHidden = true;
 			this->action_time = 0;
 			ResetBB();
-			axe_isAtk = 0;
+			fb_isAtk = 0;
 			DebugOut(L"axe_isatk: %d \f", GetTickCount() - action_time);
 		}
 		else
 		{
 			x += dx;
-			y -= speedy * dt;
-			//speedy -= 0.019;
+			distance += dx;
+			if (distance > 420)
+			{
+				isHidden = true;
+				this->action_time = 0;
+				ResetBB();
+				fb_isAtk = 0;
+			}
 		}
 	}
+
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (dynamic_cast<CSimon*>(obj)) {
+			CSimon* simon = dynamic_cast<CSimon*>(obj);
+			float left, top, right, bottom;
+			simon->GetBoundingBox(left, top, right, bottom);
+			if (!isHidden && !simon->isImmortal) {		/// khi doi chua chuyen thanh lua va simon chua tung va cham voi quai nao
+				if (CheckColli(left, top, right, bottom))
+				{
+					simon->SetState(SIMON_STATE_HURT);
+				}
+			}
+		}
+	}
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
-void CFB::Attack(DWORD dt)
+void CFB::Attack(int _x, int _y, int _nx, int _atktime)
 {
-
+	this->x = _x;
+	this->y = _y;
+	this->nx = _nx;
+	this->fb_atk_time = _atktime;
+	SetState(FB_STATE_ATTACK);
 }
 
 void CFB::Render()
@@ -75,14 +110,14 @@ void CFB::SetState(int state)
 		frame = 3;
 		this->action_time = GetTickCount();
 		isHidden = false;
-		axe_isAtk = 1;
+		fb_isAtk = 1;
 		break;
 	case FB_STATE_HIDDEN:
 		ani = GetAnimation();
 		//ResetAnimation(ani);
 		isHidden = true;
-		axe_isAtk = 0;
-		speedy = FB_SPEED_Y;
+		fb_isAtk = 0;
+		//speedy = FB_SPEED_Y;
 		break;
 	default:
 		break;
@@ -112,13 +147,14 @@ int CFB::GetAnimation() {
 }
 
 void CFB::UpdatePosionWithSimon(int _x, int _y, int _nx) {
-	this->x = _x;
-	this->y = _y;
-	this->nx = _nx;
 
 }
+bool CFB::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
+	float l, t, r, b;
+	CFB::GetBoundingBox(l, t, r, b);
 
-void CFB::GetPositionForSimon() {
-
-
+	if (CGameObject::AABBCheck(l, t, r, b, left_a, top_a, right_a, bottom_a))
+		return true;
+	else
+		return false;
 }

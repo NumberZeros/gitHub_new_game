@@ -577,11 +577,11 @@ void CPlayScene::Update(DWORD dt)
 	{
 		if (merman->isAttack)
 		{
-			fb->UpdatePosionWithSimon(merman->x, merman->y, 1);
-			fb->SetState(FB_STATE_ATTACK);
-			fb->speedy = AXE_SPEED_Y;
+			if (fb->fb_isAtk == false)
+			fb->Attack(merman->x, merman->y + 15, merman->nx,3500);
+			//fb->
+			//fb->speedy = AXE_SPEED_Y;
 		}
-
 	}
 
 	//// nhung ham lien quan vi tri nam o duoi nhung ham lien quan trang thai nam o tren

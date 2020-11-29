@@ -27,7 +27,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void SetState(int state);
-	float speedy = FB_SPEED_Y;
+	//float speedy = FB_SPEED_Y;
 	void ResetAnimation(int ani);
 	void SetFrame(int _frame) { frame = _frame; };
 	int GetFrame() { return frame; };
@@ -35,14 +35,14 @@ public:
 	static CFB* GetInstance();
 	CFB();
 
-	int axe_isAtk = 1;
-
-	void Attack(DWORD dt);
+	int fb_isAtk = 1;
+	int fb_atk_time = 3500;
+	void Attack(int _x, int _y, int _nx, int _atktime);
 
 	void SetLevel(int _level) { level = _level; };
 	int GetLevel() { return level; };
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	int GetAnimation();
 	void GetPositionForSimon();
-
+	bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 };
