@@ -615,7 +615,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
 	if (simon->GetState() == SIMON_STATE_DIE || simon->isAutoMove) return;
-	//if (simon->GetState() == SIMON_STATE_STAIR_UP || simon->GetState() == SIMON_STATE_STAIR_DOWN) return;
 
 	if (game->IsKeyDown(DIK_RIGHT))
 	{

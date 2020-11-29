@@ -6,9 +6,9 @@
 /// SIMON
 /// 
 #define SIMON_WALKING_SPEED											0.15f
-#define SIMON_STAIR_SPEED			0.22f
+#define SIMON_STAIR_SPEED									0.22f
 #define SIMON_JUMP_SPEED_Y									0.5f
-#define SIMON_JUMP_DEFLECT_SPEED									0.2f
+#define SIMON_JUMP_DEFLECT_SPEED									0.5f
 #define SIMON_GRAVITY										0.002f
 #define SIMON_DIE_DEFLECT_SPEED										0.002f
 
