@@ -128,6 +128,7 @@ void CZombie::SetState(int state)
 		break;
 	case ZOMBIE_DEAD:
 		vx = 0;
+		break;
 	}
 }
 void CZombie::die()

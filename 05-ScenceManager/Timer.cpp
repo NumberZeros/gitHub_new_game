@@ -17,20 +17,36 @@
 
 void Timer::Update()
 {
-	if (GetTickCount() - action_time > 1000)
-	{ 
-	//	DebugOut(L"time: %d \f", GetTickCount() - action_time);
-		timeremain -= 1;
-		action_time = GetTickCount();
-		if (timeremain < 0)
-			timeremain = 0;
+	time = timeremain;
+	if (isStop)
+	{
+		if (GetTickCount() - action_time > 50)
+		{
+			//	DebugOut(L"time: %d \f", GetTickCount() - action_time);
+			timeremain -= 1;
+			action_time = GetTickCount();
+			if (timeremain < 1)
+			{
+				timeremain = 1;
+			}
+		}
 	}
+	else
+	{
+		if (GetTickCount() - action_time > 1000)
+		{
+			//	DebugOut(L"time: %d \f", GetTickCount() - action_time);
+			timeremain -= 1;
+			action_time = GetTickCount();
+			if (timeremain < 0)
+				timeremain = 0;
+		}
+	}
+
 	a = timeremain / 100;
 	b = (timeremain - (100 * a)) / 10;
 	c = timeremain - 100 * a - 10 * b;
-	/*time += _a;
-	timeremain = timemax - (time / CLOCKS_PER_SEC);
-	num=to_string(timeremain);*/
+
 }
 
 void Timer::Render()

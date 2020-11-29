@@ -372,7 +372,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		else 
 			brick->type = id_brick;
 		break;
-	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
 	case OBJECT_TYPE_ZOMBIE:
 		min = atof(tokens[4].c_str());
 		max = atof(tokens[5].c_str());
@@ -380,6 +379,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		zombie = (CZombie*)obj;
 		zombie->min = min;
 		zombie->max = max;
+		break;
+	case OBJECT_TYPE_BLACK_LEOPARD: 
+		obj = new CBlackLeopard(); 
+		black = (CBlackLeopard*)obj;
 		break;
 	case OBJECT_TYPE_MERMAN:
 		obj = new CMerman();
@@ -545,6 +548,15 @@ void CPlayScene::Update(DWORD dt)
 			CGame::GetInstance()->SwitchScene(game->current_scene);
 		}
 	}
+	if (game->current_scene == 4 && player->y >= 350)
+	{
+		player->SetState(SIMON_STATE_DIE);
+		if (GetTickCount() - player->action_time > 3000)
+		{
+			ResetMap();
+			CGame::GetInstance()->SwitchScene(game->current_scene);
+		}
+	};
 
 	if (boss) {
 		
@@ -554,6 +566,37 @@ void CPlayScene::Update(DWORD dt)
 		else {
 			if (boss->x - player->x < 50) {
 				boss->SetState(BOX_ATTACK);
+			}
+		}
+	}
+	if (black)
+	{
+		if (black->x - player->x < 150)
+		{
+			black->SetState(BLACK_LEOPARD_RUN);
+		}
+	}
+
+	if (player->isEndGame)
+	{
+		timer->isStop = true;
+		if (timer->timeremain != 1)
+		{
+			if (GetTickCount() - score->action_time_score > 50)
+			{
+				//	DebugOut(L"time: %d \f", GetTickCount() - action_time);
+				player->simon_Score += 1;
+				score->action_time_score = GetTickCount();
+			}
+		}
+		if (player->simon_Mana > 0)
+		{
+			if (GetTickCount() - score->action_time_score > 50)
+			{
+				//	DebugOut(L"time: %d \f", GetTickCount() - action_time);
+				player->simon_Score += 1;
+				player->simon_Mana -= 1;
+				score->action_time_score = GetTickCount();
 			}
 		}
 	}
