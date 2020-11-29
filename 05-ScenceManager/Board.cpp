@@ -28,13 +28,13 @@ void CBoard::UpdateFollowSimon(int idmap, int camx, int camy, CSimon* simon)
 void CBoard::Render()
 {
 	animation_set->at(0)->Render(0, x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CBoard::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x;
-	t = y;
-	r = x + width;
-	b = y + height;
+	//l = x;
+	//t = y;
+	//r = x + width;
+	//b = y + height;
 }

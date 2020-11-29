@@ -13,6 +13,7 @@ public:
 	bool isAttack;
 	bool isGrounded;
 	bool isImmortal = false;
+	bool isEndGame = false;
 	int actionAttack = 0;	// 0 right 1 left
 	int start_x;
 	int start_y;
@@ -21,15 +22,16 @@ public:
 	int simon_Mana,simon_P,simon_Sub,simon_stage=1;
 	bool isDoneAttack = true;
 	bool isAutoMove = false;
-
-	DWORD timeImmortal;
-public:
-	virtual void AutoWalk(int des);
-
+	bool isOnStair = false;
 	int simon_stair_type = 0;
 	int xbr = 0;
 	bool isStairUp = false;
 	bool isStairDown = false;
+	float lenghtStair;
+	float startStair;
+	DWORD timeImmortal;
+public:
+	virtual void AutoWalk(int des);
 	CSimon();
 	virtual void SitDown();
 	virtual void attack();
@@ -45,7 +47,8 @@ public:
 	void SetLevel(int l) { level = l; }
 	bool GetAttack() { return this->isAttack; };
 	int GetNumber() { return this->number; }
-	void SimonColliWithItems(vector<LPGAMEOBJECT>* listitems);
+	void ResetStair();
+	void StartMap4();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

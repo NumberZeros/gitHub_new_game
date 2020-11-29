@@ -12,6 +12,8 @@
 #include "HealthBar.h"
 #include "Weapon.h"
 #include "Item.h"
+#include "VampireBat.h"
+#include "Merman.h"
 
 CSimon::CSimon(float x, float y) : CGameObject()
 {
@@ -26,7 +28,7 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	this->x = x;
 	this->y = y;
 	simon_HP = 16;
-	simon_Score = 10;
+	simon_Score = 1;
 	simon_Mana = 15;
 	simon_Sub = 2;
 	simon_P = 0;
@@ -44,6 +46,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// turn off collision when die 
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
+
+	//DebugOut(L"simon st type: %d \t", simon_stair_type);
+	/*DebugOut(L"istdown: %d \t", isStairDown);
+	DebugOut(L"istUP: %d \t", isStairUp);*/
 
 
 	if (isAutoMove) {						// chuyen xy ly cho map intro
@@ -66,6 +72,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+
 	if (simon_HP < 1)
 		state = SIMON_STATE_DIE;
 		
@@ -87,17 +94,26 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isStairUp)
 	{
 		vy = 0;
-		x += 0.216f * nx;
-		y -= 0.216f;
+		x += 0.916f * nx;
+		y -= 0.916f;
 	}
-
+	// 111: ULR, 112: URL, 113: DLR, 114: DRL
+	if (!isStairUp && (simon_stair_type== BRICK_TYPE_ULR || simon_stair_type== BRICK_TYPE_URL))
+	{
+		if (isOnStair)
+			SetState(SIMON_STATE_STAIR_UP_IDLE);
+	}
 	if (isStairDown)
 	{
 		vy = 0;
-		x += 0.216f * nx;
-		y += 0.216f;
+		x += 0.916f * nx;
+		y += 0.916f;
 	}
-
+	if (!isStairDown && (simon_stair_type == BRICK_TYPE_DLR || simon_stair_type == BRICK_TYPE_DRL))
+	{
+		if (isOnStair)
+			SetState(SIMON_STATE_STAIR_DOWN_IDLE);
+	}
 	//attact
 	if (isAttack) {
 		if (GetTickCount() - action_time > SIMON_ATTACK_TIME) {
@@ -151,6 +167,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
+			CGame* game = CGame::GetInstance();
 			if (dynamic_cast<CItem*>(e->obj)) {
 				CItem* item = dynamic_cast<CItem*>(e->obj);
 				if (item->isTorch || item->isFire || item->isCandle) {
@@ -185,7 +202,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					item->isHidden = true;
 					item->ResetBB();
 					number = 2;
-					simon_Mana += 5;
+					//simon_Mana += 5;
+					isEndGame = true;
 				}
 				if (item->id == ITEM_ANI_MEAT)
 				{
@@ -198,7 +216,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					item->isHidden = true;
 					item->ResetBB();
-					simon_Mana += 1;
+					//simon_Mana += 1;
+					
 					number = 4;
 				}
 				if (item->id == ITEM_ANI_BLUEMONEY)
@@ -235,26 +254,16 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-				if (e->ny != 0)
-				{
-					
-					simon_stair_type = brick->type;
-
-					if (brick->type != 0 && brick->brick_x != 0)
-					{
-						xbr = brick->brick_x;
+				if (brick->type && brick->type != 0) {
+					if (x > brick->x + 20 && x < brick->x + 23) {
+						simon_stair_type = brick->type;
+						lenghtStair = brick->lenghtStair;
 					}
 				}
+				else
+					ResetStair();
 			}
-		
-			else if (dynamic_cast<Gate*>(e->obj))
-			{
-				Gate* gate = dynamic_cast<Gate*>(e->obj);
-				CGame* game = CGame::GetInstance();
-				CGame::GetInstance()->SwitchScene(game->current_scene +1);
-				simon_stage += 1;
-			}
-			else if (dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
+			else if (dynamic_cast<CMerman*>(e->obj) || dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CVampireBat*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
 				x += dx;
 			}
 			else if (dynamic_cast<Boss*>(e->obj)) 
@@ -273,6 +282,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					else
 						dy = 0;
 
+			}else if (dynamic_cast<Gate*>(e->obj))
+			{
+				Gate* gate = dynamic_cast<Gate*>(e->obj);
+				CGame::GetInstance()->SwitchScene(game->current_scene + 1);
+				simon_stage += 1;
 			}
 		}
 	}
@@ -318,6 +332,14 @@ void CSimon::Render()
 		else
 			ani = SIMON_ANI_STAND_HIT;
 	}
+	else if (isStairUp)
+		ani = SIMON_ANI_STAIR_UP;
+	else if (isStairDown)
+		ani = SIMON_ANI_STAIR_DOWN;
+	else if (state == SIMON_STATE_STAIR_DOWN_IDLE)
+		ani = SIMON_ANI_STAIR_DOWN_IDLE;
+	else if (state == SIMON_STATE_STAIR_UP_IDLE)
+		ani = SIMON_ANI_STAIR_UP_IDLE;
 	else {
 		// di chuyen 
 		if (state == SIMON_STATE_IDLE)
@@ -327,10 +349,7 @@ void CSimon::Render()
 			else
 				ani = SIMON_ANI_IDLE;
 		}
-		else if (isStairUp)
-			ani = SIMON_ANI_STAIR_UP;
-		else if (isStairDown)
-			ani = SIMON_ANI_STAIR_DOWN;
+		
 		else if (isImmortal && !isDone)
 			ani = SIMON_ANI_HURT;
 		else
@@ -362,8 +381,21 @@ void CSimon::SetState(int state)
 		vy = -SIMON_JUMP_SPEED_Y;
 		break;
 	case SIMON_STATE_IDLE:
-		vx = 0;
-		break;
+		if (isOnStair)
+		{
+			vy = 0;
+			vx = 0;
+			break;
+		}
+		else
+		{
+			vy += SIMON_GRAVITY * dt;
+			isOnStair = false;
+			isStairDown = false;
+			isStairUp = false;
+			vx = 0;
+			break;
+		}
 	case SIMON_STATE_HIT:
 		vx = 0;
 		attack();
@@ -387,16 +419,57 @@ void CSimon::SetState(int state)
 		}
 		break;
 	case SIMON_STATE_STAIR_UP:
+		vx = 0;
 		isStairUp = true;
+		isStairDown = false;
+		isOnStair = true;
 		break;
 	case SIMON_STATE_STAIR_DOWN:
+		vx = 0;
+		isStairUp = false;
 		isStairDown = true;
+		isOnStair = true;
 		break;
+	case SIMON_STATE_STAIR_DOWN_IDLE:
+		if (isOnStair == true)
+		{
+			vy = 0;
+			vx = 0;
+			break;
+		}
+	case SIMON_STATE_STAIR_UP_IDLE:
+		if (isOnStair == true)
+		{
+			vy = 0;
+			vx = 0;
+			break;
+		}
 	case SIMON_ANI_DIE:
 		action_time = GetTickCount();
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
 	}
+}
+
+void CSimon::ResetStair()
+{
+	/*state = SIMON_STATE_IDLE;
+	vx = vy = 0;*/
+	startStair = 0;
+	lenghtStair = 0;
+	simon_stair_type = 0;
+	isStairUp = false;
+	isStairDown = false;
+	isOnStair = false;
+	
+}
+
+void CSimon::StartMap4()
+{
+	startStair = 64.0f;
+	lenghtStair = 96;
+	simon_stair_type = OBJECT_TYPE_BRICK_DLR;
+	SetState(SIMON_STATE_STAIR_UP);
 }
 
 void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -430,13 +503,18 @@ void CSimon::ResetAnimation() {
 		animation_set->at(i)->ResetFrame();
 	}
 }
+
 void CSimon::Reset()
 {
 	SetState(SIMON_STATE_IDLE);
-	isStairDown = false;
+	vx = vy = 0;
+	startStair = 0;
+	lenghtStair = 0;
+	simon_stair_type = 0;
 	isStairUp = false;
+	isStairDown = false;
+	isOnStair = false;
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
+	
 }
-
-

@@ -9,6 +9,7 @@
 
 #include "Brick.h"
 #include "Simon.h"
+#include "Zombie.h"
 #include "Goomba.h"
 #include "Weapon.h"
 #include "Axe.h"
@@ -24,6 +25,7 @@
 #include "Score.h"
 #include "Define.h"
 #include "Boss.h"
+#include "BlackLeopard.h"
 
 class CPlayScene: public CScene
 {
@@ -31,14 +33,16 @@ public:
 	
 	CSimon *player;					// A play scene has to have player, right? 
 	Boss* boss;
-	
+	CZombie* zombie;
+	CBlackLeopard* black;
+
 	Gate* gate;
 
 	CBrick* brick;
 
 	CItem* item;
 	CWeapon* weapon;
-	CAxe* axe;
+	CAxe* axe; 
 	CKnife* knife;
 	CHlw* hlw;
 
@@ -103,6 +107,8 @@ public:
 
 	void Run(int _nx);
 	void AutoWalk(int des);
+	void StairUp();
+	void StairDown();
 	void Jump();
 	void Hit();
 	void Throw_Axe();

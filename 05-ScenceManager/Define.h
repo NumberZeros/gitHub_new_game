@@ -6,9 +6,9 @@
 /// SIMON
 /// 
 #define SIMON_WALKING_SPEED											0.15f
-#define SIMON_STAIR_SPEED			0.22f
-#define SIMON_JUMP_SPEED_Y									0.5f
-#define SIMON_JUMP_DEFLECT_SPEED									0.2f
+#define SIMON_STAIR_SPEED									0.22f
+#define SIMON_JUMP_SPEED_Y									0.55f
+#define SIMON_JUMP_DEFLECT_SPEED									0.5f
 #define SIMON_GRAVITY										0.002f
 #define SIMON_DIE_DEFLECT_SPEED										0.002f
 
@@ -29,6 +29,8 @@
 #define SIMON_STATE_STAIR_DOWN_HIT							9
 #define SIMON_STATE_HURT											10
 #define SIMON_STATE_DIE										11
+#define SIMON_STATE_STAIR_UP_IDLE									13
+#define SIMON_STATE_STAIR_DOWN_IDLE							14
 
 #define SIMON_ANI_IDLE												0
 #define SIMON_ANI_WALKING									1
@@ -42,6 +44,9 @@
 #define SIMON_ANI_STAIR_UP_HIT								9
 #define SIMON_ANI_STAIR_DOWN_HIT									10
 #define SIMON_ANI_HURT										11
+#define SIMON_ANI_STAIR_UP_IDLE										13
+#define SIMON_ANI_STAIR_DOWN_IDLE							14
+
 
 #define SIMON_ANI_DIE												12
 #define SIMON_ANI_WHIP_LV1									13
@@ -129,10 +134,10 @@
 #define OBJECT_TYPE_FIREBALL								18
 #define OBJECT_TYPE_SCORE									        19
 #define OBJECT_TYPE_SUBW									20
-
+#define OBJECT_TYPE_VAMPIREBAT										21
 #define OBJECT_TYPE_INTRO_MAP								777
-
 #define OBJECT_TYPE_PORTAL											50
+
 //ITEM MAP ENTRANC
 #define ID_ITEM_TYPE_GOODS									0
 #define ID_ITEM_TYPE_TORCH											1
@@ -177,27 +182,24 @@
 
 #define BLACK_LEOPARD_BBOX_WIDTH									64
 #define BLACK_LEOPARD_BBOX_HEIGHT							32
-#define BLACK_LEOPARD_BBOX_HEIGHT_DIE								64
+#define BLACK_LEOPARD_BBOX_HEIGHT_DIE								32
 
 ///
 /// MERMAN
 /// 
 
-#define MERMAN_JUMP_SPEED_Y											0.9f
+#define MERMAN_JUMP_SPEED_Y											0.4f
 #define MERMAN_WALKING_SPEED_X								0.13f
-#define MERMAN_GRAVITY												0.002f
-#define MERMAN_ATTACK_TIME									300
+#define MERMAN_GRAVITY												0.0009f
 
 #define MERMAN_BBOX_WIDTH											32
 #define MERMAN_BBOX_HEIGHT									64
 
-#define MERMAN_JUMP											1
-#define MERMAN_WALKING												2
-#define MERMAN_SHOOT_FIREBALL								3
+#define MERMAN_JUMP											2
+#define MERMAN_WALKING												0
+#define MERMAN_SHOOT_FIREBALL								1
+#define MERMAN_DEAD													3
 
-#define MERMAN_ANI_IDLE												0
-#define MERMAN_ANI_WALKING									1
-#define MERMAN_ANI_SHOOT_FIREBALL									2
 
 ///
 /// ITEM
@@ -232,7 +234,7 @@
 
 // gate
 #define gate_box_width										32
-#define gate_box_height												50
+#define gate_box_height												32
 
 //Boss 
 

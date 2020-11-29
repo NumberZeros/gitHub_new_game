@@ -1,19 +1,12 @@
 #include <iostream>
 #include <fstream>
+#include "Intro.h"
 
 #include "PlayScence.h"
-#include "Utils.h"
-#include "Textures.h"
-#include "Sprites.h"
-#include "Portal.h"
-#include "Gate.h"
-#include "Board.h"
 #include "BlackLeopard.h"
-#include "Zombie.h"
-#include "Item.h"
 #include "Merman.h"
+#include "VampireBat.h"
 
-#include "Intro.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
@@ -63,6 +56,10 @@ void CPlayScene::LoadMapItro()
 
 void CPlayScene::Load()
 {
+	CGame* game = CGame::GetInstance();
+
+	if (game->current_scene == 4 && player)
+		player->StartMap4();
 	isIntro = false;
 	LoadObject();
 	LoadMap();
@@ -316,6 +313,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	int id_brick = 1;
 	int x_brick = 1;
+	float lenghtStair = 0.0f;
+	float min, max;
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
@@ -332,56 +331,64 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			obj = new CSimon(x, y);
 			player = (CSimon*)obj;
 			player->SetState(SIMON_STATE_WALKING);
-			player->nx = -1;
-			if (isintro)
+			
+			if (isintro) {
+				player->nx = -1;
 				player->isAutoMove = true;
+			}
 			DebugOut(L"[INFO] Player object created!\n");
 		}
 		else {
 			obj = player;
 			player->nx = 1;
-			 
 			player->isAutoMove = false;
 		}
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK:
 		
 		obj = new CBrick();
 		brick = (CBrick*)obj;
-		if (!atof(tokens[4].c_str()) && !atof(tokens[5].c_str())) {
-			
-			break;
+		id_brick = atof(tokens[4].c_str());
+		x_brick = atof(tokens[5].c_str());
+		lenghtStair = atof(tokens[6].c_str());
+		brick->lenghtStair = lenghtStair;
+		//brick = (CBrick*)obj;
+		if (id_brick == OBJECT_TYPE_BRICK_ULR) {  // 111
+			brick->type = BRICK_TYPE_ULR;
+			brick->brick_x = x_brick;
 		}
-		else {
-			id_brick = atof(tokens[4].c_str());
-			x_brick = atof(tokens[5].c_str());
-			
-			//brick = (CBrick*)obj;
-			if (id_brick == OBJECT_TYPE_BRICK_ULR) {  // 111
-				brick->type = BRICK_TYPE_ULR;
-				brick->brick_x = x_brick;			break;
-			}
-			else if (id_brick == OBJECT_TYPE_BRICK_URL) { // 112
-				brick->type = BRICK_TYPE_URL;
-				brick->brick_x = x_brick;			break;
-			}
-			else if (id_brick == OBJECT_TYPE_BRICK_DLR) { // 113
-				brick->type = BRICK_TYPE_DLR;
-				brick->brick_x = x_brick;			break;
-			}
-			else if (id_brick == OBJECT_TYPE_BRICK_DRL) { // 114
-				brick->type = BRICK_TYPE_DRL;
-				brick->brick_x = x_brick;			break;
-			}
-			else if (id_brick == 0) brick->type = 0;
-			break;
+		else if (id_brick == OBJECT_TYPE_BRICK_URL) { // 112
+			brick->type = BRICK_TYPE_URL;
+			brick->brick_x = x_brick;
 		}
+		else if (id_brick == OBJECT_TYPE_BRICK_DLR) { // 113
+			brick->type = BRICK_TYPE_DLR;
+			brick->brick_x = x_brick;
+		}
+		else if (id_brick == OBJECT_TYPE_BRICK_DRL) { // 114
+			brick->type = BRICK_TYPE_DRL;
+			brick->brick_x = x_brick;
+		}
+		else 
+			brick->type = id_brick;
 		break;
-	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
-	case OBJECT_TYPE_ZOMBIE: obj = new CZombie(); break;
+	case OBJECT_TYPE_ZOMBIE:
+		min = atof(tokens[4].c_str());
+		max = atof(tokens[5].c_str());
+		obj = new CZombie();
+		zombie = (CZombie*)obj;
+		zombie->min = min;
+		zombie->max = max;
+		break;
+	case OBJECT_TYPE_BLACK_LEOPARD: 
+		obj = new CBlackLeopard(); 
+		black = (CBlackLeopard*)obj;
+		break;
 	case OBJECT_TYPE_MERMAN:
 		obj = new CMerman();
+		break;
+	case OBJECT_TYPE_VAMPIREBAT:
+		obj = new CVampireBat();
 		break;
 	case OBJECT_TYPE_WEAPON:
 		obj = new CWeapon();
@@ -541,6 +548,15 @@ void CPlayScene::Update(DWORD dt)
 			CGame::GetInstance()->SwitchScene(game->current_scene);
 		}
 	}
+	if (game->current_scene == 4 && player->y >= 350)
+	{
+		player->SetState(SIMON_STATE_DIE);
+		if (GetTickCount() - player->action_time > 3000)
+		{
+			ResetMap();
+			CGame::GetInstance()->SwitchScene(game->current_scene);
+		}
+	};
 
 	if (boss) {
 		
@@ -550,6 +566,37 @@ void CPlayScene::Update(DWORD dt)
 		else {
 			if (boss->x - player->x < 50) {
 				boss->SetState(BOX_ATTACK);
+			}
+		}
+	}
+	if (black)
+	{
+		if (black->x - player->x < 150)
+		{
+			black->SetState(BLACK_LEOPARD_RUN);
+		}
+	}
+
+	if (player->isEndGame)
+	{
+		timer->isStop = true;
+		if (timer->timeremain != 1)
+		{
+			if (GetTickCount() - score->action_time_score > 50)
+			{
+				//	DebugOut(L"time: %d \f", GetTickCount() - action_time);
+				player->simon_Score += 1;
+				score->action_time_score = GetTickCount();
+			}
+		}
+		if (player->simon_Mana > 0)
+		{
+			if (GetTickCount() - score->action_time_score > 50)
+			{
+				//	DebugOut(L"time: %d \f", GetTickCount() - action_time);
+				player->simon_Score += 1;
+				player->simon_Mana -= 1;
+				score->action_time_score = GetTickCount();
 			}
 		}
 	}
@@ -615,59 +662,87 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 	if (simon->GetState() == SIMON_STATE_DIE || simon->isAutoMove) return;
 
-	if (game->IsKeyDown(DIK_RIGHT)) Run(1);
-	else if (game->IsKeyDown(DIK_LEFT)) Run(-1);
-
-	else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
-	else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
-	else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
+	if (game->IsKeyDown(DIK_RIGHT)) {
+		if (!simon->isOnStair) 
+			Run(1);
+	}		
+	else if (game->IsKeyDown(DIK_LEFT)) {
+		if (!simon->isOnStair)
+			Run(-1);
+	}	
 	else if (game->IsKeyDown(DIK_UP))
 	{
-		if (simon->simon_stair_type == BRICK_TYPE_ULR)
-		{
-
-			//AutoWalk(simon->xbr);
-			simon->SetState(SIMON_STATE_STAIR_UP);
-			simon->nx = 1;
-			DebugOut(L"simon x: %f \n", simon->x);
+		if (simon->simon_stair_type == 0) return;
+		if (simon->simon_stair_type == 1) {
+			CGame::GetInstance()->SwitchScene(game->current_scene + 1);
+			simon->simon_stage += 1;
 		}
-		if (simon->simon_stair_type == BRICK_TYPE_URL)
-		{
-
-			//AutoWalk(simon->xbr);
-			simon->SetState(SIMON_STATE_STAIR_UP);
+		if (simon->simon_stair_type == BRICK_TYPE_ULR)
+			simon->nx = 1;
+		else if (simon->simon_stair_type == BRICK_TYPE_URL)
 			simon->nx = -1;
-			DebugOut(L"simon x: %f \n", simon->x);
+		if (simon->simon_stair_type == BRICK_TYPE_DLR && simon->isOnStair == true)
+			simon->nx = -1;
+		else if (simon->simon_stair_type == BRICK_TYPE_DRL && simon->isOnStair == true)
+			simon->nx = -1;
+		if(simon->startStair == 0)
+			simon->startStair = simon->x;
+		if (simon->startStair != simon->x) {
+			if (simon->nx < 0) {
+				if (simon->startStair - simon->x > simon->lenghtStair)
+					simon->ResetStair();
+				else
+					simon->SetState(SIMON_STATE_STAIR_UP);
+			}
+			else {
+				if (simon->x - simon->startStair > simon->lenghtStair)
+					simon->ResetStair();
+				else
+					simon->SetState(SIMON_STATE_STAIR_UP);
+			}
 		}
 	}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		if (simon->simon_stair_type == BRICK_TYPE_DLR)
-		{
-
-			AutoWalk(simon->xbr);
-			simon->SetState(SIMON_STATE_STAIR_DOWN);
+		if (simon->simon_stair_type == 0) return;
+		if (simon->simon_stair_type == 1) {
+			CGame::GetInstance()->SwitchScene(game->current_scene + 1);
+			simon->simon_stage += 1;
+		}
+		else if (simon->simon_stair_type == BRICK_TYPE_DLR)
 			simon->nx = 1;
-			DebugOut(L"simon x: %f \n", simon->x);
-		}
-		if (simon->simon_stair_type == BRICK_TYPE_DRL)
-		{
-
-			AutoWalk(simon->xbr);
-			simon->SetState(SIMON_STATE_STAIR_DOWN);
+		else if (simon->simon_stair_type == BRICK_TYPE_DRL)
 			simon->nx = -1;
-			DebugOut(L"simon x: %f \n", simon->x);
+		if (simon->simon_stair_type == BRICK_TYPE_ULR && simon->isOnStair == true)
+			simon->nx = -1;
+		else if (simon->simon_stair_type == BRICK_TYPE_URL && simon->isOnStair == true)
+			simon->nx = 1;
+		if (simon->startStair == 0)
+			simon->startStair = simon->x;
+
+
+		if (simon->startStair != simon->x) {
+			if (simon->nx < 0) {
+				if (simon->startStair - simon->x < simon->lenghtStair)
+					simon->ResetStair();
+				else
+					simon->SetState(SIMON_STATE_STAIR_DOWN);
+			}
+			else {
+				if (simon->x - simon->startStair > simon->lenghtStair)
+					simon->ResetStair();
+				else
+					simon->SetState(SIMON_STATE_STAIR_DOWN);
+			}
 		}
 	}
-	else
+	else if (simon->isOnStair)
 	{
-		if (simon->isStairUp || simon->isStairDown)
-		{
-			simon->isStairDown = false;
-			simon->isStairUp = false;
-		}
-		simon->SetState(SIMON_STATE_IDLE);
+		simon->isStairUp = false;
+		simon->isStairDown = false;
 	}
+	else 
+		simon->SetState(SIMON_STATE_IDLE);
 }
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
@@ -690,6 +765,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
+		if (simon->isOnStair)
+			return;
+		else 
 		Jump();
 		break;
 	/*case DIK_DOWN:
@@ -700,12 +778,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		{
 			if (game->IsKeyDown(DIK_UP))
 			{
-				//if (axe->axe_isAtk == 0||simon->simon_Mana>0)
-				//{
-				//	Throw_Axe();
-				//	simon->simon_Mana -= 1;
-				//}
-				//break;
+				if (axe->axe_isAtk != 0 || simon->simon_Mana < 0) return;
 				if (simon->simon_Mana > 0) {
 					if (simon->simon_Sub == 0)
 						Throw_Knife();
@@ -730,12 +803,24 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 void CPlayScenceKeyHandler::Run(int _nx) {
 	CSimon* simon = ((CPlayScene*)scence)->player;
-	if (simon->isDone) {
+	if (simon->isDone) 
+	{
 		simon->SetNX(_nx);
 		simon->SetState(SIMON_STATE_WALKING);
 	}
-		
-	
+}
+
+void CPlayScenceKeyHandler::StairUp()
+{
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	simon->SetState(SIMON_STATE_STAIR_UP);
+
+}
+void CPlayScenceKeyHandler::StairDown()
+{
+	CSimon* simon = ((CPlayScene*)scence)->player;
+	simon->SetState(SIMON_STATE_STAIR_DOWN);
+
 }
 
 void CPlayScenceKeyHandler::AutoWalk(int des) {
