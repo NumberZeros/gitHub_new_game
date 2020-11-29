@@ -453,6 +453,15 @@ void CPlayScene::Update(DWORD dt)
 			CGame::GetInstance()->SwitchScene(game->current_scene);
 		}
 	}
+	if (game->current_scene == 4 && player->y >= 350)
+	{
+		player->SetState(SIMON_STATE_DIE);
+		if (GetTickCount() - player->action_time > 3000)
+		{
+			ResetMap();
+			CGame::GetInstance()->SwitchScene(game->current_scene);
+		}
+	};
 
 	if (boss) {
 		
