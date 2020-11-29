@@ -253,7 +253,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 				if (brick->type && brick->type !=0) {
-					if (x > brick->x + 20 && x < brick->x + 25) {
+					if (x > brick->x + 20 && x < brick->x + 23) {
 						simon_stair_type = brick->type;
 						lenghtStair = brick->lenghtStair;
 					}
