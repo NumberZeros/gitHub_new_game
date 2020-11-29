@@ -48,8 +48,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	//DebugOut(L"simon st type: %d \t", simon_stair_type);
-	DebugOut(L"istdown: %d \t", isStairDown);
-	DebugOut(L"istUP: %d \t", isStairUp);
+	/*DebugOut(L"istdown: %d \t", isStairDown);
+	DebugOut(L"istUP: %d \t", isStairUp);*/
 
 
 	if (isAutoMove) {						// chuyen xy ly cho map intro
@@ -97,7 +97,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y -= 0.916f;
 	}
 	// 111: ULR, 112: URL, 113: DLR, 114: DRL
-	else if (!isStairUp && (simon_stair_type==111 || simon_stair_type==112))
+	if (!isStairUp && (simon_stair_type==111 || simon_stair_type==112))
 	{
 		if (isOnStair)
 			SetState(SIMON_STATE_STAIR_UP_IDLE);
@@ -111,7 +111,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (!isStairDown && (simon_stair_type == 113 || simon_stair_type == 114))
 	{
 		if (isOnStair)
-		SetState(SIMON_STATE_STAIR_DOWN_IDLE);
+			SetState(SIMON_STATE_STAIR_DOWN_IDLE);
 	}
 	//attact
 	if (isAttack) {
@@ -251,23 +251,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 				float left, top, right, bottom;
-				//brick->GetBoundingBox(left, top, right, bottom);
+				/*DebugOut(L" type %d \n", brick->type);
+				DebugOut(L" e->ny %f \n", e->ny);*/
 				if (e->ny!=0)
-				{
-/*					if (isOnStair)
-					{
-						DebugOut(L"aaaaa");
-						isStairDown = false;
-						isStairUp = false;
-						isOnStair = false;
-						SetState(SIMON_STATE_IDLE);
-					}
-					else {
-						
-						xbr = brick->brick_x;
-					}	*/			
 					simon_stair_type = brick->type;
-				}
 			}
 			else if (dynamic_cast<Gate*>(e->obj))
 			{
@@ -389,7 +376,7 @@ void CSimon::SetState(int state)
 		vy = -SIMON_JUMP_SPEED_Y;
 		break;
 	case SIMON_STATE_IDLE:
-		if (isOnStair == true)
+		if (isOnStair)
 		{
 			vy = 0;
 			vx = 0;
@@ -399,6 +386,8 @@ void CSimon::SetState(int state)
 		{
 			vy += SIMON_GRAVITY * dt;
 			isOnStair = false;
+			isStairDown = false;
+			isStairUp = false;
 			vx = 0;
 			break;
 		}

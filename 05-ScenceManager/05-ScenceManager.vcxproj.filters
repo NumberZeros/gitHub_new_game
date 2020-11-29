@@ -22,9 +22,6 @@
     <ClCompile Include="Item.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -94,12 +91,14 @@
     <ClCompile Include="Boss.h">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="PlayScence.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Scence.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="VampireBat.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayScence.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -130,9 +129,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayScence.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Scence.h">
@@ -201,6 +197,10 @@
     <ClInclude Include="Merman.h">
       <Filter>Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="VampireBat.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScence.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="05-ScenceManager.rc" />
@@ -288,9 +288,6 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VampireBat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -381,9 +378,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VampireBat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

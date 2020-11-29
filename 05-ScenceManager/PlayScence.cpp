@@ -344,34 +344,28 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		
 		obj = new CBrick();
 		brick = (CBrick*)obj;
-		if (!atof(tokens[4].c_str()) && !atof(tokens[5].c_str())) {
+		id_brick = atof(tokens[4].c_str());
+		x_brick = atof(tokens[5].c_str());
 			
-			break;
+		//brick = (CBrick*)obj;
+		if (id_brick == OBJECT_TYPE_BRICK_ULR) {  // 111
+			brick->type = BRICK_TYPE_ULR;
+			brick->brick_x = x_brick;
 		}
-		else {
-			id_brick = atof(tokens[4].c_str());
-			x_brick = atof(tokens[5].c_str());
-			
-			//brick = (CBrick*)obj;
-			if (id_brick == OBJECT_TYPE_BRICK_ULR) {  // 111
-				brick->type = BRICK_TYPE_ULR;
-				brick->brick_x = x_brick;			break;
-			}
-			else if (id_brick == OBJECT_TYPE_BRICK_URL) { // 112
-				brick->type = BRICK_TYPE_URL;
-				brick->brick_x = x_brick;			break;
-			}
-			else if (id_brick == OBJECT_TYPE_BRICK_DLR) { // 113
-				brick->type = BRICK_TYPE_DLR;
-				brick->brick_x = x_brick;			break;
-			}
-			else if (id_brick == OBJECT_TYPE_BRICK_DRL) { // 114
-				brick->type = BRICK_TYPE_DRL;
-				brick->brick_x = x_brick;			break;
-			}
-			else if (id_brick == 0) brick->type = 0;
-			break;
+		else if (id_brick == OBJECT_TYPE_BRICK_URL) { // 112
+			brick->type = BRICK_TYPE_URL;
+			brick->brick_x = x_brick;
 		}
+		else if (id_brick == OBJECT_TYPE_BRICK_DLR) { // 113
+			brick->type = BRICK_TYPE_DLR;
+			brick->brick_x = x_brick;
+		}
+		else if (id_brick == OBJECT_TYPE_BRICK_DRL) { // 114
+			brick->type = BRICK_TYPE_DRL;
+			brick->brick_x = x_brick;
+		}
+		else 
+			brick->type = 0;
 		break;
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
 	case OBJECT_TYPE_ZOMBIE:
@@ -632,9 +626,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		if (simon->isOnStair) return;
 		else  Run(-1);
 	}
-	else if (game->IsKeyDown(DIK_1)) weapon->level = 1;
-	else if (game->IsKeyDown(DIK_2)) weapon->level = 2;
-	else if (game->IsKeyDown(DIK_3)) weapon->level = 3;
 	else if (game->IsKeyDown(DIK_UP))
 	{
 		
