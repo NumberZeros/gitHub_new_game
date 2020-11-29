@@ -57,8 +57,8 @@ void CPlayScene::LoadMapItro()
 void CPlayScene::Load()
 {
 	CGame* game = CGame::GetInstance();
-	DebugOut(L"test current %d \n", game->current_scene);
-	if (game->current_scene == 4)
+
+	if (game->current_scene == 4 && player)
 		player->StartMap4();
 	isIntro = false;
 	LoadObject();
@@ -370,7 +370,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			brick->brick_x = x_brick;
 		}
 		else 
-			brick->type = 0;
+			brick->type = id_brick;
 		break;
 	case OBJECT_TYPE_BLACK_LEOPARD: obj = new CBlackLeopard(); break;
 	case OBJECT_TYPE_ZOMBIE:
@@ -630,6 +630,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	else if (game->IsKeyDown(DIK_UP))
 	{
 		if (simon->simon_stair_type == 0) return;
+		if (simon->simon_stair_type == 1) {
+			CGame::GetInstance()->SwitchScene(game->current_scene + 1);
+			simon->simon_stage += 1;
+		}
 		if (simon->simon_stair_type == BRICK_TYPE_ULR)
 			simon->nx = 1;
 		else if (simon->simon_stair_type == BRICK_TYPE_URL)
@@ -658,7 +662,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
 		if (simon->simon_stair_type == 0) return;
-		if (simon->simon_stair_type == BRICK_TYPE_DLR)
+		if (simon->simon_stair_type == 1) {
+			CGame::GetInstance()->SwitchScene(game->current_scene + 1);
+			simon->simon_stage += 1;
+		}
+		else if (simon->simon_stair_type == BRICK_TYPE_DLR)
 			simon->nx = 1;
 		else if (simon->simon_stair_type == BRICK_TYPE_DRL)
 			simon->nx = -1;
