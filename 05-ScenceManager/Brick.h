@@ -16,6 +16,7 @@ class CBrick : public CGameObject
 public:
 	int type = 0;
 	int brick_x = 0;
+	float lenghtStair = 0.0f;
 
 	CBrick();
 	virtual void Render();

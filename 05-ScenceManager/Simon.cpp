@@ -72,6 +72,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+
 	if (simon_HP < 1)
 		state = SIMON_STATE_DIE;
 		
@@ -95,9 +96,20 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy = 0;
 		x += 0.916f * nx;
 		y -= 0.916f;
+		//if (startStair != x) {
+		//	if (nx < 0) {
+		//		if (startStair - x > lenghtStair)
+		//			ResetStair();
+		//	}
+		//	else {
+		//		if (x - startStair > lenghtStair)
+		//			ResetStair();
+		//	}
+		//}
+		
 	}
 	// 111: ULR, 112: URL, 113: DLR, 114: DRL
-	if (!isStairUp && (simon_stair_type==111 || simon_stair_type==112))
+	if (!isStairUp && (simon_stair_type== BRICK_TYPE_ULR || simon_stair_type== BRICK_TYPE_URL))
 	{
 		if (isOnStair)
 			SetState(SIMON_STATE_STAIR_UP_IDLE);
@@ -108,7 +120,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += 0.916f * nx;
 		y += 0.916f;
 	}
-	if (!isStairDown && (simon_stair_type == 113 || simon_stair_type == 114))
+	if (!isStairDown && (simon_stair_type == BRICK_TYPE_DLR || simon_stair_type == BRICK_TYPE_DRL))
 	{
 		if (isOnStair)
 			SetState(SIMON_STATE_STAIR_DOWN_IDLE);
@@ -250,11 +262,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-				float left, top, right, bottom;
-				/*DebugOut(L" type %d \n", brick->type);
-				DebugOut(L" e->ny %f \n", e->ny);*/
-				if (e->ny!=0)
+				if (brick->type && brick->type !=0) {
 					simon_stair_type = brick->type;
+					lenghtStair = brick->lenghtStair;
+				}
+					
 			}
 			else if (dynamic_cast<Gate*>(e->obj))
 			{
@@ -442,6 +454,17 @@ void CSimon::SetState(int state)
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
 	}
+}
+
+void CSimon::ResetStair()
+{
+	state = SIMON_STATE_IDLE;
+	vx = vy = 0;
+	startStair = 0;
+	lenghtStair = 0;
+	isStairUp = false;
+	isStairDown = false;
+	isOnStair = false;
 }
 
 void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
