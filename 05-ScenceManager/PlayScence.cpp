@@ -651,21 +651,21 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			simon->SetState(SIMON_STATE_STAIR_UP);
 			simon->nx = -1;
 		}
-		if (simon->simon_stair_type == BRICK_TYPE_DLR || simon->simon_stair_type == BRICK_TYPE_DRL)
+		/*if (simon->simon_stair_type == BRICK_TYPE_DLR || simon->simon_stair_type == BRICK_TYPE_DRL)
 		{
 			simon->isOnStair = false;
 			simon->isStairUp = false;
 			simon->isStairDown = false;
 			simon->SetState(SIMON_STATE_IDLE);
-		}
-		if (simon->simon_stair_type == 113  && simon->isOnStair == true)
+		}*/
+		if (simon->simon_stair_type == BRICK_TYPE_DLR && simon->isOnStair == true)
 		{
 			simon->isStairUp = true;
 			simon->isStairDown = false; 
 			simon->nx = -1;
 			simon->SetState(SIMON_STATE_STAIR_UP);
 		}
-		if (simon->simon_stair_type == 114 && simon->isOnStair == true)
+		else if (simon->simon_stair_type == BRICK_TYPE_DRL && simon->isOnStair == true)
 		{
 			simon->isStairUp = true;
 			simon->isStairDown = false; 
@@ -694,25 +694,25 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 			simon->nx = -1;
 		}
-		if (simon->simon_stair_type == BRICK_TYPE_ULR || simon->simon_stair_type == BRICK_TYPE_URL)
+		/*if (simon->simon_stair_type == BRICK_TYPE_ULR || simon->simon_stair_type == BRICK_TYPE_URL)
 		{
 			simon->isOnStair = false;
 			simon->isStairUp = false;
 			simon->isStairDown = false;
 			simon->SetState(SIMON_STATE_IDLE);
-		}
-		if (simon->simon_stair_type == 111 && simon->isOnStair == true)
-		{
-			simon->isStairUp = false;
-			simon->isStairDown = true; 
-			simon->nx = 1;
-			simon->SetState(SIMON_STATE_STAIR_DOWN);
-		}
-		if (simon->simon_stair_type == 112 && simon->isOnStair == true)
+		}*/
+		if (simon->simon_stair_type == BRICK_TYPE_ULR && simon->isOnStair == true)
 		{
 			simon->isStairUp = false;
 			simon->isStairDown = true; 
 			simon->nx = -1;
+			simon->SetState(SIMON_STATE_STAIR_DOWN);
+		}
+		else if (simon->simon_stair_type == BRICK_TYPE_URL && simon->isOnStair == true)
+		{
+			simon->isStairUp = false;
+			simon->isStairDown = true; 
+			simon->nx = 1;
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 		}
 	}

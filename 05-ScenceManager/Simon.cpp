@@ -94,7 +94,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += 0.916f * nx;
 		y -= 0.916f;
 	}
-	else if (!isStairUp)
+	// 111: ULR, 112: URL, 113: DLR, 114: DRL
+	else if (!isStairUp && (simon_stair_type==111 || simon_stair_type==112))
 	{
 		if (isOnStair)
 			SetState(SIMON_STATE_STAIR_UP_IDLE);
@@ -105,7 +106,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += 0.916f * nx;
 		y += 0.916f;
 	}
-	else if (!isStairDown)
+	if (!isStairDown && (simon_stair_type == 113 || simon_stair_type == 114))
 	{
 		if (isOnStair)
 		SetState(SIMON_STATE_STAIR_DOWN_IDLE);
