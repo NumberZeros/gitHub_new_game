@@ -65,10 +65,10 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//	this->nx = 1;
 		//}
 
-		if (vx > 0 && x > SCREEN_WIDTH - 30) {
-			x = SCREEN_WIDTH; vx = -vx;
-			this->nx = -1;
-		}
+		//if (vx > 0 && x > SCREEN_WIDTH - 30) {
+		//	x = SCREEN_WIDTH; vx = -vx;
+		//	this->nx = -1;
+		//}
 
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{

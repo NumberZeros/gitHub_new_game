@@ -5,7 +5,7 @@
 #include "PlayScence.h"
 #include "BlackLeopard.h"
 #include "Merman.h"
-#include "VampireBat.h"
+
 
 using namespace std;
 
@@ -315,6 +315,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int x_brick = 1;
 	float lenghtStair = 0.0f;
 	float min, max;
+	int ybat;
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
@@ -388,7 +389,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CMerman();
 		break;
 	case OBJECT_TYPE_VAMPIREBAT:
+		ybat = atof(tokens[2].c_str());
+		min = atof(tokens[4].c_str());
+		max = atof(tokens[5].c_str());
 		obj = new CVampireBat();
+		vampirebat = (CVampireBat*)obj;
+		vampirebat->min = min;
+		vampirebat->ybat = ybat;
+		vampirebat->max = max;
 		break;
 	case OBJECT_TYPE_WEAPON:
 		obj = new CWeapon();
@@ -409,10 +417,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS: 
 		obj = new CKoopas(); 
 		break;
-	case OBJECT_TYPE_GATE:
-		obj = new Gate();
-		gate = (Gate*)obj;
-		break;
+	//case OBJECT_TYPE_GATE:
+	//	obj = new Gate();
+	//	gate = (Gate*)obj;
+	//	break;
 	case OBJECT_TYPE_BOARD:
 		obj = new CBoard(8);
 		board = (CBoard*)obj;
@@ -455,10 +463,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			item->secondGood = secondGood;
 		}
 		break;
-	case OBJECT_TYPE_BOSS:
-		obj = new Boss();
-		boss = (Boss*)obj;
-		break;
+	//case OBJECT_TYPE_BOSS:
+	//	obj = new Boss();
+	//	boss = (Boss*)obj;
+	//	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -558,17 +566,17 @@ void CPlayScene::Update(DWORD dt)
 		}
 	};
 
-	if (boss) {
-		
-		if (boss->isAttack) {
-			boss->Update(player, dt);
-		}
-		else {
-			if (boss->x - player->x < 50) {
-				boss->SetState(BOX_ATTACK);
-			}
-		}
-	}
+	//if (boss) {
+	//	
+	//	if (boss->isAttack) {
+	//		boss->Update(player, dt);
+	//	}
+	//	else {
+	//		if (boss->x - player->x < 50) {
+	//			boss->SetState(BOX_ATTACK);
+	//		}
+	//	}
+	//}
 	if (black)
 	{
 		if (black->x - player->x < 150)

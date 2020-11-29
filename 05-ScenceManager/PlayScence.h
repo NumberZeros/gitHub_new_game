@@ -26,7 +26,7 @@
 #include "Define.h"
 #include "Boss.h"
 #include "BlackLeopard.h"
-
+#include "VampireBat.h"
 class CPlayScene: public CScene
 {
 public: 
@@ -35,6 +35,7 @@ public:
 	Boss* boss;
 	CZombie* zombie;
 	CBlackLeopard* black;
+	CVampireBat* vampirebat;
 
 	Gate* gate;
 
