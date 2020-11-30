@@ -1,20 +1,21 @@
+
+#include "PlayScence.h"
 #include "BlackLeopard.h"
 #include <time.h>
-#include "PlayScence.h"
+
 
 CBlackLeopard::CBlackLeopard()
 {
-	SetState(BLACK_LEOPARD_JUMP);
 	height = BLACK_LEOPARD_BBOX_HEIGHT;
 	width = BLACK_LEOPARD_BBOX_WIDTH;
+	SetState(BLACK_LEOPARD_IDLE);
+	isHidden = false;
 }
 
-void CBlackLeopard::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+CBlackLeopard::CBlackLeopard(float _x, float _y)
 {
-	left = x;
-	top = y;
-	right = x + width;
-	bottom = y + height;
+	x = _x;
+	y = _y;
 }
 
 void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -25,12 +26,12 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
+	CalcPotentialCollisions(coObjects, coEvents);
+
 	if (isHidden) {
 		if (GetTickCount() - action_time >= 1500)
 			ResetBB();
 	}
-
-	CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
 	{
@@ -49,17 +50,15 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (vx < 0 && x < 0) {
 				x = 0; vx = -vx;
 				this->nx = 1;
-				state = BLACK_LEOPARD_RUN;
 			}
 
-			else if (vx > 0 && x > 500) {
-				x = 500; vx = -vx;
+			else if (vx > 0 && x > SCREEN_WIDTH) {
+				x = SCREEN_WIDTH; vx = -vx;
 				this->nx = -1;
-				state = BLACK_LEOPARD_RUN;
 			}
 		
 
-		
+
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
@@ -102,47 +101,38 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 }
 
-void CBlackLeopard::Render()
+void CBlackLeopard::Update(CSimon* simon, DWORD dt)
 {
-	animation_set->at(state)->Render(nx, x, y);
-	RenderBoundingBox();
-	
-}
-
-void CBlackLeopard::die()
-{
-	isHidden = true;
-	action_time = GetTickCount();
-	this->state = BLACK_LEOPARD_DESTROYED;
-	height = BLACK_LEOPARD_BBOX_HEIGHT_DIE;
-	vx = 0;
-}
-
-void CBlackLeopard::SetState(int state)
-{
-	CGameObject::SetState(state);
-	switch (state)
-	{
-	case BLACK_LEOPARD_RUN:
-		if (nx > 0)
-			vx = BLACK_LEOPARD_RUNNING_SPEED_X;
-		else
-			vx = -BLACK_LEOPARD_RUNNING_SPEED_X;
-		break;
-	case BLACK_LEOPARD_IDLE:
-		vx = 0;
-		nx = -1;
-		break;
-	case BLACK_LEOPARD_DESTROYED:
-		vx = 0;
-	case BLACK_LEOPARD_JUMP:
-		vx = BLACK_LEOPARD_RUNNING_SPEED_X;
-		vy = BLACK_LEOPARD_GRAVITY * BLACK_LEOPARD_RUNNING_SPEED_Y;
+	/*if (GetTickCount() - action_time > 6000) {
+		action_time = GetTickCount();
+		isDone = true;
 	}
+	else if (GetTickCount() - action_time > 4000) {
+		vx = vy = BOX_RUN_FLOW_SIMON;
+		FlowSimon(simon->x - 100, simon->y - 200, dt);
+	}
+	else if (GetTickCount() - action_time > 2000) {
+		if (isDone)
+		{
+			vx = vy = BOX_RUN_FLOW_SIMON;
+			FlowSimon(simon->x, simon->y, dt);
+		}
+
+	}
+	else if (GetTickCount() - action_time > 0)
+	{
+		vx = vy = SPEED_BOX;
+		FlowSimon(simon->x, simon->y, dt);
+	}*/
+
+
+	/// <summary>
+	/// truong hop ngoai vung camera
+	/// </summary>
+
 }
 
-bool CBlackLeopard::CheckColli(float left_a, float top_a, float right_a, float bottom_a)
-{
+bool CBlackLeopard::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
 	float l, t, r, b;
 	CBlackLeopard::GetBoundingBox(l, t, r, b);
 
@@ -151,3 +141,61 @@ bool CBlackLeopard::CheckColli(float left_a, float top_a, float right_a, float b
 	else
 		return false;
 }
+
+void CBlackLeopard::Render()
+{
+	animation_set->at(this->state)->Render(nx, x, y);
+	RenderBoundingBox();
+}
+
+void CBlackLeopard::SetState(int state)
+{
+	CGameObject::SetState(state);
+
+	switch (state)
+	{
+	case BLACK_LEOPARD_RUN:
+		if (nx > 0)
+			vx = BLACK_LEOPARD_RUNNING_SPEED_X;
+		else
+			vx = -BLACK_LEOPARD_RUNNING_SPEED_X;
+		break;
+	case BLACK_LEOPARD_JUMP:
+		break;
+	case BLACK_LEOPARD_DESTROYED:
+		vx = 0;
+		break;
+	default:
+		vx = 0;
+		nx = -1;
+		break;
+	}
+}
+
+void CBlackLeopard::die()
+{
+	isHidden = true;
+	action_time = GetTickCount();
+	this->state = BLACK_LEOPARD_DESTROYED;
+	vx = 0;
+}
+
+
+
+void CBlackLeopard::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	left = x;
+	right = left + width;
+	top = y;
+	bottom = y + height;
+
+}
+
+//void CBlackLeopard::die()
+//{
+//	isHidden = true;
+//	action_time = GetTickCount();
+//	this->state = BLACK_LEOPARD_DESTROYED;
+//	height = BLACK_LEOPARD_BBOX_HEIGHT_DIE;
+//	vx = 0;
+//}

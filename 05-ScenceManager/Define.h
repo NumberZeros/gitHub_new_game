@@ -6,9 +6,9 @@
 /// SIMON
 /// 
 #define SIMON_WALKING_SPEED											0.15f
-#define SIMON_STAIR_SPEED			0.22f
-#define SIMON_JUMP_SPEED_Y									0.5f
-#define SIMON_JUMP_DEFLECT_SPEED									0.2f
+#define SIMON_STAIR_SPEED									0.22f
+#define SIMON_JUMP_SPEED_Y									0.55f
+#define SIMON_JUMP_DEFLECT_SPEED									0.5f
 #define SIMON_GRAVITY										0.002f
 #define SIMON_DIE_DEFLECT_SPEED										0.002f
 
@@ -29,6 +29,8 @@
 #define SIMON_STATE_STAIR_DOWN_HIT							9
 #define SIMON_STATE_HURT											10
 #define SIMON_STATE_DIE										11
+#define SIMON_STATE_STAIR_UP_IDLE									13
+#define SIMON_STATE_STAIR_DOWN_IDLE							14
 
 #define SIMON_ANI_IDLE												0
 #define SIMON_ANI_WALKING									1
@@ -42,6 +44,9 @@
 #define SIMON_ANI_STAIR_UP_HIT								9
 #define SIMON_ANI_STAIR_DOWN_HIT									10
 #define SIMON_ANI_HURT										11
+#define SIMON_ANI_STAIR_UP_IDLE										13
+#define SIMON_ANI_STAIR_DOWN_IDLE							14
+
 
 #define SIMON_ANI_DIE												12
 #define SIMON_ANI_WHIP_LV1									13
@@ -167,7 +172,7 @@
 
 #define BLACK_LEOPARD_BBOX_WIDTH									64
 #define BLACK_LEOPARD_BBOX_HEIGHT							32
-#define BLACK_LEOPARD_BBOX_HEIGHT_DIE								64
+#define BLACK_LEOPARD_BBOX_HEIGHT_DIE								32
 
 ///
 /// MERMAN
@@ -224,7 +229,7 @@
 
 // gate
 #define gate_box_width										32
-#define gate_box_height												50
+#define gate_box_height												32
 
 //Boss 
 

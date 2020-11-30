@@ -15,7 +15,8 @@ public:
 	string num;
 	int time; 
 	int timeremain = 300;
-	int timemax=400;
+	bool isStop=false;
+	int score=0;
 	int a, b, c;
 	//void Start();
 	//void Stop();

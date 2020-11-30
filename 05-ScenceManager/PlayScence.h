@@ -27,6 +27,7 @@
 #include "Boss.h"
 #include "Merman.h"
 #include "Fireball.h"
+#include "BlackLeopard.h"
 
 class CPlayScene: public CScene
 {
@@ -36,13 +37,15 @@ public:
 	Boss* boss;
 	CZombie* zombie;
 	CMerman* merman;
+	CBlackLeopard* black;
+
 	Gate* gate;
 
 	CBrick* brick;
 
 	CItem* item;
 	CWeapon* weapon;
-	CAxe* axe;
+	CAxe* axe; 
 	CKnife* knife;
 	CHlw* hlw;
 	CFB* fb;
@@ -107,6 +110,8 @@ public:
 
 	void Run(int _nx);
 	void AutoWalk(int des);
+	void StairUp();
+	void StairDown();
 	void Jump();
 	void Hit();
 	void Throw_Axe();
