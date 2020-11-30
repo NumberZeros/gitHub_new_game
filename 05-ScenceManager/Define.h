@@ -156,8 +156,9 @@
 
 #define ZOMBIE_WALKING_SPEED_X								0.13f
 #define ZOMBIE_WALKING_SPEED_Y										0.2f
-#define ZOMBIE_GRAVITY										0.001f
+#define ZOMBIE_GRAVITY										0.0001f
 #define ZOMBIE_DEAD											1
+#define ZOMBIE_ITEM													2
 #define ZOMBIE_BBOX_WIDTH											32
 #define ZOMBIE_BBOX_HEIGHT									64
 #define ZOMBIE_WALKING												0
@@ -181,7 +182,7 @@
 #define MERMAN_JUMP_SPEED_Y											0.4f
 #define MERMAN_WALKING_SPEED_X								0.13f
 #define MERMAN_GRAVITY												0.0006f
-
+#define MERMAN_ITEM											5
 #define MERMAN_BBOX_WIDTH											32
 #define MERMAN_BBOX_HEIGHT									64
 

@@ -320,6 +320,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float lenghtStair = 0.0f;
 	float min, max;
 	int ybat;
+	int zombie_item;
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
@@ -378,10 +379,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_ZOMBIE:
 		min = atof(tokens[4].c_str());
 		max = atof(tokens[5].c_str());
+		//zombie_item = atof(tokens[6].c_str());
 		obj = new CZombie();
 		zombie = (CZombie*)obj;
 		zombie->min = min;
 		zombie->max = max;
+		//zombie->zombie_item = zombie_item;
 		break;
 	case OBJECT_TYPE_BLACK_LEOPARD: 
 		obj = new CBlackLeopard(); 

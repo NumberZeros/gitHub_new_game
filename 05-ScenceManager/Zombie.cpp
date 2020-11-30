@@ -12,10 +12,21 @@ CZombie::CZombie()
 
 void CZombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x;
-	top = y;
-	right = x + width;
-	bottom = y + height;
+	if (state == 2)
+	{
+		left = x;
+		top = y;
+		right = x + 16;
+		bottom = y + 16;
+	}
+	else
+	{
+		left = x;
+		top = y;
+		right = x + width;
+		bottom = y + height;
+	}
+	
 }
 
 void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -43,7 +54,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (isHidden)
 	{
-		if (GetTickCount() - action_time >= 500)
+		if (GetTickCount() - action_time >= 5000)
 			ResetBB();
 	}
 
@@ -70,10 +81,10 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//	x = SCREEN_WIDTH; vx = -vx;
 		//	this->nx = -1;
 		//}
-			if (ny == -1.0f)
-			{
-				vy = 0;
-			}
+		if (ny == -1.0f)
+		{
+			vy = 0;
+		}
 
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
@@ -83,11 +94,13 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CWeapon* e = dynamic_cast<CWeapon*>(obj);
 
 				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
+				obj->GetBoundingBox(left, top, right, bottom);
 
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
+					{
 						die();
+					}
 				}
 			}
 			if (dynamic_cast<CAxe*>(obj))
@@ -95,9 +108,23 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CAxe* e = dynamic_cast<CAxe*>(obj);
 
 				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
+				obj->GetBoundingBox(left, top, right, bottom);
 				if (CheckColli(left, top, right, bottom))
+				{
 					die();
+					e->ResetBB();
+				}
+			}
+			if (dynamic_cast<CKnife*>(obj))
+			{
+				CKnife* e = dynamic_cast<CKnife*>(obj);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
+				if (CheckColli(left, top, right, bottom))
+				{
+					die();
+					e->ResetBB();
+				}
 			}
 			
 			if (dynamic_cast<CSimon*>(obj)) {
@@ -131,6 +158,10 @@ void CZombie::SetState(int state)
 			vx = -ZOMBIE_WALKING_SPEED_X;
 		DebugOut(L"vx %f \n", vx);
 		break;
+	case ZOMBIE_ITEM:
+		height = 16;
+		width = 16;
+		break;
 	case ZOMBIE_DEAD:
 		vx = 0;
 		break;
@@ -140,7 +171,7 @@ void CZombie::die()
 {
 	isHidden = true;
 	action_time = GetTickCount();
-	this->state = ZOMBIE_DEAD;
+	this->state = ZOMBIE_ITEM;
 	vx = 0;
 }
 bool CZombie::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {

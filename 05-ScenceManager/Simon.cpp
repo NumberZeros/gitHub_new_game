@@ -15,6 +15,7 @@
 #include "VampireBat.h"
 #include "Merman.h"
 #include "Fireball.h"
+
 CSimon::CSimon(float x, float y) : CGameObject()
 {
 	level = 1;

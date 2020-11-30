@@ -82,7 +82,7 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CWeapon* e = dynamic_cast<CWeapon*>(obj);
 
 				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
+				obj->GetBoundingBox(left, top, right, bottom);
 
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
@@ -94,10 +94,24 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CAxe* e = dynamic_cast<CAxe*>(obj);
 
 				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
+				obj->GetBoundingBox(left, top, right, bottom);
 
 				if (CheckColli(left, top, right, bottom))
+				{
 					die();
+					e->ResetBB();
+				}
+			}
+			if (dynamic_cast<CKnife*>(obj))
+			{
+				CKnife* e = dynamic_cast<CKnife*>(obj);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
+				if (CheckColli(left, top, right, bottom))
+				{
+					die();
+					e->ResetBB();
+				}
 			}
 		}
 	}
