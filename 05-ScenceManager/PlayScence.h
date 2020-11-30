@@ -39,6 +39,7 @@ public:
 	CZombie* zombie;
 	CMerman* merman;
 	CBlackLeopard* black;
+	CBlackLeopard* black_2;
 	CVampireBat* vampirebat;
 	Gate* gate;
 

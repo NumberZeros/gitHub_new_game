@@ -385,6 +385,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBlackLeopard(); 
 		black = (CBlackLeopard*)obj;
 		break;
+	case OBJECT_TYPE_BLACK_LEOPARD_2:
+		obj = new CBlackLeopard();
+		black_2 = (CBlackLeopard*)obj;
+		break;
 	case OBJECT_TYPE_MERMAN:
 		srand(time(NULL));
 		obj = new CMerman();
@@ -608,6 +612,14 @@ void CPlayScene::Update(DWORD dt)
 		if (black->x - player->x < 150)
 		{
 			black->SetState(BLACK_LEOPARD_RUN);
+		}
+	}
+
+	if (black_2)
+	{
+		if (black_2->x - player->x < 150)
+		{
+			black_2->SetState(BLACK_LEOPARD_RUN);
 		}
 	}
 
