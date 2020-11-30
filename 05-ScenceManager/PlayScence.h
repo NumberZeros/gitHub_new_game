@@ -33,9 +33,9 @@ public:
 	
 	CSimon *player;					// A play scene has to have player, right? 
 	Boss* boss;
+	CZombie* zombie;
 	CBlackLeopard* black;
 
-	CZombie* zombie;
 	Gate* gate;
 
 	CBrick* brick;

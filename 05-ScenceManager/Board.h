@@ -25,7 +25,7 @@ class CBoard : public CGameObject
 	int time, timeremain;
 	int timemax;
 	bool checktime;
-	int height = 90;
+	int height = 80;
 	int width = 520;
 public:
 	CBoard();

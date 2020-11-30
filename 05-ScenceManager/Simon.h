@@ -23,14 +23,15 @@ public:
 	bool isDoneAttack = true;
 	bool isAutoMove = false;
 	bool isOnStair = false;
-	DWORD timeImmortal;
-public:
-	virtual void AutoWalk(int des);
-
 	int simon_stair_type = 0;
 	int xbr = 0;
 	bool isStairUp = false;
 	bool isStairDown = false;
+	float lenghtStair;
+	float startStair;
+	DWORD timeImmortal;
+public:
+	virtual void AutoWalk(int des);
 	CSimon();
 	virtual void SitDown();
 	virtual void attack();
@@ -46,7 +47,8 @@ public:
 	void SetLevel(int l) { level = l; }
 	bool GetAttack() { return this->isAttack; };
 	int GetNumber() { return this->number; }
-	void SimonColliWithItems(vector<LPGAMEOBJECT>* listitems);
+	void ResetStair();
+	void StartMap4();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

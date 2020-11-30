@@ -23,7 +23,6 @@
 
 class CBlackLeopard : public CGameObject
 {
-
 public:
 	bool isDie = false;
 	int height;

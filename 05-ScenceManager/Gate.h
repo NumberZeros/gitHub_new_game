@@ -4,7 +4,6 @@
 class Gate :public CGameObject
 {
 public:
-public:
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
 	void Render();

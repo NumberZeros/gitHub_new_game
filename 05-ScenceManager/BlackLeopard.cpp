@@ -1,8 +1,6 @@
 
 #include "PlayScence.h"
 #include "BlackLeopard.h"
-#include "GameObject.h"
-#include "PlayScence.h"
 
 CBlackLeopard::CBlackLeopard()
 {
@@ -185,9 +183,9 @@ void CBlackLeopard::die()
 void CBlackLeopard::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
-	right = left + width;
+	right = left + (float)width;
 	top = y;
-	bottom = y + height;
+	bottom = y + (float)height;
 
 }
 
