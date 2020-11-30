@@ -474,6 +474,27 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			obj = timer;
 		}
 		break;
+	case OBJECT_TYPE_ITEM:
+		id_item = atof(tokens[4].c_str());
+		secondGood = atof(tokens[5].c_str());
+		obj = new CItem();
+		item = (CItem*)obj;
+		if (id_item == ID_ITEM_TYPE_TORCH) { // 1
+			item->SetID(ITEM_ANI_TORCH);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
+		}
+		else if (id_item == ID_ITEM_TYPE_CANDLE) {
+			item->SetID(ITEM_ANI_CANDLE);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
+		}
+		else if (id_item == ID_ITEM_TYPE_BRICK) {
+			item->SetID(ITEM_ANI_BRICK);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
+		}
+		break;
 	case OBJECT_TYPE_BOSS:
 		obj = new Boss();
 		boss = (Boss*)obj;

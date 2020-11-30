@@ -75,7 +75,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				speedy = 0;
 			}
 		}
-		if (isTorch || isCandle) 
+		if (isTorch || isCandle || isBrick) 
 		{
 			
 			if (dynamic_cast<CWeapon*>(obj))
