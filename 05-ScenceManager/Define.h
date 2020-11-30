@@ -114,7 +114,7 @@
 #define OBJECT_TYPE_BRICK_DLR										113
 #define OBJECT_TYPE_BRICK_DRL										114
 
-
+ 
 #define OBJECT_TYPE_GOOMBA									2
 #define OBJECT_TYPE_KOOPAS											3
 #define OBJECT_TYPE_GATE									4
