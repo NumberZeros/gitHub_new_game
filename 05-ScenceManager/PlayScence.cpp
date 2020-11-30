@@ -348,14 +348,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		break;
 	case OBJECT_TYPE_BRICK:
-		
 		obj = new CBrick();
 		brick = (CBrick*)obj;
 		id_brick = atof(tokens[4].c_str());
 		x_brick = atof(tokens[5].c_str());
 		lenghtStair = atof(tokens[6].c_str());
 		brick->lenghtStair = lenghtStair;
-		//brick = (CBrick*)obj;
 		if (id_brick == OBJECT_TYPE_BRICK_ULR) {  // 111
 			brick->type = BRICK_TYPE_ULR;
 			brick->brick_x = x_brick;
@@ -398,22 +396,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_FB:
 		obj = new CFB();
 		this->fb = (CFB*)obj;
-		break;
-	case OBJECT_TYPE_ITEM:
-		id_item = atof(tokens[4].c_str());
-		secondGood = atof(tokens[5].c_str());
-		obj = new CItem();
-		item = (CItem*)obj;
-		if (id_item == ID_ITEM_TYPE_TORCH) { // 1
-			item->SetID(ITEM_ANI_TORCH);
-			item->SetState(ITEM_STATE_SHOW);
-			item->secondGood = secondGood;
-		}
-		else if (id_item == ID_ITEM_TYPE_CANDLE) {
-			item->SetID(ITEM_ANI_CANDLE);
-			item->SetState(ITEM_STATE_SHOW);
-			item->secondGood = secondGood;
-		}
 		break;
 	case OBJECT_TYPE_VAMPIREBAT:
 		ybat = atof(tokens[2].c_str());
