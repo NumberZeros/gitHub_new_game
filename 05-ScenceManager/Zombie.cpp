@@ -12,10 +12,21 @@ CZombie::CZombie()
 
 void CZombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x;
-	top = y;
-	right = x + width;
-	bottom = y + height;
+	if (state == 2)
+	{
+		left = x;
+		top = y;
+		right = x + 16;
+		bottom = y + 16;
+	}
+	else
+	{
+		left = x;
+		top = y;
+		right = x + width;
+		bottom = y + height;
+	}
+	
 }
 
 void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -133,6 +144,10 @@ void CZombie::SetState(int state)
 			vx = -ZOMBIE_WALKING_SPEED_X;
 		DebugOut(L"vx %f \n", vx);
 		break;
+	case ZOMBIE_ITEM:
+		height = 16;
+		width = 16;
+		break;
 	case ZOMBIE_DEAD:
 		vx = 0;
 		break;
@@ -142,7 +157,7 @@ void CZombie::die()
 {
 	isHidden = true;
 	action_time = GetTickCount();
-	this->state = ZOMBIE_DEAD;
+	this->state = ZOMBIE_ITEM;
 	vx = 0;
 }
 bool CZombie::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
