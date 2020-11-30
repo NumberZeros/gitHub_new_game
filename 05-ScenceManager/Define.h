@@ -177,9 +177,9 @@
 ///
 /// MERMAN
 /// 
-#define MERMAN_JUMP_SPEED_Y											0.65f
+#define MERMAN_JUMP_SPEED_Y											0.4f
 #define MERMAN_WALKING_SPEED_X								0.13f
-#define MERMAN_GRAVITY												0.0007f
+#define MERMAN_GRAVITY												0.0006f
 
 #define MERMAN_BBOX_WIDTH											32
 #define MERMAN_BBOX_HEIGHT									64

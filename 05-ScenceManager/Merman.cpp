@@ -7,7 +7,7 @@ CMerman::CMerman()
 {
 
 		srand(time(NULL));
-		nx = rand() % (1 - (-1) + 1) - 1;
+		//x = rand() % (150 - 10 + 1) + 10;
 		isHidden = false;
 		height = MERMAN_BBOX_HEIGHT;
 		width = MERMAN_BBOX_WIDTH;
@@ -37,7 +37,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	srand(time(NULL));
-	int res = rand() % (8500 - 4000 + 1) + 4000;
+	//int res = rand() % (8500 - 4000 + 1) + 4000;
 	coEvents.clear();
 
 	CalcPotentialCollisions(coObjects, coEvents);
@@ -80,6 +80,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
+			
 			LPGAMEOBJECT obj = coObjects->at(i);
 			if (dynamic_cast<CSimon*>(obj)) {
 				CSimon* simon = dynamic_cast<CSimon*>(obj);
@@ -148,8 +149,21 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
+			
 		}
+		/*for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CBrick*>(e->obj)) {
+				CBrick* item = dynamic_cast<CBrick*>(e->obj);
+				if (e->ny >= 0)
+				{
+					vy = 0;
+				}
+			}
+		}*/
 	}
+	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CMerman::Render()

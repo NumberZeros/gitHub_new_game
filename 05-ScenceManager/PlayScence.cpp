@@ -392,6 +392,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CMerman();
 		merman = (CMerman*)obj;
 		merman->SetState(MERMAN_JUMP);
+		//merman->x = rand() % (150 - 10 + 1) + 10;
 		merman->nx = rand() % (1 - (-1) + 1) - 1;
 		break;
 	case OBJECT_TYPE_FB:
