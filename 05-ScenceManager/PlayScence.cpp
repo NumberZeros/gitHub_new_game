@@ -454,6 +454,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			item->SetState(ITEM_STATE_SHOW);
 			item->secondGood = secondGood;
 		}
+		else if (id_item == ID_ITEM_TYPE_BRICK) {
+			item->SetID(ITEM_ANI_BRICK);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
+		}
 		break;
 	//case OBJECT_TYPE_BOSS:
 	//	obj = new Boss();
