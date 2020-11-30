@@ -85,6 +85,8 @@ void CPlayScene::Unload()
 		}	
 	}
 	weapon = NULL;
+	black = NULL;
+	black_2 = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
