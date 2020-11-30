@@ -85,14 +85,28 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						die();
 				}
 			}
-			else if (dynamic_cast<CAxe*>(obj))
+			if (dynamic_cast<CAxe*>(obj))
 			{
 				CAxe* e = dynamic_cast<CAxe*>(obj);
 
 				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
+				obj->GetBoundingBox(left, top, right, bottom);
 				if (CheckColli(left, top, right, bottom))
+				{
 					die();
+					e->ResetBB();
+				}
+			}
+			if (dynamic_cast<CKnife*>(obj))
+			{
+				CKnife* e = dynamic_cast<CKnife*>(obj);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
+				if (CheckColli(left, top, right, bottom))
+				{
+					die();
+					e->ResetBB();
+				}
 			}
 			else if (dynamic_cast<CSimon*>(obj)) {
 				CSimon* simon = dynamic_cast<CSimon*>(obj);

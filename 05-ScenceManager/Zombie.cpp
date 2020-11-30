@@ -60,15 +60,6 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += dx;
 		y += min_ty * dy + ny * 0.1f;
 
-		//if (vx < 0 && x < 0) {
-		//	x = 0; vx = -vx;
-		//	this->nx = 1;
-		//}
-
-		//if (vx > 0 && x > SCREEN_WIDTH - 30) {
-		//	x = SCREEN_WIDTH; vx = -vx;
-		//	this->nx = -1;
-		//}
 
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
@@ -78,11 +69,13 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CWeapon* e = dynamic_cast<CWeapon*>(obj);
 
 				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
+				obj->GetBoundingBox(left, top, right, bottom);
 
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
+					{
 						die();
+					}
 				}
 			}
 			if (dynamic_cast<CAxe*>(obj))
@@ -90,9 +83,23 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CAxe* e = dynamic_cast<CAxe*>(obj);
 
 				float left, top, right, bottom;
-				e->GetBoundingBox(left, top, right, bottom);
+				obj->GetBoundingBox(left, top, right, bottom);
 				if (CheckColli(left, top, right, bottom))
+				{
 					die();
+					e->ResetBB();
+				}
+			}
+			if (dynamic_cast<CKnife*>(obj))
+			{
+				CKnife* e = dynamic_cast<CKnife*>(obj);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
+				if (CheckColli(left, top, right, bottom))
+				{
+					die();
+					e->ResetBB();
+				}
 			}
 			
 			if (dynamic_cast<CSimon*>(obj)) {
