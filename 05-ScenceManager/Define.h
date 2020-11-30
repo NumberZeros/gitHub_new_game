@@ -236,9 +236,13 @@
 #define BOX_WIDTH											96
 #define BOX_HEIGTH													46
 
+#define BOX_WIDTH_DIE										26
+#define BOX_HEIGTH_DIE												32
+
 #define BOX_SLEEP											0
 #define BOX_ATTACK													1
 #define BOX_DIE												2
+#define BOX_AFTER_DIE												3
 
 #define BOX_RUN_FLOW_SIMON											0.5
 #define SPEED_BOX											0.05

@@ -7,6 +7,7 @@ Boss::Boss()
 	width = BOX_WIDTH;
 	SetState(BOX_SLEEP);
 	vx = vy = SPEED_BOX;
+	boss_HP = 1;
 }
 
 Boss::Boss(float _x, float _y)
@@ -23,8 +24,13 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-	if (boss_HP < 1 && !isDie)
-		SetState(BOX_DIE);
+
+	if (isImmortal) {
+		if (GetTickCount() - timeImmortal > 100) {
+			isImmortal = false;
+			timeImmortal = 0;
+		}
+	}
 
 	if (y <= 90)		////vi tri bien 
 	{
@@ -39,7 +45,7 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vx = vy = 0;
 		boss_HP = 0;
 		if (GetTickCount() - action_time > 1500)
-			ResetBB();
+			SetState( BOX_AFTER_DIE);
 	}
 
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -48,16 +54,22 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (dynamic_cast<CSimon*>(obj))
 		{
 			CSimon* e = dynamic_cast<CSimon*>(obj);
-
 			float left, top, right, bottom;
 			e->GetBoundingBox(left, top, right, bottom);
 			if (CheckColli(left, top, right, bottom))
 			{
-				isDone = false;
-				x += dx;
-				y += dy;
-				if (!e->isImmortal) 
-					e->SetState(SIMON_STATE_HURT);
+				if (isDie) {
+					e->isEndGame = true;
+					vx = vy = 0;
+				}
+				else {
+					isDone = false;
+					x += dx;
+					y += dy;
+					if (!e->isImmortal)
+						e->SetState(SIMON_STATE_HURT);
+				}
+				
 			}
 		}
 		else if (dynamic_cast<CBrick*>(obj))
@@ -79,9 +91,20 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			float left, top, right, bottom;
 			e->GetBoundingBox(left, top, right, bottom);
 
-			if (e->frame == 2) {
+			if (e->frame == 2 && !isDie) {
 				if (CheckColli(left, top, right, bottom))
-					boss_HP -= 1;
+				{
+					if (!isImmortal) {
+						if (boss_HP <= 1)
+							SetState(BOX_DIE);
+						else {
+							boss_HP -= 1;
+							isImmortal = true;
+							timeImmortal = GetTickCount();
+						}
+						
+					}
+				}
 			}
 		}
 		if (dynamic_cast<CAxe*>(obj))
@@ -98,6 +121,7 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Boss::Update(CSimon* simon, DWORD dt)
 {
+	if (isDie) return;
 	if (GetTickCount() - action_time > 6000) {
 		action_time = GetTickCount();
 		isDone = true;
@@ -154,11 +178,18 @@ void Boss::SetState(int state)
 			isAttack = true;
 			action_time = GetTickCount();
 			isDone = true;
+			height = BOX_HEIGTH_DIE;
+			width = BOX_WIDTH_DIE;
 			break;
 		case BOX_DIE:
+			isAttack = false;
+			vx = vy = 0;
 			action_time = GetTickCount();
 			isDie = true;
 			break;
+		case BOX_AFTER_DIE:
+			vy = 0;
+			vx = 0;
 		default:
 			isAttack = false;
 			action_time = 0;

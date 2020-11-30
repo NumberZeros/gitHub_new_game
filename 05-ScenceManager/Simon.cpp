@@ -412,7 +412,7 @@ void CSimon::SetState(int state)
 			simon_HP -= 1;
 			isImmortal = true;
 			timeImmortal = GetTickCount();
-			vy = -0.2;
+			vy = -0.3;
 			vx = 0;
 		}
 		else {

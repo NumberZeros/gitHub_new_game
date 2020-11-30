@@ -11,6 +11,8 @@ public:
 	bool isAttack;
 	int boss_HP = 3;
 	int bossZone;
+	bool isImmortal = false;
+	DWORD timeImmortal;
 public:
 
 	Boss();

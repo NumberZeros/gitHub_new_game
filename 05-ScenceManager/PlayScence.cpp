@@ -583,16 +583,16 @@ void CPlayScene::Update(DWORD dt)
 	};
 
 	if (boss) {
-		
 		if (boss->isAttack) {
 			boss->Update(player, dt);
 		}
 		else {
-			if (boss->x - player->x < 50) {
+			if (boss->x - player->x < 50 && !boss->isDie ) {
 				boss->SetState(BOX_ATTACK);
 			}
 		}
 	}
+
 	if (merman)
 	{
 		if (merman->isAttack)
@@ -694,7 +694,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
 
-	if (simon->GetState() == SIMON_STATE_DIE || simon->isAutoMove) return;
+	if (simon->GetState() == SIMON_STATE_DIE || simon->isAutoMove || simon->isEndGame) return;
 
 	if (game->IsKeyDown(DIK_RIGHT)) {
 		if (!simon->isOnStair) 
