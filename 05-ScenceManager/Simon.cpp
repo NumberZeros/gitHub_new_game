@@ -203,7 +203,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					item->ResetBB();
 					number = 2;
 					simon_Mana += 5;
-					//isEndGame = true;
+					isEndGame = true;
 				}
 				if (item->id == ITEM_ANI_MEAT)
 				{

@@ -127,6 +127,7 @@
 #define OBJECT_TYPE_VAMPIREBAT										21
 #define OBJECT_TYPE_INTRO_MAP								777
 #define OBJECT_TYPE_PORTAL											50
+#define OBJECT_TYPE_BLACK_LEOPARD_2							30
 
 //ITEM MAP ENTRANC
 #define ID_ITEM_TYPE_GOODS									0
