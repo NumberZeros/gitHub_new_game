@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define VAMPIREBAT_FLYING_SPEED_X								0.043f
+#define VAMPIREBAT_FLYING_SPEED_X								0.1f
 
 #define VAMPIREBAT_GRAVITY												0.001f
 #define VAMPIREBAT_DEAD											1
@@ -19,6 +19,8 @@ class CVampireBat : public CGameObject
 	bool isFire = false;
 public:
 	int id;
+	float min, max;
+	int ybat;
 	void SetID(int _id) { id = _id; };
 	bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 	CVampireBat();

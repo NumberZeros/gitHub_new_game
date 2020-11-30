@@ -6,7 +6,7 @@ CVampireBat::CVampireBat()
 	isHidden = false;
 	SetState(VAMPIREBAT_FLYING);
 	height = VAMPIREBAT_BBOX_HEIGHT;
-	width = VAMPIREBAT_BBOX_WIDTH;	
+	width = VAMPIREBAT_BBOX_WIDTH;
 }
 
 void CVampireBat::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -15,14 +15,13 @@ void CVampireBat::GetBoundingBox(float& left, float& top, float& right, float& b
 	top = y;
 	right = x + width;
 	bottom = y + height;
-	
+
 }
 
 void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	//vy += VAMPIREBAT_GRAVITY * dt;
-	this->y = -sin(this->x * 0.03) * 41.3 +290;
+	y = sin(x * 0.03) * 41.3 + ybat;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -30,9 +29,17 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
+	if (x > max) {
+		nx = -1;
+		vx = -VAMPIREBAT_FLYING_SPEED_X;
+	}
+	else if (x < min) {
+		nx = 1;
+		vx = VAMPIREBAT_FLYING_SPEED_X;
+	}
 	if (isHidden)
 	{
- 		if (GetTickCount() - action_time >= 500)
+		if (GetTickCount() - action_time >= 500)
 			ResetBB();
 	}
 
@@ -42,15 +49,15 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		this->y += dy;
 	}
 
-	if (this->vx < 0 && this->x < 0) {
-		this->x = 0; this->vx = -vx;
-		this->nx = 1;
-	}
+	//if (this->vx < 0 && this->x < 0) {
+	//	this->x = 0; this->vx = -vx;
+	//	this->nx = 1;
+	//}
 
-	if (this->vx > 0 && this->x > SCREEN_WIDTH - 30) {
-		this->x = SCREEN_WIDTH + 60; this->vx = -vx;
-		this->nx = -1;
-	}
+	//if (this->vx > 0 && this->x > SCREEN_WIDTH - 30) {
+	//	this->x = SCREEN_WIDTH + 60; this->vx = -vx;
+	//	this->nx = -1;
+	//}
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny = 0, rdx = 0, rdy = 0;
@@ -61,11 +68,11 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		this->y += min_ty * dy + ny * 0.1f;
 
 
-		
+
 
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			LPGAMEOBJECT obj = coObjects->at(i);			
+			LPGAMEOBJECT obj = coObjects->at(i);
 			if (dynamic_cast<CWeapon*>(obj))
 			{
 				CWeapon* e = dynamic_cast<CWeapon*>(obj);
@@ -75,7 +82,7 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
-					die();
+						die();
 				}
 			}
 			else if (dynamic_cast<CAxe*>(obj))
@@ -85,7 +92,7 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				float left, top, right, bottom;
 				e->GetBoundingBox(left, top, right, bottom);
 				if (CheckColli(left, top, right, bottom))
-				die();
+					die();
 			}
 			else if (dynamic_cast<CSimon*>(obj)) {
 				CSimon* simon = dynamic_cast<CSimon*>(obj);
@@ -96,8 +103,8 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						die();
 						simon->SetState(SIMON_STATE_HURT);
-						
-						
+
+
 					}
 				}
 			}

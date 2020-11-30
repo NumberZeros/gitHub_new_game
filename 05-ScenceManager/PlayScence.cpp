@@ -318,6 +318,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int x_brick = 1;
 	float lenghtStair = 0.0f;
 	float min, max;
+	int ybat;
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
@@ -416,7 +417,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		break;
 	case OBJECT_TYPE_VAMPIREBAT:
+		ybat = atof(tokens[2].c_str());
+		min = atof(tokens[4].c_str());
+		max = atof(tokens[5].c_str());
 		obj = new CVampireBat();
+		vampirebat = (CVampireBat*)obj;
+		vampirebat->min = min;
+		vampirebat->ybat = ybat;
+		vampirebat->max = max;
+		break;
 		break;
 	case OBJECT_TYPE_WEAPON:
 		obj = new CWeapon();

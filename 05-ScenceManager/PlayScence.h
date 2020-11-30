@@ -28,6 +28,7 @@
 #include "Merman.h"
 #include "Fireball.h"
 #include "BlackLeopard.h"
+#include "VampireBat.h"
 
 class CPlayScene: public CScene
 {
@@ -38,7 +39,7 @@ public:
 	CZombie* zombie;
 	CMerman* merman;
 	CBlackLeopard* black;
-
+	CVampireBat* vampirebat;
 	Gate* gate;
 
 	CBrick* brick;
