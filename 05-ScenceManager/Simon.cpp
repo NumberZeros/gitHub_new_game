@@ -202,8 +202,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					item->isHidden = true;
 					item->ResetBB();
 					number = 2;
-					//simon_Mana += 5;
-					isEndGame = true;
+					simon_Mana += 5;
+					//isEndGame = true;
 				}
 				if (item->id == ITEM_ANI_MEAT)
 				{
@@ -255,7 +255,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 				if (brick->type && brick->type != 0) {
-					if (x > brick->x + 20 && x < brick->x + 23) {
+
+					if (x > brick->x + 20 ) {
 						simon_stair_type = brick->type;
 						lenghtStair = brick->lenghtStair;
 					}
@@ -263,13 +264,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else
 					ResetStair();
 			}
-			else if (dynamic_cast<CMerman*>(e->obj) || dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CVampireBat*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj) || dynamic_cast<CFB*>(e->obj)) {
+			else if (dynamic_cast<CMerman*>(e->obj) || dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CVampireBat*>(e->obj) 
+				 || dynamic_cast<CFB*>(e->obj)) 
+			{
 				x += dx;
 			}
-			//else if (dynamic_cast<CFB*>(e->obj))
-			//{
-
-			//}
 			else if (dynamic_cast<Boss*>(e->obj)) 
 			{
 				Boss* item = dynamic_cast<Boss*>(e->obj);

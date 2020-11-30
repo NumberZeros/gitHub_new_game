@@ -747,10 +747,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			simon->nx = 1;
 		else if (simon->simon_stair_type == BRICK_TYPE_DRL)
 			simon->nx = -1;
-		if (simon->simon_stair_type == BRICK_TYPE_ULR && simon->isOnStair == true)
+		/*if (simon->simon_stair_type == BRICK_TYPE_ULR && simon->isOnStair == true)
 			simon->nx = -1;
 		else if (simon->simon_stair_type == BRICK_TYPE_URL && simon->isOnStair == true)
-			simon->nx = 1;
+			simon->nx = 1;*/
 		if (simon->startStair == 0)
 			simon->startStair = simon->x;
 
@@ -804,9 +804,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		else 
 		Jump();
 		break;
-	/*case DIK_DOWN:
+	case DIK_DOWN:
 		SitDown();
-		break;*/
+		break;
 	case DIK_X:
 		if (simon->isDoneAttack)
 		{

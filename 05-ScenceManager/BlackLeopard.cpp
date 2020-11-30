@@ -101,37 +101,6 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 }
 
-void CBlackLeopard::Update(CSimon* simon, DWORD dt)
-{
-	/*if (GetTickCount() - action_time > 6000) {
-		action_time = GetTickCount();
-		isDone = true;
-	}
-	else if (GetTickCount() - action_time > 4000) {
-		vx = vy = BOX_RUN_FLOW_SIMON;
-		FlowSimon(simon->x - 100, simon->y - 200, dt);
-	}
-	else if (GetTickCount() - action_time > 2000) {
-		if (isDone)
-		{
-			vx = vy = BOX_RUN_FLOW_SIMON;
-			FlowSimon(simon->x, simon->y, dt);
-		}
-
-	}
-	else if (GetTickCount() - action_time > 0)
-	{
-		vx = vy = SPEED_BOX;
-		FlowSimon(simon->x, simon->y, dt);
-	}*/
-
-
-	/// <summary>
-	/// truong hop ngoai vung camera
-	/// </summary>
-
-}
-
 bool CBlackLeopard::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
 	float l, t, r, b;
 	CBlackLeopard::GetBoundingBox(l, t, r, b);
@@ -185,9 +154,9 @@ void CBlackLeopard::die()
 void CBlackLeopard::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
-	right = left + (float)width;
+	right = x + width;
 	top = y;
-	bottom = y + (float)height;
+	bottom = y + height;
 
 }
 
