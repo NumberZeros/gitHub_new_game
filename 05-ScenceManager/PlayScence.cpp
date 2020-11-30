@@ -3,8 +3,6 @@
 #include "Intro.h"
 
 #include "PlayScence.h"
-#include "BlackLeopard.h"
-#include "Merman.h"
 
 
 using namespace std;
@@ -89,6 +87,8 @@ void CPlayScene::Unload()
 	weapon = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
+
+
 
 void CPlayScene::ResetMap() {
 	for (int i = 0; i < objects.size(); i++) 
@@ -310,6 +310,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	int ani_set_id = atoi(tokens[3].c_str());
 	int id_item = 0;
 	int secondGood = 12;
+	int id_fireball = 14;
+	int fireball = 4;
 
 	int id_brick = 1;
 	int x_brick = 1;
@@ -386,7 +388,32 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		black = (CBlackLeopard*)obj;
 		break;
 	case OBJECT_TYPE_MERMAN:
+		srand(time(NULL));
 		obj = new CMerman();
+		merman = (CMerman*)obj;
+		merman->SetState(MERMAN_JUMP);
+		//merman->x = rand() % (150 - 10 + 1) + 10;
+		merman->nx = rand() % (1 - (-1) + 1) - 1;
+		break;
+	case OBJECT_TYPE_FB:
+		obj = new CFB();
+		this->fb = (CFB*)obj;
+		break;
+	case OBJECT_TYPE_ITEM:
+		id_item = atof(tokens[4].c_str());
+		secondGood = atof(tokens[5].c_str());
+		obj = new CItem();
+		item = (CItem*)obj;
+		if (id_item == ID_ITEM_TYPE_TORCH) { // 1
+			item->SetID(ITEM_ANI_TORCH);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
+		}
+		else if (id_item == ID_ITEM_TYPE_CANDLE) {
+			item->SetID(ITEM_ANI_CANDLE);
+			item->SetState(ITEM_STATE_SHOW);
+			item->secondGood = secondGood;
+		}
 		break;
 	case OBJECT_TYPE_VAMPIREBAT:
 		ybat = atof(tokens[2].c_str());
@@ -417,10 +444,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS: 
 		obj = new CKoopas(); 
 		break;
-	//case OBJECT_TYPE_GATE:
-	//	obj = new Gate();
-	//	gate = (Gate*)obj;
-	//	break;
+	case OBJECT_TYPE_GATE:
+		obj = new Gate();
+		gate = (Gate*)obj;
+		break;
 	case OBJECT_TYPE_BOARD:
 		obj = new CBoard(8);
 		board = (CBoard*)obj;
@@ -447,26 +474,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			obj = timer;
 		}
 		break;
-	case OBJECT_TYPE_ITEM:
-		id_item = atof(tokens[4].c_str());
-		secondGood = atof(tokens[5].c_str());
-		obj = new CItem();
-		item = (CItem*)obj;
-		if (id_item == ID_ITEM_TYPE_TORCH) { // 1
-			item->SetID(ITEM_ANI_TORCH);
-			item->SetState(ITEM_STATE_SHOW);
-			item->secondGood = secondGood;
-		}
-		else if (id_item == ID_ITEM_TYPE_CANDLE) {
-			item->SetID(ITEM_ANI_CANDLE);
-			item->SetState(ITEM_STATE_SHOW);
-			item->secondGood = secondGood;
-		}
+	case OBJECT_TYPE_BOSS:
+		obj = new Boss();
+		boss = (Boss*)obj;
 		break;
-	//case OBJECT_TYPE_BOSS:
-	//	obj = new Boss();
-	//	boss = (Boss*)obj;
-	//	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -508,6 +519,7 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 	vector<LPGAMEOBJECT> coObjects;
 	CGame* game = CGame::GetInstance();
+
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
@@ -555,6 +567,7 @@ void CPlayScene::Update(DWORD dt)
 			ResetMap();
 			CGame::GetInstance()->SwitchScene(game->current_scene);
 		}
+
 	}
 	if (game->current_scene == 4 && player->y >= 350)
 	{
@@ -566,17 +579,27 @@ void CPlayScene::Update(DWORD dt)
 		}
 	};
 
-	//if (boss) {
-	//	
-	//	if (boss->isAttack) {
-	//		boss->Update(player, dt);
-	//	}
-	//	else {
-	//		if (boss->x - player->x < 50) {
-	//			boss->SetState(BOX_ATTACK);
-	//		}
-	//	}
-	//}
+	if (boss) {
+		
+		if (boss->isAttack) {
+			boss->Update(player, dt);
+		}
+		else {
+			if (boss->x - player->x < 50) {
+				boss->SetState(BOX_ATTACK);
+			}
+		}
+	}
+	if (merman)
+	{
+		if (merman->isAttack)
+		{
+			if (fb->fb_isAtk == false)
+			fb->Attack(merman->x, merman->y + 15, merman->nx,3500);
+			//fb->
+			//fb->speedy = AXE_SPEED_Y;
+		}
+	}
 	if (black)
 	{
 		if (black->x - player->x < 150)
@@ -859,6 +882,8 @@ void CPlayScenceKeyHandler::SitDown() {
 	simon->SetState(SIMON_STATE_SIT_DOWN);
 }
 
+
+
 void CPlayScenceKeyHandler::Hit() {
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	CWeapon* weapon = ((CPlayScene*)scence)->weapon;
@@ -877,6 +902,8 @@ void CPlayScenceKeyHandler::Throw_Axe() {
 	axe->speedy = AXE_SPEED_Y;
 	axe->SetState(AXE_STATE_ATTACK);
 }
+
+
 void CPlayScenceKeyHandler::Throw_Knife()
 {
 	CSimon* simon = ((CPlayScene*)scence)->player;

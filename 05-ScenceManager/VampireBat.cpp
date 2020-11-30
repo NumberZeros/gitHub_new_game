@@ -6,7 +6,7 @@ CVampireBat::CVampireBat()
 	isHidden = false;
 	SetState(VAMPIREBAT_FLYING);
 	height = VAMPIREBAT_BBOX_HEIGHT;
-	width = VAMPIREBAT_BBOX_WIDTH;	
+	width = VAMPIREBAT_BBOX_WIDTH;
 }
 
 void CVampireBat::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -15,7 +15,7 @@ void CVampireBat::GetBoundingBox(float& left, float& top, float& right, float& b
 	top = y;
 	right = x + width;
 	bottom = y + height;
-	
+
 }
 
 void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -39,7 +39,7 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (isHidden)
 	{
- 		if (GetTickCount() - action_time >= 500)
+		if (GetTickCount() - action_time >= 500)
 			ResetBB();
 	}
 
@@ -68,11 +68,11 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		this->y += min_ty * dy + ny * 0.1f;
 
 
-		
+
 
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			LPGAMEOBJECT obj = coObjects->at(i);			
+			LPGAMEOBJECT obj = coObjects->at(i);
 			if (dynamic_cast<CWeapon*>(obj))
 			{
 				CWeapon* e = dynamic_cast<CWeapon*>(obj);
@@ -82,7 +82,7 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->frame == 2) {
 					if (CheckColli(left, top, right, bottom))
-					die();
+						die();
 				}
 			}
 			else if (dynamic_cast<CAxe*>(obj))
@@ -92,7 +92,7 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				float left, top, right, bottom;
 				e->GetBoundingBox(left, top, right, bottom);
 				if (CheckColli(left, top, right, bottom))
-				die();
+					die();
 			}
 			else if (dynamic_cast<CSimon*>(obj)) {
 				CSimon* simon = dynamic_cast<CSimon*>(obj);
@@ -103,8 +103,8 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						die();
 						simon->SetState(SIMON_STATE_HURT);
-						
-						
+
+
 					}
 				}
 			}

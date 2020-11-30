@@ -1,12 +1,22 @@
 #include "Merman.h"
-#include "Axe.h"
-CMerman::CMerman() {
-	srand(time(NULL));
-	nx = rand() % (1 - (-1) + 1) -1;
-	isHidden = false;	
-	height = MERMAN_BBOX_HEIGHT;
-	width = MERMAN_BBOX_WIDTH;
-	SetState(MERMAN_JUMP);	
+#include <time.h>
+#include "PlayScence.h"
+#include "Scence.h"
+
+CMerman::CMerman() 
+{
+
+		srand(time(NULL));
+		//x = rand() % (150 - 10 + 1) + 10;
+		isHidden = false;
+		height = MERMAN_BBOX_HEIGHT;
+		width = MERMAN_BBOX_WIDTH;
+		//SetState(MERMAN_JUMP);
+
+}
+
+CMerman::~CMerman()
+{
 }
 
 void CMerman::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -19,26 +29,24 @@ void CMerman::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CAxe* knife = new CAxe();
 	CGameObject::Update(dt, coObjects);
 	//fall down	
-	vy += MERMAN_GRAVITY * dt;
+
+		vy += MERMAN_GRAVITY * dt;
+	//	DebugOut(L"merman state: %d \t", state);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	srand(time(NULL));
-	int res = rand() % (7000 - 2500 + 1) + 2500;
+	//int res = rand() % (8500 - 4000 + 1) + 4000;
 	coEvents.clear();
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
-	if (GetTickCount() - action_time > 1200) {
+	if (GetTickCount() - action_time > 1300) {
 		SetState(MERMAN_WALKING);
 	}
-	if (GetTickCount() - action_time > res) {
-		this->SetState(MERMAN_SHOOT_FIREBALL);
-		knife->UpdatePosionWithSimon(this->GetPositionX(), this->GetPositionY(), this->nx);
-		knife->speedy = AXE_SPEED_Y;
-		knife->SetState(AXE_STATE_ATTACK);
+	if (GetTickCount() - action_time > 3500) {
+		this->SetState(MERMAN_SHOOT_FIREBALL);		
 	}
 	if (isHidden)
 	{
@@ -57,8 +65,8 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		this->nx = 1;
 	}
 
-	if (vx > 0 && x > SCREEN_WIDTH) {
-		x = SCREEN_WIDTH; vx = -vx;
+	if (vx > 0 && x > 450) {
+		x = 450; vx = -vx;
 		this->nx = -1;
 	}
 	else
@@ -72,7 +80,19 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
+			
 			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<CSimon*>(obj)) {
+				CSimon* simon = dynamic_cast<CSimon*>(obj);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
+				if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
+					if (CheckColli(left, top, right, bottom))
+					{
+						simon->SetState(SIMON_STATE_HURT);
+					}
+				}
+			}
 			if (dynamic_cast<CWeapon*>(obj))
 			{
 				CWeapon* e = dynamic_cast<CWeapon*>(obj);
@@ -88,6 +108,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
+		
 			if (dynamic_cast<CAxe*>(obj))
 			{
 				CAxe* e = dynamic_cast<CAxe*>(obj);
@@ -128,8 +149,21 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
+			
 		}
+		/*for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CBrick*>(e->obj)) {
+				CBrick* item = dynamic_cast<CBrick*>(e->obj);
+				if (e->ny >= 0)
+				{
+					vy = 0;
+				}
+			}
+		}*/
 	}
+	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CMerman::Render()
@@ -145,12 +179,12 @@ void CMerman::SetState(int state)
 	switch (state)
 	{
 	case MERMAN_WALKING:
-		DebugOut(L"nx %d \n", nx);
+		//DebugOut(L"nx %d \n", nx);
 		if (nx > 0)
 			vx = MERMAN_WALKING_SPEED_X;
 		else
 			vx = -MERMAN_WALKING_SPEED_X;
-		DebugOut(L"vx %f \n", vx);
+		//DebugOut(L"vx %f \n", vx);
 		break;
 	case MERMAN_DEAD:
 		vx = 0;
@@ -161,28 +195,38 @@ void CMerman::SetState(int state)
 		vy -= MERMAN_JUMP_SPEED_Y;
 		break;
 	case MERMAN_SHOOT_FIREBALL:
+		
 		action_time = GetTickCount();
 		vx = vy = 0;
-		attack();
+		//attack();
+		isAttack = true;
 		break;
 	default:
 			break;
 	}
 }
+
 void CMerman::attack()
 {
-	animation_set->at(MERMAN_SHOOT_FIREBALL)->ResetFrame();
+	
+	//CAxe* fb = ((CPlayScene*)scence)->axe;
+	//CFB* fb = ((CPlayScene*)scence)->axe;
+    animation_set->at(MERMAN_SHOOT_FIREBALL);
 	action_time = GetTickCount();
-	isDone = false;
-	isAttack = true;
+	fb->UpdatePosionWithSimon(this->GetPositionX(), this->GetPositionY(), this->nx);
+	fb->speedy = FB_SPEED_Y;
+	fb->SetState(FB_STATE_ATTACK);
+	DebugOut(L"fb state: %d \t", fb->state);
+	//this->SetState(MERMAN_FIREBALL);
+	item->SetState(ITEM_ANI_KNIFE);
 }
+
 void CMerman::die()
 {
 	isHidden = true;
 	action_time = GetTickCount();
 	this->state = MERMAN_DEAD;
 	vx = 0;
-
 }
 
 

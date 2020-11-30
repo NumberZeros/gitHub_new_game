@@ -14,7 +14,7 @@
 #include "Item.h"
 #include "VampireBat.h"
 #include "Merman.h"
-
+#include "Fireball.h"
 CSimon::CSimon(float x, float y) : CGameObject()
 {
 	level = 1;
@@ -263,9 +263,13 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else
 					ResetStair();
 			}
-			else if (dynamic_cast<CMerman*>(e->obj) || dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CVampireBat*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj)) {
+			else if (dynamic_cast<CMerman*>(e->obj) || dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CVampireBat*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj) || dynamic_cast<CFB*>(e->obj)) {
 				x += dx;
 			}
+			//else if (dynamic_cast<CFB*>(e->obj))
+			//{
+
+			//}
 			else if (dynamic_cast<Boss*>(e->obj)) 
 			{
 				Boss* item = dynamic_cast<Boss*>(e->obj);

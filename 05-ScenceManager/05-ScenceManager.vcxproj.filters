@@ -99,6 +99,14 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayScence.cpp" />
+    <ClCompile Include="Scence.cpp" />
+    <ClCompile Include="Sprites.cpp" />
+    <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="Zombie.cpp" />
+    <ClCompile Include="Intro.cpp" />
+    <ClCompile Include="VampireBat.cpp" />
+    <ClCompile Include="Fireball.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -201,6 +209,14 @@
       <Filter>Enemies</Filter>
     </ClInclude>
     <ClInclude Include="PlayScence.h" />
+    <ClInclude Include="Scence.h" />
+    <ClInclude Include="Sprites.h" />
+    <ClInclude Include="Textures.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="Zombie.h" />
+    <ClInclude Include="Intro.h" />
+    <ClInclude Include="VampireBat.h" />
+    <ClInclude Include="Fireball.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="05-ScenceManager.rc" />

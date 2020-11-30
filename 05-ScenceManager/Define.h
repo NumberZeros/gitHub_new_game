@@ -78,17 +78,6 @@
 
 #define WEAPON_WIDHT_ANI_3											75;
 
-///
-/// FIRE BALL
-/// 
-
-#define FIREBALL_STATE_HIDDEN								0
-#define FIREBALL_STATE_ATTACK										1
-
-#define FIREBALL_ANI_ATTACK									0
-
-#define FIREBALL_BBOX_WIDTH									10
-#define FIREBALL_BBOX_HEIGHT										12
 
 ///
 /// PLAY SCENE
@@ -127,6 +116,7 @@
 #define OBJECT_TYPE_BLACK_LEOPARD									11
 #define OBJECT_TYPE_ITEM									12
 #define OBJECT_TYPE_MERMAN											13
+#define OBJECT_TYPE_FB				987
 #define OBJECT_TYPE_BOSS									15
 #define OBJECT_TYPE_STAIR											14
 #define OBJECT_TYPE_HEALTHBAR								16				
@@ -187,10 +177,9 @@
 ///
 /// MERMAN
 /// 
-
 #define MERMAN_JUMP_SPEED_Y											0.4f
 #define MERMAN_WALKING_SPEED_X								0.13f
-#define MERMAN_GRAVITY												0.0009f
+#define MERMAN_GRAVITY												0.0006f
 
 #define MERMAN_BBOX_WIDTH											32
 #define MERMAN_BBOX_HEIGHT									64
@@ -199,6 +188,12 @@
 #define MERMAN_WALKING												0
 #define MERMAN_SHOOT_FIREBALL								1
 #define MERMAN_DEAD													3
+#define MERMAN_FIREBALL										4
+///
+/// FIRE BALL
+/// 
+#define FIREBALL_BBOX_WIDTH									10
+#define FIREBALL_BBOX_HEIGHT										12
 
 
 ///

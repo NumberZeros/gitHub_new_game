@@ -25,8 +25,11 @@
 #include "Score.h"
 #include "Define.h"
 #include "Boss.h"
+#include "Merman.h"
+#include "Fireball.h"
 #include "BlackLeopard.h"
 #include "VampireBat.h"
+
 class CPlayScene: public CScene
 {
 public: 
@@ -34,9 +37,9 @@ public:
 	CSimon *player;					// A play scene has to have player, right? 
 	Boss* boss;
 	CZombie* zombie;
+	CMerman* merman;
 	CBlackLeopard* black;
 	CVampireBat* vampirebat;
-
 	Gate* gate;
 
 	CBrick* brick;
@@ -46,6 +49,7 @@ public:
 	CAxe* axe; 
 	CKnife* knife;
 	CHlw* hlw;
+	CFB* fb;
 
 	HealthBar* healthbar;
 	Timer* timer;
@@ -95,7 +99,6 @@ public:
 
 	void LoadMap();
 	void LoadObject();
-
 	bool CheckInCam(LPGAMEOBJECT a);
 };
 
