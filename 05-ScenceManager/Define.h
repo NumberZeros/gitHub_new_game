@@ -7,7 +7,7 @@
 /// 
 #define SIMON_WALKING_SPEED											0.15f
 #define SIMON_STAIR_SPEED									0.22f
-#define SIMON_JUMP_SPEED_Y									0.55f
+#define SIMON_JUMP_SPEED_Y									0.5f
 #define SIMON_JUMP_DEFLECT_SPEED									0.5f
 #define SIMON_GRAVITY										0.002f
 #define SIMON_DIE_DEFLECT_SPEED										0.002f
@@ -225,6 +225,7 @@
 #define map3														6000
 #define map6												12000
 #define map4														8000
+#define map5												10000
 
 #define max_row												100
 #define max_col														100

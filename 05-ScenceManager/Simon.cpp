@@ -255,12 +255,21 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CBrick*>(e->obj))
 			{
 				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-				if (brick->type && brick->type != 0) {
-
-					if (x > brick->x + 20 ) {
+				if (brick->type && brick->type > 0) {
+					DebugOut(L" type %d \n", brick->type);
+					if (x > brick->x + 20 ) 
+					{
 						simon_stair_type = brick->type;
 						lenghtStair = brick->lenghtStair;
 					}
+					else if (brick->type == 112) {
+						if (brick->type == 1) {
+							CGame::GetInstance()->SwitchScene(game->current_scene + 1);
+							simon_stage += 1;
+						}
+						
+					}
+
 				}
 				else
 					ResetStair();

@@ -87,6 +87,7 @@ void CPlayScene::Unload()
 	weapon = NULL;
 	black = NULL;
 	black_2 = NULL;
+	fb = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
@@ -606,10 +607,9 @@ void CPlayScene::Update(DWORD dt)
 	{
 		if (merman->isAttack)
 		{
+			if (fb == NULL)return;
 			if (fb->fb_isAtk == false)
-			fb->Attack(merman->x, merman->y + 15, merman->nx,3500);
-			//fb->
-			//fb->speedy = AXE_SPEED_Y;
+				fb->Attack(merman->x, merman->y + 15, merman->nx,3500);
 		}
 	}
 	if (black)

@@ -15,6 +15,8 @@ int TileMap::getwidthmap()
 		return ((num_col * tile_width) - 32);
 	else if (id == id == map4)
 		return ((num_col * tile_width) - 5);
+	if (id == map5)
+		return ((num_col * tile_width) - 18);
 	else if(id == map6)
 		return ((num_col * tile_width) - 18);
 	else

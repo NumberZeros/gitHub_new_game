@@ -27,6 +27,26 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (type != 0)
 		height = width = BRICK_BOX_TYPE;
+
+	/*for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (dynamic_cast<CSimon*>(obj))
+		{
+			CSimon* simon = dynamic_cast<CSimon*>(obj);
+			CGame* game = CGame::GetInstance();
+			float left, top, right, bottom;
+			simon->GetBoundingBox(left, top, right, bottom);
+			if (type == 1) {
+				if (CheckColli(left, top, right, bottom)) {
+					CGame::GetInstance()->SwitchScene(game->current_scene + 1);
+					simon->simon_stage += 1;
+				}
+
+			}
+
+		}
+	}*/
 }
 bool CBrick::CheckColli(float left_a, float top_a, float right_a, float bottom_a)
 {
