@@ -217,8 +217,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					item->isHidden = true;
 					item->ResetBB();
-					//simon_Mana += 1;
-					
+					simon_Mana += 1;
 					number = 4;
 				}
 				if (item->id == ITEM_ANI_BLUEMONEY)
