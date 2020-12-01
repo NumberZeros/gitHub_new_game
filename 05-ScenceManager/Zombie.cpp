@@ -86,55 +86,56 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vy = 0;
 		}
 
-		for (UINT i = 0; i < coObjects->size(); i++)
+		
+	}
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (dynamic_cast<CWeapon*>(obj))
 		{
-			LPGAMEOBJECT obj = coObjects->at(i);
-			if (dynamic_cast<CWeapon*>(obj))
-			{
-				CWeapon* e = dynamic_cast<CWeapon*>(obj);
+			CWeapon* e = dynamic_cast<CWeapon*>(obj);
 
-				float left, top, right, bottom;
-				obj->GetBoundingBox(left, top, right, bottom);
+			float left, top, right, bottom;
+			obj->GetBoundingBox(left, top, right, bottom);
 
-				if (e->frame == 2) {
-					if (CheckColli(left, top, right, bottom))
-					{
-						die();
-					}
-				}
-			}
-			if (dynamic_cast<CAxe*>(obj))
-			{
-				CAxe* e = dynamic_cast<CAxe*>(obj);
-
-				float left, top, right, bottom;
-				obj->GetBoundingBox(left, top, right, bottom);
+			if (e->frame == 2) {
 				if (CheckColli(left, top, right, bottom))
 				{
 					die();
-					e->ResetBB();
 				}
 			}
-			if (dynamic_cast<CKnife*>(obj))
+		}
+		if (dynamic_cast<CAxe*>(obj))
+		{
+			CAxe* e = dynamic_cast<CAxe*>(obj);
+
+			float left, top, right, bottom;
+			obj->GetBoundingBox(left, top, right, bottom);
+			if (CheckColli(left, top, right, bottom))
 			{
-				CKnife* e = dynamic_cast<CKnife*>(obj);
-				float left, top, right, bottom;
-				obj->GetBoundingBox(left, top, right, bottom);
-				if (CheckColli(left, top, right, bottom))
-				{
-					die();
-					e->ResetBB();
-				}
+				die();
+				e->ResetBB();
 			}
-			
-			if (dynamic_cast<CSimon*>(obj)) {
-				CSimon* simon = dynamic_cast<CSimon*>(obj);
-				float left, top, right, bottom;
-				obj->GetBoundingBox(left, top, right, bottom);
-				if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
-					if (CheckColli(left, top, right, bottom))
-						simon->SetState(SIMON_STATE_HURT);
-				}
+		}
+		if (dynamic_cast<CKnife*>(obj))
+		{
+			CKnife* e = dynamic_cast<CKnife*>(obj);
+			float left, top, right, bottom;
+			obj->GetBoundingBox(left, top, right, bottom);
+			if (CheckColli(left, top, right, bottom))
+			{
+				die();
+				e->ResetBB();
+			}
+		}
+
+		if (dynamic_cast<CSimon*>(obj)) {
+			CSimon* simon = dynamic_cast<CSimon*>(obj);
+			float left, top, right, bottom;
+			obj->GetBoundingBox(left, top, right, bottom);
+			if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
+				if (CheckColli(left, top, right, bottom))
+					simon->SetState(SIMON_STATE_HURT);
 			}
 		}
 	}

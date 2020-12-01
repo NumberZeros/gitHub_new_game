@@ -73,10 +73,10 @@
 
 #define WEAPON_X													10
 #define WEAPON_Y											15
-#define WEAPON_WIDHT_ANI_1											44;
-#define WEAPON_HEGTH_ANI_1									23;
+#define WEAPON_WIDHT_ANI_1											44
+#define WEAPON_HEGTH_ANI_1									23
 
-#define WEAPON_WIDHT_ANI_3											75;
+#define WEAPON_WIDHT_ANI_3											75
 
 
 ///
