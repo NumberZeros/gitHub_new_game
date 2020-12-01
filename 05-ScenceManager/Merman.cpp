@@ -21,10 +21,20 @@ CMerman::~CMerman()
 
 void CMerman::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x;
-	top = y;
-	right = x + width;
-	bottom = y + height;
+	if (state == 5)
+	{
+		left = x;
+		top = y;
+		right = x + 16;
+		bottom = y + 16;
+	}
+	else
+	{
+		left = x;
+		top = y;
+		right = x + width;
+		bottom = y + height;
+	}
 }
 
 void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -156,12 +166,20 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
 						if (CheckColli(left, top, right, bottom))
 						{
-							simon->SetState(SIMON_STATE_HURT);
+							//DebugOut(L"state %d \n", state);
+
+							if (state == MERMAN_ITEM) {
+								this->isHidden = true;
+								this->ResetBB();
+								simon->simon_Mana += 1;
+							}
+							else {
+								simon->SetState(SIMON_STATE_HURT);
+							}
 						}
 					}
 				}
 			}
-			
 		}
 		/*for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -213,6 +231,10 @@ void CMerman::SetState(int state)
 		//attack();
 		isAttack = true;
 		break;
+	case MERMAN_ITEM:
+		height = 16;
+		width = 16;
+		break;
 	default:
 			break;
 	}
@@ -237,7 +259,7 @@ void CMerman::die()
 {
 	isHidden = true;
 	action_time = GetTickCount();
-	this->state = MERMAN_DEAD;
+	this->state = MERMAN_ITEM;
 	vx = 0;
 }
 

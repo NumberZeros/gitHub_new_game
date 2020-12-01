@@ -131,9 +131,22 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CSimon* simon = dynamic_cast<CSimon*>(obj);
 				float left, top, right, bottom;
 				obj->GetBoundingBox(left, top, right, bottom);
+
 				if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
-					if (CheckColli(left, top, right, bottom))
-						simon->SetState(SIMON_STATE_HURT);
+
+						if (CheckColli(left, top, right, bottom))
+						{
+							//DebugOut(L"state %d \n", state);
+							
+							if(state == ZOMBIE_ITEM){
+								this->isHidden = true;
+								this->ResetBB();
+								simon->simon_Mana += 1;
+							}
+							else {
+								simon->SetState(SIMON_STATE_HURT);
+							}
+						}
 				}
 			}
 		}
@@ -169,9 +182,8 @@ void CZombie::SetState(int state)
 }
 void CZombie::die()
 {
-	isHidden = true;
 	action_time = GetTickCount();
-	this->state = ZOMBIE_ITEM;
+	SetState(ZOMBIE_ITEM);
 	vx = 0;
 }
 bool CZombie::CheckColli(float left_a, float top_a, float right_a, float bottom_a) {
