@@ -171,6 +171,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			CGame* game = CGame::GetInstance();
 			if (dynamic_cast<CItem*>(e->obj)) {
 				CItem* item = dynamic_cast<CItem*>(e->obj);
+				//y += dy;
 				if (item->isTorch || item->isFire || item->isCandle) {
 					if (e->nx != 0)
 						x += dx;
