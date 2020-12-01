@@ -47,15 +47,14 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += dx;
 		y += min_ty * dy + ny * 0.1f;
 
-			if (vx < 0 && x < 0) {
-				x = 0; vx = -vx;
+			if (vx < 0 && x < 1000) {
+				x = 1000; vx = -vx;
 				this->nx = 1;
 			}
 
-			else if (vx > 0 && x > SCREEN_WIDTH) {
-				x = SCREEN_WIDTH; vx = -vx;
-				this->nx = -1;
-			}
+			//else if (vx > 0) {
+			//	vx = -vx;
+			//}
 			else if (ny == -1.0f)
 			{
 				vy = 0;

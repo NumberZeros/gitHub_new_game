@@ -67,7 +67,10 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		this->x += dx;
 		this->y += min_ty * dy + ny * 0.1f;
 
-
+		if (ny == -1.0f)
+		{
+			vy = 0;
+		}
 
 
 		for (UINT i = 0; i < coObjects->size(); i++)

@@ -3,15 +3,15 @@
 #include "PlayScence.h"
 #include "Scence.h"
 
-CMerman::CMerman() 
+CMerman::CMerman()
 {
 
-		srand(time(NULL));
-		//x = rand() % (150 - 10 + 1) + 10;
-		isHidden = false;
-		height = MERMAN_BBOX_HEIGHT;
-		width = MERMAN_BBOX_WIDTH;
-		//SetState(MERMAN_JUMP);
+	srand(time(NULL));
+	//x = rand() % (150 - 10 + 1) + 10;
+	isHidden = false;
+	height = MERMAN_BBOX_HEIGHT;
+	width = MERMAN_BBOX_WIDTH;
+	//SetState(MERMAN_JUMP);
 
 }
 
@@ -32,7 +32,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	//fall down	
 
-		vy += MERMAN_GRAVITY * dt;
+	vy += MERMAN_GRAVITY * dt;
 	//	DebugOut(L"merman state: %d \t", state);
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -46,7 +46,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(MERMAN_WALKING);
 	}
 	if (GetTickCount() - action_time > 3500) {
-		this->SetState(MERMAN_SHOOT_FIREBALL);		
+		this->SetState(MERMAN_SHOOT_FIREBALL);
 	}
 	if (isHidden)
 	{
@@ -69,6 +69,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x = 450; vx = -vx;
 		this->nx = -1;
 	}
+
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny = 0, rdx = 0, rdy = 0;
@@ -78,9 +79,14 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += dx;
 		y += min_ty * dy + ny * 0.1f;
 
+
+		if (ny == -1.0f)
+		{
+			vy = 0;
+		}
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			
+
 			LPGAMEOBJECT obj = coObjects->at(i);
 			if (dynamic_cast<CSimon*>(obj)) {
 				CSimon* simon = dynamic_cast<CSimon*>(obj);
@@ -108,7 +114,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
-		
+
 			if (dynamic_cast<CAxe*>(obj))
 			{
 				CAxe* e = dynamic_cast<CAxe*>(obj);
@@ -161,7 +167,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
-			
+
 		}
 		/*for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -207,23 +213,23 @@ void CMerman::SetState(int state)
 		vy -= MERMAN_JUMP_SPEED_Y;
 		break;
 	case MERMAN_SHOOT_FIREBALL:
-		
+
 		action_time = GetTickCount();
 		vx = vy = 0;
 		//attack();
 		isAttack = true;
 		break;
 	default:
-			break;
+		break;
 	}
 }
 
 void CMerman::attack()
 {
-	
+
 	//CAxe* fb = ((CPlayScene*)scence)->axe;
 	//CFB* fb = ((CPlayScene*)scence)->axe;
-    animation_set->at(MERMAN_SHOOT_FIREBALL);
+	animation_set->at(MERMAN_SHOOT_FIREBALL);
 	action_time = GetTickCount();
 	fb->UpdatePosionWithSimon(this->GetPositionX(), this->GetPositionY(), this->nx);
 	fb->speedy = FB_SPEED_Y;
