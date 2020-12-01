@@ -86,7 +86,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vy = 0;
 		}
 
-		
+
 	}
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
@@ -128,7 +128,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				e->ResetBB();
 			}
 		}
-			
+
 		if (dynamic_cast<CSimon*>(obj)) {
 			CSimon* simon = dynamic_cast<CSimon*>(obj);
 			float left, top, right, bottom;
@@ -136,21 +136,20 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
 
-					if (CheckColli(left, top, right, bottom))
-					{
-						//DebugOut(L"state %d \n", state);
-						
-						if(state == ZOMBIE_ITEM){
-							this->isHidden = true;
-							this->ResetBB();
-							simon->simon_Mana += 1;
-						}
-						else {
-							simon->SetState(SIMON_STATE_HURT);
-						}
+				if (CheckColli(left, top, right, bottom))
+				{
+					//DebugOut(L"state %d \n", state);
+
+					if (state == ZOMBIE_ITEM) {
+						this->isHidden = true;
+						this->ResetBB();
+						simon->simon_Mana += 1;
 					}
+					else {
+						simon->SetState(SIMON_STATE_HURT);
+					}
+				}
 			}
-		}
 		}
 	}
 }

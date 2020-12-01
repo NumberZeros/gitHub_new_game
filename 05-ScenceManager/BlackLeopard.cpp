@@ -47,74 +47,70 @@ void CBlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += dx;
 		y += min_ty * dy + ny * 0.1f;
 
-			if (vx < 0 && x < 1000) {
-				x = 1000; vx = -vx;
-				this->nx = 1;
-			}
+		if (vx < 0 && x < 1000) {
+			x = 1000; vx = -vx;
+			this->nx = 1;
+		}
 
-			//else if (vx > 0) {
-			//	vx = -vx;
-			//}
-			else if (ny == -1.0f)
-			{
-				vy = 0;
-			}
-		
-
-
-		for (UINT i = 0; i < coObjects->size(); i++)
+		//else if (vx > 0) {
+		//	vx = -vx;
+		//}
+		else if (ny == -1.0f)
 		{
-			LPGAMEOBJECT obj = coObjects->at(i);
-			if (dynamic_cast<CSimon*>(obj)) {
-				CSimon* simon = dynamic_cast<CSimon*>(obj);
-				float left, top, right, bottom;
-				obj->GetBoundingBox(left, top, right, bottom);
-				if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
-					if (CheckColli(left, top, right, bottom))
-					{
-						simon->SetState(SIMON_STATE_HURT);
-					}
-				}
-			}
-			if (dynamic_cast<CWeapon*>(obj))
-			{
-				CWeapon* e = dynamic_cast<CWeapon*>(obj);
-
-				float left, top, right, bottom;
-				obj->GetBoundingBox(left, top, right, bottom);
-
-				if (e->frame == 2) {
-					if (CheckColli(left, top, right, bottom))
-						die();
-				}
-			}
-			if (dynamic_cast<CAxe*>(obj))
-			{
-				CAxe* e = dynamic_cast<CAxe*>(obj);
-
-				float left, top, right, bottom;
-				obj->GetBoundingBox(left, top, right, bottom);
-
+			vy = 0;
+		}
+	}
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (dynamic_cast<CSimon*>(obj)) {
+			CSimon* simon = dynamic_cast<CSimon*>(obj);
+			float left, top, right, bottom;
+			obj->GetBoundingBox(left, top, right, bottom);
+			if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
 				if (CheckColli(left, top, right, bottom))
 				{
-					die();
-					e->ResetBB();
-				}
-			}
-			if (dynamic_cast<CKnife*>(obj))
-			{
-				CKnife* e = dynamic_cast<CKnife*>(obj);
-				float left, top, right, bottom;
-				obj->GetBoundingBox(left, top, right, bottom);
-				if (CheckColli(left, top, right, bottom))
-				{
-					die();
-					e->ResetBB();
+					simon->SetState(SIMON_STATE_HURT);
 				}
 			}
 		}
-	}
+		if (dynamic_cast<CWeapon*>(obj))
+		{
+			CWeapon* e = dynamic_cast<CWeapon*>(obj);
 
+			float left, top, right, bottom;
+			obj->GetBoundingBox(left, top, right, bottom);
+
+			if (e->frame == 2) {
+				if (CheckColli(left, top, right, bottom))
+					die();
+			}
+		}
+		if (dynamic_cast<CAxe*>(obj))
+		{
+			CAxe* e = dynamic_cast<CAxe*>(obj);
+
+			float left, top, right, bottom;
+			obj->GetBoundingBox(left, top, right, bottom);
+
+			if (CheckColli(left, top, right, bottom))
+			{
+				die();
+				e->ResetBB();
+			}
+		}
+		if (dynamic_cast<CKnife*>(obj))
+		{
+			CKnife* e = dynamic_cast<CKnife*>(obj);
+			float left, top, right, bottom;
+			obj->GetBoundingBox(left, top, right, bottom);
+			if (CheckColli(left, top, right, bottom))
+			{
+				die();
+				e->ResetBB();
+			}
+		}
+	}
 
 }
 

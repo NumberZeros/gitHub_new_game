@@ -275,7 +275,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					ResetStair();
 			}
 			else if (dynamic_cast<CMerman*>(e->obj) || dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CVampireBat*>(e->obj) 
-				 || dynamic_cast<CFB*>(e->obj)) 
+				 || dynamic_cast<CFB*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj))
 			{
 				x += dx;
 			}
