@@ -40,9 +40,6 @@ public:
 	CMerman* merman;
 	CMerman* merman2;
 	CMerman* merman3;
-	CFB* fb;
-	CFB* fb2;
-	CFB* fb3;
 	CBlackLeopard* black;
 	CBlackLeopard* black_2;
 	CVampireBat* vampirebat;
@@ -55,7 +52,9 @@ public:
 	CAxe* axe; 
 	CKnife* knife;
 	CHlw* hlw;
-
+	CFB* fb;
+	CFB* fb2;
+	CFB* fb3;
 
 	HealthBar* healthbar;
 	Timer* timer;

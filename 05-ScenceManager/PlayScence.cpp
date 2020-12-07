@@ -447,7 +447,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_FB_2:
 		obj = new CFB();
-		this->fb2 = (CFB*)obj;
+		this->fb2 = (CFB*)obj;	
 		break;
 	case OBJECT_TYPE_FB_3:
 		obj = new CFB();
@@ -656,6 +656,24 @@ void CPlayScene::Update(DWORD dt)
 			if (fb == NULL)return;
 			if (fb->fb_isAtk == false)
 				fb->Attack(merman->x, merman->y + 15, merman->nx, 3500);
+		}
+	}
+	if (merman2)
+	{
+		if (merman2->isAttack)
+		{
+			if (fb2 == NULL)return;
+			if (fb2->fb_isAtk == false)
+				fb2->Attack(merman2->x, merman2->y + 15, merman2->nx, 3500);
+		}
+	}
+	if (merman3)
+	{
+		if (merman3->isAttack)
+		{
+			if (fb3 == NULL)return;
+			if (fb3->fb_isAtk == false)
+				fb3->Attack(merman3->x, merman3->y + 15, merman3->nx, 3500);
 		}
 	}
 	if (merman2)
