@@ -411,7 +411,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		srand(time(NULL));
 		obj = new CMerman();
 		merman = (CMerman*)obj;
-		merman->SetState(MERMAN_JUMP);
+		//merman->SetState(MERMAN_JUMP);
 		//merman->x = rand() % (150 - 10 + 1) + 10;
 		merman->nx = rand() % (1 - (-1) + 1) - 1;
 		merman->min = min;
@@ -423,7 +423,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		srand(time(NULL));
 		obj = new CMerman();
 		merman2 = (CMerman*)obj;
-		merman2->SetState(MERMAN_JUMP);
+		//merman2->SetState(MERMAN_JUMP);
 		//merman->x = rand() % (150 - 10 + 1) + 10;
 		merman2->nx = rand() % (1 - (-1) + 1) - 1;
 		merman2->min = min;
@@ -435,7 +435,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		srand(time(NULL));
 		obj = new CMerman();
 		merman3 = (CMerman*)obj;
-		merman3->SetState(MERMAN_JUMP);
+		//merman3->SetState(MERMAN_JUMP);
 		//merman->x = rand() % (150 - 10 + 1) + 10;
 		merman3->nx = rand() % (1 - (-1) + 1) - 1;
 		merman3->min = min;

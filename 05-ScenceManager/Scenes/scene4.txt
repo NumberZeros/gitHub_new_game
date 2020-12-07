@@ -82,7 +82,7 @@
 
 # Simon
 0	96	64	1
-#MERMAN				min	max
+#MERMAN			min	max
 13	416	350	420	10	420
 131	10	350	420	10	420
 

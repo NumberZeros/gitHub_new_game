@@ -10,13 +10,14 @@ public:
 	bool isHidden = false;
 	bool isAttack = false;
 	float min, max;
+
 public:
 	CItem* item = new CItem();
+	bool isJump = false;
 	bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 	CMerman();
 	~CMerman();
 	virtual void SetState(int state);
-	void attack();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 	void die();
