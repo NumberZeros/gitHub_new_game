@@ -103,7 +103,7 @@
 #define OBJECT_TYPE_BRICK_DLR										113
 #define OBJECT_TYPE_BRICK_DRL										114
 
- 
+
 #define OBJECT_TYPE_GOOMBA									2
 #define OBJECT_TYPE_KOOPAS											3
 #define OBJECT_TYPE_GATE									4
@@ -116,7 +116,7 @@
 #define OBJECT_TYPE_BLACK_LEOPARD									11
 #define OBJECT_TYPE_ITEM									12
 #define OBJECT_TYPE_MERMAN											13
-#define OBJECT_TYPE_FB				987
+#define OBJECT_TYPE_FB											987
 #define OBJECT_TYPE_BOSS									15
 #define OBJECT_TYPE_STAIR											14
 #define OBJECT_TYPE_HEALTHBAR								16				
@@ -128,6 +128,10 @@
 #define OBJECT_TYPE_INTRO_MAP								777
 #define OBJECT_TYPE_PORTAL											50
 #define OBJECT_TYPE_BLACK_LEOPARD_2							30
+#define	OBJECT_TYPE_MERMAN_2										131
+#define OBJECT_TYPE_MERMAN_3								132
+#define OBJECT_TYPE_FB_2											988
+#define OBJECT_TYPE_FB_3									989	
 
 #define OBJECT_TYPE_ENDGAME_MAP								10000
 

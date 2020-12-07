@@ -26,7 +26,7 @@ void CZombie::GetBoundingBox(float& left, float& top, float& right, float& botto
 		right = x + width;
 		bottom = y + height;
 	}
-	
+
 }
 
 void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -81,78 +81,92 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//	x = SCREEN_WIDTH; vx = -vx;
 		//	this->nx = -1;
 		//}
-		if (ny == -1.0f)
+		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			vy = 0;
+
+			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<CBrick*>(obj))
+			{
+				CBrick* e = dynamic_cast<CBrick*>(obj);
+
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
+
+				if (CheckColli(left, top, right, bottom))
+				{
+					this->vy = -0.13f;
+
+				}
+			}
 		}
-
-
-	}
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		LPGAMEOBJECT obj = coObjects->at(i);
-		if (dynamic_cast<CWeapon*>(obj))
+		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			CWeapon* e = dynamic_cast<CWeapon*>(obj);
+			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<CWeapon*>(obj))
+			{
+				CWeapon* e = dynamic_cast<CWeapon*>(obj);
 
-			float left, top, right, bottom;
-			obj->GetBoundingBox(left, top, right, bottom);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
 
-			if (e->frame == 2) {
+				if (e->frame == 2) {
+					if (CheckColli(left, top, right, bottom))
+					{
+						die();
+					}
+				}
+			}
+			else if (dynamic_cast<CAxe*>(obj))
+			{
+				CAxe* e = dynamic_cast<CAxe*>(obj);
+
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
 				if (CheckColli(left, top, right, bottom))
 				{
 					die();
+					e->ResetBB();
 				}
 			}
-		}
-		else if (dynamic_cast<CAxe*>(obj))
-		{
-			CAxe* e = dynamic_cast<CAxe*>(obj);
-
-			float left, top, right, bottom;
-			obj->GetBoundingBox(left, top, right, bottom);
-			if (CheckColli(left, top, right, bottom))
+			else if (dynamic_cast<CKnife*>(obj))
 			{
-				die();
-				e->ResetBB();
-			}
-		}
-		else if (dynamic_cast<CKnife*>(obj))
-		{
-			CKnife* e = dynamic_cast<CKnife*>(obj);
-			float left, top, right, bottom;
-			obj->GetBoundingBox(left, top, right, bottom);
-			if (CheckColli(left, top, right, bottom))
-			{
-				die();
-				e->ResetBB();
-			}
-		}
-
-		if (dynamic_cast<CSimon*>(obj)) {
-			CSimon* simon = dynamic_cast<CSimon*>(obj);
-			float left, top, right, bottom;
-			obj->GetBoundingBox(left, top, right, bottom);
-
-			if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
-
+				CKnife* e = dynamic_cast<CKnife*>(obj);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
 				if (CheckColli(left, top, right, bottom))
 				{
-					//DebugOut(L"state %d \n", state);
+					die();
+					e->ResetBB();
+				}
+			}
 
-					if (state == ZOMBIE_ITEM) {
-						this->isHidden = true;
-						this->ResetBB();
-						simon->simon_Mana += 1;
-					}
-					else {
-						simon->SetState(SIMON_STATE_HURT);
-						y -= 1;
+			if (dynamic_cast<CSimon*>(obj)) {
+				CSimon* simon = dynamic_cast<CSimon*>(obj);
+				float left, top, right, bottom;
+				obj->GetBoundingBox(left, top, right, bottom);
+
+				if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
+
+					if (CheckColli(left, top, right, bottom))
+					{
+						//DebugOut(L"state %d \n", state);
+
+						if (state == ZOMBIE_ITEM) {
+							this->isHidden = true;
+							this->ResetBB();
+							simon->simon_Mana += 1;
+						}
+						else {
+							simon->SetState(SIMON_STATE_HURT);
+							y -= 5;
+						}
 					}
 				}
 			}
 		}
+
 	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CZombie::Render()
