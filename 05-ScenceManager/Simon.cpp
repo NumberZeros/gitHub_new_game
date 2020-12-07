@@ -277,7 +277,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CMerman*>(e->obj) || dynamic_cast<CZombie*>(e->obj) || dynamic_cast<CVampireBat*>(e->obj) 
 				 || dynamic_cast<CFB*>(e->obj) || dynamic_cast<CBlackLeopard*>(e->obj))
 			{
-				x += dx;
+				if (e->nx!=0 || e->ny!=0)
+				{
+					x += dx;
+					y += dy;
+				}
 			}
 			else if (dynamic_cast<Boss*>(e->obj)) 
 			{

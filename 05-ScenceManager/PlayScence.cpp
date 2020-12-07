@@ -777,23 +777,28 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			simon->nx = 1;
 		else if (simon->simon_stair_type == BRICK_TYPE_DRL)
 			simon->nx = -1;
-		/*if (simon->simon_stair_type == BRICK_TYPE_ULR && simon->isOnStair == true)
+
+		if (simon->simon_stair_type == BRICK_TYPE_ULR && simon->isOnStair == true)
+		{
 			simon->nx = -1;
+			simon->SetState(SIMON_STATE_STAIR_DOWN);
+		}
+			
 		else if (simon->simon_stair_type == BRICK_TYPE_URL && simon->isOnStair == true)
-			simon->nx = 1;*/
+			simon->SetState(SIMON_STATE_STAIR_DOWN);
 		if (simon->startStair == 0)
 			simon->startStair = simon->x;
 
 
 		if (simon->startStair != simon->x) {
 			if (simon->nx < 0) {
-				if (simon->startStair - simon->x < simon->lenghtStair)
+				if (simon->x - simon->startStair > simon->lenghtStair || simon->x - simon->startStair < 2)
 					simon->ResetStair();
 				else
 					simon->SetState(SIMON_STATE_STAIR_DOWN);
 			}
 			else {
-				if (simon->x - simon->startStair > simon->lenghtStair)
+				if (simon->x - simon->startStair > simon->lenghtStair || simon->x - simon->startStair < 2)
 					simon->ResetStair();
 				else
 					simon->SetState(SIMON_STATE_STAIR_DOWN);
@@ -811,10 +816,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
-	CGame* game = CGame::GetInstance();
+	/*CGame* game = CGame::GetInstance();
 	CSimon* simon = ((CPlayScene*)scence)->player;
 	if (game->IsKeyRelease(DIK_DOWN))
-		SitDown();
+		SitDown();*/
 }
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
@@ -834,9 +839,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		else 
 		Jump();
 		break;
-	case DIK_DOWN:
+	/*case DIK_DOWN:
 		SitDown();
-		break;
+		break;*/
 	case DIK_X:
 		if (simon->isDoneAttack)
 		{
