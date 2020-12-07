@@ -22,11 +22,16 @@
 777	textures\intro.png	255	0	255
 888	textures\FireBall.png	255	0	255
 999	textures\Fish.png	255	255	255
+10000	textures\end_game.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 #intro
 777	0	0	512	448	777
+#end_game
+10000	261	1	518	225	10000	
+10001	261	241	518	466	10000	
+10002	261	482	518	707	10000	
 #VampireBat
 #Fly
 401	32	0	64	32	23	
@@ -236,6 +241,8 @@
 # ====ZOMBIE==================
 #MapIntro 
 777	777	100
+#end_game
+10000	10000	300	10001	300	10002	300
 #walking
 260	310	100	311	100
 #===Time====
@@ -399,6 +406,8 @@
 [ANIMATION_SETS]
 #MapIntro
 777	777
+#MapIntro
+10000	10000
 #VampireBat	
 510	400	90
 #ZOMBIE

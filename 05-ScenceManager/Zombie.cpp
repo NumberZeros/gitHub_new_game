@@ -147,6 +147,7 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else {
 						simon->SetState(SIMON_STATE_HURT);
+						y -= 1;
 					}
 				}
 			}

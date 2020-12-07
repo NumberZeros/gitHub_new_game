@@ -433,6 +433,8 @@ void CGame::SwitchScene(int scene_id)
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
 	if (current_scene == 0)
 		s->LoadIntro();
+	else if (current_scene == 7)
+		s->LoadEndGame();
 	else 
 		s->Load();
 }

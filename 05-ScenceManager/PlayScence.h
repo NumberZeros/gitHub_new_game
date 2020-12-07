@@ -88,6 +88,7 @@ public:
 	CPlayScene(int id, LPCWSTR filePath);
 
 	void LoadIntro();
+	void LoadEndGame();
 	void LoadMapItro();
 	virtual void Load();
 	void LoadSimon(CSimon* prevSimon);

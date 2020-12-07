@@ -129,6 +129,8 @@
 #define OBJECT_TYPE_PORTAL											50
 #define OBJECT_TYPE_BLACK_LEOPARD_2							30
 
+#define OBJECT_TYPE_ENDGAME_MAP								10000
+
 //ITEM MAP ENTRANC
 #define ID_ITEM_TYPE_GOODS									0
 #define ID_ITEM_TYPE_TORCH											1
@@ -156,7 +158,7 @@
 
 #define ZOMBIE_WALKING_SPEED_X								0.13f
 #define ZOMBIE_WALKING_SPEED_Y										0.2f
-#define ZOMBIE_GRAVITY										0.0001f
+#define ZOMBIE_GRAVITY										0.002f
 #define ZOMBIE_DEAD											1
 #define ZOMBIE_ITEM													2
 #define ZOMBIE_BBOX_WIDTH											32

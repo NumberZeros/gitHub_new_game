@@ -23,6 +23,7 @@ public:
 	virtual void LoadSimon(CSimon* simon) =0;
 	virtual void LoadTimer(Timer* timer) = 0;
 	virtual void LoadIntro() = 0;
+	virtual void LoadEndGame() = 0;
 };
 typedef CScene * LPSCENE;
 

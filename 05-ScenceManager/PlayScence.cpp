@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "Intro.h"
+#include "EndGame.h"
 
 #include "PlayScence.h"
 
@@ -17,6 +18,12 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :CScene(id, filePath)
 void CPlayScene::LoadIntro()
 {
 	isintro = true;
+	LoadObject();
+	LoadMapItro();
+}
+
+void CPlayScene::LoadEndGame()
+{
 	LoadObject();
 	LoadMapItro();
 }
@@ -332,6 +339,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_INTRO_MAP:
 		obj = new Intro();
 		break;
+	case OBJECT_TYPE_ENDGAME_MAP:
+		obj = new EndGame();
+		break;
 	case OBJECT_TYPE_SIMON:
 		if (!player)
 		{
@@ -639,6 +649,9 @@ void CPlayScene::Update(DWORD dt)
 				player->simon_Score += 1;
 				score->action_time_score = GetTickCount();
 			}
+		}
+		else if (timer->timeremain == 1 && player == 0) {
+			CGame::GetInstance()->SwitchScene(game->current_scene +1);
 		}
 		if (player->simon_Mana > 0)
 		{

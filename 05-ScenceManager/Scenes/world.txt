@@ -1,5 +1,5 @@
 [SETTINGS]
-start	2
+start	4
 #scene list
 
 [SCENES]
@@ -10,3 +10,4 @@ start	2
 4	Scenes\Map4full.txt
 5	Scenes\Map3.1full.txt
 6	Scenes\Map5full.txt
+7	Scenes\MapEndGame.txt
