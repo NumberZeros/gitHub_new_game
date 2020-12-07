@@ -10,6 +10,7 @@ public:
 	int width;
 	bool isAttack;
 	int boss_HP = 3;
+	int getBoss_hp() { return boss_HP; }
 	int bossZone;
 	bool isImmortal = false;
 	DWORD timeImmortal;
