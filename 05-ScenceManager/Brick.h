@@ -18,6 +18,16 @@ public:
 	int brick_x = 0;
 	float lenghtStair = 0.0f;
 
+
+	//get n set
+	int gettype() { return type; }
+	void settype(int _type) { type = _type; }
+	int getbrick_x() { return brick_x; }
+	void setbrick_x(int _brick_x) { brick_x = _brick_x; }
+	float getlenghtStair() { return lenghtStair; }
+	void setlenghtStair(float _lenghtStair) { lenghtStair = _lenghtStair; }
+
+	// end get n set
 	CBrick();
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
