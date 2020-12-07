@@ -82,18 +82,8 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			
 			LPGAMEOBJECT obj = coObjects->at(i);
-			if (dynamic_cast<CSimon*>(obj)) {
-				CSimon* simon = dynamic_cast<CSimon*>(obj);
-				float left, top, right, bottom;
-				obj->GetBoundingBox(left, top, right, bottom);
-				if (!isHidden && !simon->isImmortal) {		/// khi ma chua chuyen thanh lua va simon chua tung va cham voi quai nao
-					if (CheckColli(left, top, right, bottom))
-					{
-						simon->SetState(SIMON_STATE_HURT);
-					}
-				}
-			}
-			if (dynamic_cast<CWeapon*>(obj))
+		
+		   if (dynamic_cast<CWeapon*>(obj))
 			{
 				CWeapon* e = dynamic_cast<CWeapon*>(obj);
 
@@ -108,8 +98,8 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
-		
-			if (dynamic_cast<CAxe*>(obj))
+
+			else if (dynamic_cast<CAxe*>(obj))
 			{
 				CAxe* e = dynamic_cast<CAxe*>(obj);
 
@@ -122,7 +112,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 
 			}
-			if (dynamic_cast<CKnife*>(obj))
+			else if (dynamic_cast<CKnife*>(obj))
 			{
 				CKnife* e = dynamic_cast<CKnife*>(obj);
 				float left, top, right, bottom;
@@ -133,7 +123,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					e->ResetBB();
 				}
 			}
-			if (dynamic_cast<CHlw*>(obj))
+			else if (dynamic_cast<CHlw*>(obj))
 			{
 				CHlw* e = dynamic_cast<CHlw*>(obj);
 
@@ -149,7 +139,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					e->ResetBB();
 				}
 
-				if (dynamic_cast<CSimon*>(obj)) {
+				else if (dynamic_cast<CSimon*>(obj)) {
 					CSimon* simon = dynamic_cast<CSimon*>(obj);
 					float left, top, right, bottom;
 					obj->GetBoundingBox(left, top, right, bottom);
@@ -161,7 +151,6 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
-			
 		}
 		/*for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -175,7 +164,7 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}*/
 	}
-	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+   for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CMerman::Render()
