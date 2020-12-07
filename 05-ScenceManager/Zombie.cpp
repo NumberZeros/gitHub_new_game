@@ -147,12 +147,14 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else {
 						simon->SetState(SIMON_STATE_HURT);
-						y -= 1;
+						//y -= 1;
 					}
 				}
 			}
 		}
 	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
 }
 
 void CZombie::Render()
