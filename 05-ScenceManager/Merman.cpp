@@ -52,6 +52,15 @@ void CMerman::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CalcPotentialCollisions(coObjects, coEvents);
 
+	if (x > max) {
+		nx = -1;
+		vx = -MERMAN_WALKING_SPEED_X;
+	}
+	else if (x < min) {
+		nx = 1;
+		vx = MERMAN_WALKING_SPEED_X;
+	}
+
 	if (GetTickCount() - action_time > 1300) {
 		SetState(MERMAN_WALKING);
 	}

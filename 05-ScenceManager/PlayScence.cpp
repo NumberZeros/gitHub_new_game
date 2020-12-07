@@ -406,16 +406,52 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		black_2 = (CBlackLeopard*)obj;
 		break;
 	case OBJECT_TYPE_MERMAN:
+		min = atof(tokens[4].c_str());
+		max = atof(tokens[5].c_str());
 		srand(time(NULL));
 		obj = new CMerman();
 		merman = (CMerman*)obj;
 		merman->SetState(MERMAN_JUMP);
 		//merman->x = rand() % (150 - 10 + 1) + 10;
 		merman->nx = rand() % (1 - (-1) + 1) - 1;
+		merman->min = min;
+		merman->max = max;
+		break;
+	case OBJECT_TYPE_MERMAN_2:
+		min = atof(tokens[4].c_str());
+		max = atof(tokens[5].c_str());
+		srand(time(NULL));
+		obj = new CMerman();
+		merman2 = (CMerman*)obj;
+		merman2->SetState(MERMAN_JUMP);
+		//merman->x = rand() % (150 - 10 + 1) + 10;
+		merman2->nx = rand() % (1 - (-1) + 1) - 1;
+		merman2->min = min;
+		merman2->max = max;
+		break;
+	case OBJECT_TYPE_MERMAN_3:
+		min = atof(tokens[4].c_str());
+		max = atof(tokens[5].c_str());
+		srand(time(NULL));
+		obj = new CMerman();
+		merman3 = (CMerman*)obj;
+		merman3->SetState(MERMAN_JUMP);
+		//merman->x = rand() % (150 - 10 + 1) + 10;
+		merman3->nx = rand() % (1 - (-1) + 1) - 1;
+		merman3->min = min;
+		merman3->max = max;
 		break;
 	case OBJECT_TYPE_FB:
 		obj = new CFB();
 		this->fb = (CFB*)obj;
+		break;
+	case OBJECT_TYPE_FB_2:
+		obj = new CFB();
+		this->fb2 = (CFB*)obj;	
+		break;
+	case OBJECT_TYPE_FB_3:
+		obj = new CFB();
+		this->fb3 = (CFB*)obj;
 		break;
 	case OBJECT_TYPE_VAMPIREBAT:
 		ybat = atof(tokens[2].c_str());
@@ -620,6 +656,24 @@ void CPlayScene::Update(DWORD dt)
 			if (fb == NULL)return;
 			if (fb->fb_isAtk == false)
 				fb->Attack(merman->x, merman->y + 15, merman->nx,3500);
+		}
+	}
+	if (merman2)
+	{
+		if (merman2->isAttack)
+		{
+			if (fb2 == NULL)return;
+			if (fb2->fb_isAtk == false)
+				fb2->Attack(merman2->x, merman2->y + 15, merman2->nx, 3500);
+		}
+	}
+	if (merman3)
+	{
+		if (merman3->isAttack)
+		{
+			if (fb3 == NULL)return;
+			if (fb3->fb_isAtk == false)
+				fb3->Attack(merman3->x, merman3->y + 15, merman3->nx, 3500);
 		}
 	}
 	if (black)
