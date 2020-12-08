@@ -70,6 +70,11 @@ public:
 	LPANIMATION_SET animation_set;
 
 public: 
+	//get n set
+	int getnx() { return nx; }
+	void setnx(int _nx) { nx = _nx; }
+
+
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
