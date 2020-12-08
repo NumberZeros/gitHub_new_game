@@ -12,15 +12,18 @@ class Timer : public CGameObject
 public:
 	DWORD action_time = GetTickCount();
 
-	string num;
+
 	int time; 
 	int timeremain = 300;
 	bool isStop=false;
 	int score=0;
+	int getScore() { return score; }
+	int getTimeremain() { return timeremain; }
+	bool getIsStop() { return isStop; }
+	void setTimeremain(int _timeremain) { timeremain = _timeremain; }
+	void setIsStop(int _isStop) { isStop = _isStop; }
 	int a, b, c;
-	//void Start();
-	//void Stop();
-	//bool IsTimeUp();
+
 	virtual void Update();
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

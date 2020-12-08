@@ -29,6 +29,7 @@ public:
 	virtual void Render();
 	void SetState(int state);
 	float speedy = HLW_SPEED_Y;
+	void setSpeedy(float _speedy) { speedy = _speedy; }
 	void ResetAnimation(int ani);
 	void SetFrame(int _frame) { frame = _frame; };
 	int GetFrame() { return frame; };

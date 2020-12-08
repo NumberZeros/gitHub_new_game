@@ -595,7 +595,9 @@ void CPlayScene::Update(DWORD dt)
 	if (player == NULL) return;
 	if (timer == NULL) return;
 	if (boss != NULL) {
-		healthbar->hpboss = boss->boss_HP;
+		//healthbar->hpboss = boss->boss_HP;
+		healthbar->setHpboss(boss->getBoss_hp());
+
 	}
 
 	//Map intro 
@@ -603,14 +605,18 @@ void CPlayScene::Update(DWORD dt)
 		player->x += player->dx;
 	}*/
 	timer->Update();
-	healthbar->hp = player->simon_HP;
-	score->score = player->simon_Score;
-	score->mana = player->simon_Mana;
-	score->point = player->simon_P;
-	subw->subw = player->simon_Sub;
-	score->stage = player->simon_stage;
-	if (boss != NULL)
-		healthbar->hpboss = boss->boss_HP;
+	healthbar->setHP(player->simon_HP);
+	//score->score = player->simon_Score;
+	score->setScore(player->simon_Score);
+	//score->mana = player->simon_Mana;
+	score->setMana(player->simon_Mana);
+	//score->point = player->simon_P;
+	score->setPoint(player->simon_P);
+	//subw->subw = player->simon_Sub;
+	subw->setSubw(player->simon_Sub);
+	//score->stage = player->simon_stage;
+	score->setStage(player->simon_stage);
+	
 	
 
 	//simon die reset scence
@@ -623,7 +629,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	if (timer->timeremain < 1)
+	if (timer->getTimeremain() < 1)
 	{
 		player->SetState(SIMON_STATE_DIE);
 		if (GetTickCount() - player->action_time > 3000) 
@@ -717,8 +723,8 @@ void CPlayScene::Update(DWORD dt)
 
 	if (player->isEndGame)
 	{
-		timer->isStop = true;
-		if (timer->timeremain != 1)
+		timer->setIsStop(true);
+		if (timer->getTimeremain() != 1)
 		{
 			if (GetTickCount() - score->action_time_score > 50)
 			{
@@ -727,7 +733,7 @@ void CPlayScene::Update(DWORD dt)
 				score->action_time_score = GetTickCount();
 			}
 		}
-		else if (timer->timeremain == 1 && player == 0) {
+		else if (timer->getTimeremain() == 1 && player == 0) {
 			CGame::GetInstance()->SwitchScene(game->current_scene +1);
 		}
 		if (player->simon_Mana > 0)
@@ -754,7 +760,7 @@ void CPlayScene::Update(DWORD dt)
 			prevWeaponY = player->y;
 			if (player->isSit) weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY() + 20, player->nx);
 			weapon->UpdatePosionWithSimon(player->GetPositionX(), player->GetPositionY(), player->nx);
-			weapon->level = player->level;
+			weapon->SetLevel(player->level);
 		}
 	}
 
@@ -925,7 +931,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		{
 			if (game->IsKeyDown(DIK_UP))
 			{
-				if (axe->axe_isAtk != 0 || simon->simon_Mana < 0) return;
+				if (axe->getIsAtk() != 0 || simon->simon_Mana < 0) return;
 				if (simon->simon_Mana > 0) {
 					if (simon->simon_Sub == 0)
 						Throw_Knife();
@@ -1015,7 +1021,7 @@ void CPlayScenceKeyHandler::Throw_Axe() {
 	CAxe* axe = ((CPlayScene*)scence)->axe;
 	simon->SetState(SIMON_STATE_HIT);
 	axe->UpdatePosionWithSimon(simon->GetPositionX(), simon->GetPositionY(), simon->nx);
-	axe->speedy = AXE_SPEED_Y;
+	axe->setSpeedy(AXE_SPEED_Y);
 	axe->SetState(AXE_STATE_ATTACK);
 }
 
@@ -1035,6 +1041,6 @@ void CPlayScenceKeyHandler::Throw_Holywater()
 	CHlw* hlw = ((CPlayScene*)scence)->hlw;
 	simon->SetState(SIMON_STATE_HIT);
 	hlw->UpdatePosionWithSimon(simon->GetPositionX(), simon->GetPositionY(), simon->nx);
-	hlw->speedy = HLW_SPEED_Y;
 	hlw->SetState(HLW_STATE_ATTACK);
+	hlw->setSpeedy(HLW_SPEED_Y);
 }
