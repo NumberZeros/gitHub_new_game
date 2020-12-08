@@ -78,7 +78,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		state = SIMON_STATE_DIE;
 		
 
-	if ((isImmortal && !isDone) || isAttack || simon_HP < 1)
+	if ((isImmortal && !isDone) || isAttack || simon_HP < 1|| isEndGame)
 	{
 		dx = 0;
 		if (simon_HP < 1)
@@ -427,6 +427,7 @@ void CSimon::SetState(int state)
 			isImmortal = true;
 			timeImmortal = GetTickCount();
 			vy = -0.3;
+			y -= 10;
 			vx = 0;
 		}
 		else {

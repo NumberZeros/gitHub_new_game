@@ -111,16 +111,16 @@ void CVampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					e->ResetBB();
 				}
 			}
-			else if (dynamic_cast<CSimon*>(obj)) {
+			if (dynamic_cast<CSimon*>(obj)) {
 				CSimon* simon = dynamic_cast<CSimon*>(obj);
 				float left, top, right, bottom;
 				simon->GetBoundingBox(left, top, right, bottom);
 				if (!isHidden && !simon->isImmortal) {		/// khi doi chua chuyen thanh lua va simon chua tung va cham voi quai nao
 					if (CheckColli(left, top, right, bottom))
 					{
-						die();
+						
 						simon->SetState(SIMON_STATE_HURT);
-
+						die();
 
 					}
 				}

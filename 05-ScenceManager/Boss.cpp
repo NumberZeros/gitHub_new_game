@@ -61,6 +61,7 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (isDie) {
 					e->isEndGame = true;
 					vx = vy = 0;
+					dx = dy = 0;
 				}
 				else {
 					isDone = false;

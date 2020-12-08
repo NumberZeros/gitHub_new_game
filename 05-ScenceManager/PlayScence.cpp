@@ -405,18 +405,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBlackLeopard();
 		black_2 = (CBlackLeopard*)obj;
 		break;
-	//case OBJECT_TYPE_MERMAN:
-	//	min = atof(tokens[4].c_str());
-	//	max = atof(tokens[5].c_str());
-	//	srand(time(NULL));
-	//	obj = new CMerman();
-	//	merman = (CMerman*)obj;
-	//	//merman->SetState(MERMAN_JUMP);
-	//	//merman->x = rand() % (150 - 10 + 1) + 10;
-	//	merman->nx = rand() % (1 - (-1) + 1) - 1;
-	//	merman->min = min;
-	//	merman->max = max;
-	//	break;
+	case OBJECT_TYPE_MERMAN:
+		min = atof(tokens[4].c_str());
+		max = atof(tokens[5].c_str());
+		srand(time(NULL));
+		obj = new CMerman();
+		merman = (CMerman*)obj;
+		//merman->SetState(MERMAN_JUMP);
+		//merman->x = rand() % (150 - 10 + 1) + 10;
+		merman->nx = rand() % (1 - (-1) + 1) - 1;
+		merman->min = min;
+		merman->max = max;
+		break;
 	//case OBJECT_TYPE_MERMAN_2:
 	//	min = atof(tokens[4].c_str());
 	//	max = atof(tokens[5].c_str());
@@ -665,42 +665,6 @@ void CPlayScene::Update(DWORD dt)
 				fb->Attack(merman->x, merman->y + 15, merman->nx, 3500);
 		}
 	}
-	//if (merman2)
-	//{
-	//	if (merman2->isAttack)
-	//	{
-	//		if (fb2 == NULL)return;
-	//		if (fb2->fb_isAtk == false)
-	//			fb2->Attack(merman2->x, merman2->y + 15, merman2->nx, 3500);
-	//	}
-	//}
-	//if (merman3)
-	//{
-	//	if (merman3->isAttack)
-	//	{
-	//		if (fb3 == NULL)return;
-	//		if (fb3->fb_isAtk == false)
-	//			fb3->Attack(merman3->x, merman3->y + 15, merman3->nx, 3500);
-	//	}
-	//}
-	//if (merman2)
-	//{
-	//	if (merman2->isAttack)
-	//	{
-	//		if (fb2 == NULL)return;
-	//		if (fb2->fb_isAtk == false)
-	//			fb2->Attack(merman2->x, merman2->y + 15, merman2->nx, 3500);
-	//	}
-	//}
-	//if (merman3)
-	//{
-	//	if (merman3->isAttack)
-	//	{
-	//		if (fb3 == NULL)return;
-	//		if (fb3->fb_isAtk == false)
-	//			fb3->Attack(merman3->x, merman3->y + 15, merman3->nx, 3500);
-	//	}
-	//}
 	if (black)
 	{
 		if (black->x - player->x < 150)
@@ -729,9 +693,6 @@ void CPlayScene::Update(DWORD dt)
 				//player->setsimon_Score(player->getsimon_Score() += 1);
 				score->action_time_score = GetTickCount();
 			}
-		}
-		else if (timer->getTimeremain() == 1 && player == 0) {
-			CGame::GetInstance()->SwitchScene(game->current_scene +1);
 		}
 		if (player->getsimon_Mana() > 0)
 		{
@@ -816,30 +777,37 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}	
 	else if (game->IsKeyDown(DIK_UP))
 	{
-		if (simon->getsimon_stair_type() == 0) return;
-		if (simon->getsimon_stair_type() == 1) {
+		if (simon->simon_stair_type == 0) return;
+		if (simon->simon_stair_type == 1) {
 			CGame::GetInstance()->SwitchScene(game->current_scene + 1);
 			simon->simon_stage += 1;
 		}
-		if (simon->getsimon_stair_type() == BRICK_TYPE_ULR)
-			simon->setnx(1);
-		else if (simon->getsimon_stair_type() == BRICK_TYPE_URL)
-			simon->setnx(-1);
-		if (simon->getsimon_stair_type() == BRICK_TYPE_DLR && simon->isOnStair == true)
-			simon->setnx(-1);
-		else if (simon->getsimon_stair_type() == BRICK_TYPE_DRL && simon->isOnStair == true)
-			simon->setnx(-1);
-		if(simon->getstartStair() == 0)
-			simon->setstartStair(simon->x);
-		if (simon->getstartStair() != simon->x) {
-			if (simon->getnx() < 0) {
-				if (simon->getstartStair() - simon->x > simon->getlenghtStair())
+		if (simon->simon_stair_type == BRICK_TYPE_ULR)
+			simon->nx = 1;
+		else if (simon->simon_stair_type == BRICK_TYPE_URL)
+			simon->nx = -1;
+		if (simon->simon_stair_type == BRICK_TYPE_DLR && simon->isOnStair == true)
+		{
+			simon->nx = -1;
+			simon->SetState(SIMON_STATE_STAIR_DOWN);
+		}
+
+		else if (simon->simon_stair_type == BRICK_TYPE_DRL && simon->isOnStair == true)
+		{
+			simon->nx = 1;
+			simon->SetState(SIMON_STATE_STAIR_DOWN);
+		}
+		if (simon->startStair == 0)
+			simon->startStair = simon->x;
+		if (simon->startStair != simon->x) {
+			if (simon->nx < 0) {
+				if (simon->startStair - simon->x > simon->lenghtStair)
 					simon->ResetStair();
 				else
 					simon->SetState(SIMON_STATE_STAIR_UP);
 			}
 			else {
-				if (simon->getstartStair() - simon->x > simon->getlenghtStair())
+				if (simon->x - simon->startStair > simon->lenghtStair)
 					simon->ResetStair();
 				else
 					simon->SetState(SIMON_STATE_STAIR_UP);
@@ -848,38 +816,40 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		if (simon->getsimon_stair_type() == 0) return;
-		if (simon->getsimon_stair_type() == 1) {
+		if (simon->simon_stair_type == 0) return;
+		if (simon->simon_stair_type == 1) {
 			CGame::GetInstance()->SwitchScene(game->current_scene + 1);
 			simon->simon_stage += 1;
 		}
-		else if (simon->getsimon_stair_type() == BRICK_TYPE_DLR)
-			simon->setnx(1);
-		else if (simon->getsimon_stair_type() == BRICK_TYPE_DRL)
-			simon->setnx(-1);
+		else if (simon->simon_stair_type == BRICK_TYPE_DLR)
+			simon->nx = 1;
+		else if (simon->simon_stair_type == BRICK_TYPE_DRL)
+			simon->nx = -1;
 
-		if (simon->getsimon_stair_type() == BRICK_TYPE_ULR && simon->isOnStair == true)
+		if (simon->simon_stair_type == BRICK_TYPE_ULR && simon->isOnStair == true)
 		{
-			simon->setnx(-1);
+			simon->nx = -1;
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
 		}
-			
-		else if (simon->getsimon_stair_type() == BRICK_TYPE_URL && simon->isOnStair == true)
+
+		else if (simon->simon_stair_type == BRICK_TYPE_URL && simon->isOnStair == true)
+		{
+			simon->nx = 1;
 			simon->SetState(SIMON_STATE_STAIR_DOWN);
-		if (simon->getstartStair() == 0)
-			simon->setstartStair(simon->x);
+		}
+		if (simon->startStair == 0)
+			simon->startStair = simon->x;
 
 
-		if (simon->getstartStair() != simon->x) 
-			{
-			if (simon->getnx() < 0) {
-				if (simon->x - simon->getstartStair() > simon->getlenghtStair() || simon->x - simon->getstartStair() < 2)
+		if (simon->startStair != simon->x) {
+			if (simon->nx < 0) {
+				if (simon->x - simon->startStair > simon->lenghtStair || simon->x - simon->startStair < 2)
 					simon->ResetStair();
 				else
 					simon->SetState(SIMON_STATE_STAIR_DOWN);
 			}
 			else {
-				if (simon->x - simon->getstartStair() > simon->getlenghtStair() || simon->x - simon->getstartStair() < 2)
+				if (simon->x - simon->startStair > simon->lenghtStair || simon->x - simon->startStair < 2)
 					simon->ResetStair();
 				else
 					simon->SetState(SIMON_STATE_STAIR_DOWN);
@@ -920,9 +890,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		else 
 		Jump();
 		break;
-	/*case DIK_DOWN:
+	case DIK_DOWN:
 		SitDown();
-		break;*/
+		break;
 	case DIK_X:
 		if (simon->getisDoneAttack())
 		{
