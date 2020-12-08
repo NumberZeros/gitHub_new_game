@@ -8,7 +8,7 @@ CItem::CItem()
 	x = -100;
 	y = -100;
 	isHidden = true;
-	id = 1;
+	SetID(1);
 }
 
 CItem::~CItem()

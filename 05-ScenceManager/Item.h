@@ -81,18 +81,52 @@ public:
 	bool isCandle = false;
 	bool isHolyWater = false;
 	bool isMeat = false;
+	bool isFire = false;
 	int secondGood;
 public:
-
+	///////////////
+	//GET SET
+	int getID() { return id; }
+	void SetID(int _id) { id = _id; }
+	int getState() { return state; }
+	void SetState(int _state);
+	int getSecondGood() { return secondGood; }
+	void setSecondGood(int _secondgood) { secondGood = _secondgood; }
+	bool getisBrick() { return isBrick; }
+	void setisBrick(bool _isBrick) { isBrick = _isBrick; }
+	bool getisKnife() { return isKnife; }
+	void setisKnife(bool _isKnife) { isKnife = _isKnife; }
+	bool getisRedMoney() { return isRedMoney; }
+	void setisRedMoney(bool _isRedMoney) { isRedMoney = _isRedMoney; }
+	bool getisBlueMoney() { return isBlueMoney; }
+	void setisBlueMoney(bool _isBlueMoney) { isBlueMoney = _isBlueMoney; }
+	bool getisSmallHeart() { return isSmallHeart; }
+	void setisSmallHeart(bool _isSmallHeart) { isSmallHeart = _isSmallHeart; }
+	bool getisWhiteMoney() { return isWhiteMoney; }
+	void SetisWhiteMoney(bool _isWhiteMoney) { isWhiteMoney = _isWhiteMoney; }
+	bool getisTorch() { return isTorch; }
+	void setisTorch(bool _isTorch) { isTorch = _isTorch; }
+	bool getisChain() { return isChain; }
+	void setisChain(bool _isChain) { isChain = _isChain; }
+	bool getisCandle() { return isCandle; }
+	void setisCandle(bool _isCandle) { isCandle = _isCandle; }
+	bool getisHolyWater() { return isHolyWater; }
+	void setisHolyWater(bool _isHolyWater) { isHolyWater = _isHolyWater; }
+	bool getisMeat() { return isMeat; }
+	void setisMeat(bool _isMeat) { isMeat = _isMeat; }
+	bool getisFire() { return isFire; }
+	void setisFire(bool _isFire) { isFire = _isFire; }
+    //GET SET
+	///////////////
 	CItem();
 	~CItem();
-	bool isFire = false;
+	
 	float speedy = ITEM_SPEED_Y;
-	void SetID(int _id) { id = _id; };
+	
 	int GetAnimation();
 	void CheckSize();
 	bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
-	void SetState(int state);
+	
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

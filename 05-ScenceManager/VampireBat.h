@@ -21,7 +21,16 @@ public:
 	int id;
 	float min, max;
 	int ybat;
+	bool getisFire() { return isFire; }
+	void setisFire(bool _isFire) { isFire = _isFire; }
+	int getID() { return id; }
 	void SetID(int _id) { id = _id; };
+	float getMin() { return min; }
+	void setMin(float _min) { min = _min; }
+	float getMax() { return max; }
+	void setMax(float _max) { max = _max; }
+	int getYbat() { return ybat; }
+	void setYbat(float _ybat) { ybat = _ybat; }
 	bool CheckColli(float left_a, float top_a, float right_a, float bottom_a);
 	CVampireBat();
 	virtual void SetState(int state);

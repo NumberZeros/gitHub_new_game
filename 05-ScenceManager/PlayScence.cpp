@@ -368,6 +368,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		x_brick = atof(tokens[5].c_str());
 		lenghtStair = atof(tokens[6].c_str());
 		brick->lenghtStair = lenghtStair;
+		// liek this
+		
 		if (id_brick == OBJECT_TYPE_BRICK_ULR) {  // 111
 			brick->type = BRICK_TYPE_ULR;
 			brick->brick_x = x_brick;
@@ -459,9 +461,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		max = atof(tokens[5].c_str());
 		obj = new CVampireBat();
 		vampirebat = (CVampireBat*)obj;
-		vampirebat->min = min;
-		vampirebat->ybat = ybat;
-		vampirebat->max = max;
+		vampirebat->setMin(min);
+		vampirebat->setMax(max);
+		vampirebat->setYbat(ybat);		
 		break;
 	case OBJECT_TYPE_WEAPON:
 		obj = new CWeapon();
@@ -517,20 +519,21 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		secondGood = atof(tokens[5].c_str());
 		obj = new CItem();
 		item = (CItem*)obj;
-		if (id_item == ID_ITEM_TYPE_TORCH) { // 1
+		
+		if (id_item == ID_ITEM_TYPE_TORCH) { 
 			item->SetID(ITEM_ANI_TORCH);
 			item->SetState(ITEM_STATE_SHOW);
-			item->secondGood = secondGood;
+			item->setSecondGood(secondGood); 
 		}
 		else if (id_item == ID_ITEM_TYPE_CANDLE) {
 			item->SetID(ITEM_ANI_CANDLE);
 			item->SetState(ITEM_STATE_SHOW);
-			item->secondGood = secondGood;
+			item->setSecondGood(secondGood);
 		}
 		else if (id_item == ID_ITEM_TYPE_BRICK) {
 			item->SetID(ITEM_ANI_BRICK);
 			item->SetState(ITEM_STATE_SHOW);
-			item->secondGood = secondGood;
+			item->setSecondGood(secondGood);
 		}
 		break;
 	case OBJECT_TYPE_BOSS:
@@ -611,6 +614,8 @@ void CPlayScene::Update(DWORD dt)
 	
 
 	//simon die reset scence
+	// cái này là lấy giá rị simonhp
+	//if (player->getSimon_HP() < 1)
 	if (player->simon_HP < 1) {
 		if (GetTickCount() - player->action_time > 3000) {
 			ResetMap();
@@ -639,11 +644,11 @@ void CPlayScene::Update(DWORD dt)
 	};
 
 	if (boss) {
-		if (boss->isAttack) {
+		if (boss->getisAttack()) {
 			boss->Update(player, dt);
 		}
 		else {
-			if (boss->x - player->x < 50 && !boss->isDie ) {
+			if (boss->x - player->x < 50 && !boss->getisDie() ) {
 				boss->SetState(BOX_ATTACK);
 			}
 		}
@@ -808,6 +813,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}	
 	else if (game->IsKeyDown(DIK_UP))
 	{
+		
 		if (simon->simon_stair_type == 0) return;
 		if (simon->simon_stair_type == 1) {
 			CGame::GetInstance()->SwitchScene(game->current_scene + 1);

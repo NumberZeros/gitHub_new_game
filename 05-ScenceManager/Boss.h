@@ -15,6 +15,21 @@ public:
 	DWORD timeImmortal;
 public:
 
+	bool getisDie() { return isDie; }
+	void setisDie(bool _isDie) { isDie = _isDie; }
+	bool getisAttack() { return isAttack; }
+	void setisAttack(bool _isAttack) { isAttack = _isAttack; }
+	bool getisImmortal() { return isImmortal; }
+	void setisImmortal(bool _isImmortal) { isImmortal = _isImmortal; }
+	int getHeight() { return height; }
+	void setHeight(int _height) { height = _height; }
+	int getWidth() { return width; }
+	void setWidth(int _width) { width = _width; }
+	int getboss_HP() { return boss_HP; }
+	void setboss_HP(int _boss_HP) { boss_HP = _boss_HP; }
+	int getbossZone() { return bossZone; }
+	void setbossZone(int _bossZone) { bossZone = _bossZone; }
+
 	Boss();
 	Boss(float x, float y);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
